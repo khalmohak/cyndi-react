@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import axios from 'axios';
+import { ImagePicker } from 'react-file-picker';
 import {
   Avatar,
   Box,
@@ -14,6 +15,7 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
+import { orange } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles(() => ({
@@ -21,6 +23,17 @@ const useStyles = makeStyles(() => ({
   avatar: {
     height: 100,
     width: 100
+  },
+  uploadButton: {
+      height:20,
+      width:40,
+      backgroundColor:'#ff9800',
+      color:'#fff',
+      marginTop:-20,
+      "&:hover":{
+        backgroundColor:'#fff',
+          color :'#ff9800'
+      }
   }
 }));
 
@@ -78,6 +91,21 @@ const Profile = ({ className, ...rest }) => {
             className={classes.avatar}
             src={user.avatar}
           />
+          <ImagePicker
+            extensions={['jpg', 'jpeg', 'png']}
+            dims={{minWidth: 100, maxWidth: 500, minHeight: 100, maxHeight: 500}}
+            
+        >
+          <Button className = {classes.uploadButton}
+          color="primary"
+          fullWidth
+          variant="text"
+          
+        >
+          Edit
+        </Button>
+        </ImagePicker>
+
           <Typography
             color="textPrimary"
             gutterBottom
@@ -98,18 +126,11 @@ const Profile = ({ className, ...rest }) => {
           >
             {`${moment().format('hh:mm A')} ${user.timezone}`}
           </Typography>
+          
         </Box>
       </CardContent>
       <Divider />
-      <CardActions>
-        <Button
-          color="primary"
-          fullWidth
-          variant="text"
-        >
-          Upload picture
-        </Button>
-      </CardActions>
+      
     </Card>
   );
 };

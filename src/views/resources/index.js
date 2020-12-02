@@ -8,7 +8,7 @@ import {
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import ClassesCard from './ProductCard';
+import ResourceCard from './ProductCard';
 import data from './data';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,19 +18,19 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-  classCard: {
+  productCard: {
     height: '100%'
   }
 }));
 
-const ProductList = () => {
+const ResoucresListView = () => {
   const classes = useStyles();
   const [products] = useState(data);
 
   return (
     <Page
       className={classes.root}
-      title="Class"
+      title="Resources"
     >
       <Container maxWidth={false}>
         <Toolbar />
@@ -47,8 +47,8 @@ const ProductList = () => {
                 md={6}
                 xs={12}
               >
-                <ClassesCard
-                  className={classes.classCard}
+                <ResourceCard
+                  className={classes.productCard}
                   product={product}
                 />
               </Grid>
@@ -71,4 +71,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ResoucresListView;

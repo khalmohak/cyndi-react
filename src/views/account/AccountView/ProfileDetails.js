@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -34,13 +35,42 @@ const useStyles = makeStyles(() => ({
 
 const ProfileDetails = ({ className, ...rest }) => {
   const classes = useStyles();
+
+  const details = [];
+
+
+ 
+  axios.get(`http://localhost:5000/profile_data`)
+  .then(res => {
+    // details={
+    //   firstName: res.data.details.firstName,
+    //   lastName: res.data.details.lastName,
+    //   email: res.data.details.email,
+    //   phone: res.data.details.phone,
+    //   state: res.data.details.state,
+    //   country: res.data.details.country
+    // }
+    details.push(res.data.details);
+    // details.push(res.data.details.lastName);
+    // details.push(res.data.details.email);
+    // details.push(res.data.details.phone);
+    // details.push(res.data.details.state);
+    // details.push(res.data.details.country);
+    
+
+
+    
+  })
+  console.log(details.length);
+
+
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
+    firstName: details[0],
+    lastName: '',
+    email: '',
     phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    state: '',
+    country: ''
   });
 
   const handleChange = (event) => {
@@ -80,7 +110,7 @@ const ProfileDetails = ({ className, ...rest }) => {
                 name="firstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={details[0]}
                 variant="outlined"
               />
             </Grid>
