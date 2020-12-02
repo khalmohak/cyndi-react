@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, { Progress } from 'react-multi-bar-slider';
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import {
   Avatar,
   Box,
@@ -12,7 +13,9 @@ import {
   Link,
   Typography,
   makeStyles,
-  Button
+  Button,
+  Tooltip,
+  LinearProgress
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -78,11 +81,30 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent:{
     backgroundColor:'#b0ada4'
+  },
+  nextClassDate:{
+    fontSize:'12px',
+    fontWeight:'bold'
+  },
+  nextClassDateBox:{
+    width:'400px',
+    marginLeft:'50px',
+    
+    position:'flex'
+  },
+  avatar:{
+      height:'60px',
+      width:'60px'
   }
 
 
-
 }));
+
+var attendancePercent = '40%';
+
+
+
+
 
 const ClassesCard = ({ className, product, ...rest }) => {
   const classes = useStyles();
@@ -102,6 +124,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
       <CardContent
       className={classes.cardContent}
       >
+        
         <Box
           display="flex"
           justifyContent="left"
@@ -138,23 +161,51 @@ const ClassesCard = ({ className, product, ...rest }) => {
           
           
         >
+         
           {product.title}
           <br></br>
           <Box
           className={classes.teacherName}
           >
+
           {product.teacherName}
+          </Box>
+          <Box 
+          ml={-8.5}
+          mt={-6.5}
+          >
+            <Avatar
+            className={classes.avatar}
+            >H
+            </Avatar>
           </Box>
           
           
         </Typography>
+        
+        <Box
+        pl={40}
+        mt={-4.5}
+        className={classes.nextClassDateBox}
+        >
+            <Typography
+            className={classes.nextClassDate}
+            >
+            Next Class
+            </Typography>
+            <Typography
+            className={classes.nextClassDate}
+            >
+            {'12/12/2020'}
+            </Typography>
+        </Box>
         <Box
         mt={5}
         mb={2}
         mr={2}
         ml={2}
         >
-  {/* Class Description         */}
+  {/* Class Description */}
       <Box
       mb={2}
       pb={1}
@@ -170,24 +221,29 @@ const ClassesCard = ({ className, product, ...rest }) => {
           mb={-3.5}
           >
           <Typography>
-            Attendance
+            Attendance 
           </Typography>
           </Box>
         </Grid>
         <Grid>
           <Box
           ml={13}
+          
           >
+          <Tooltip title={attendancePercent}>
           <MultiSlider 
             width='100%'
             height='30px'
             roundedCorners='true'
             
-          >
-            <Progress color="green" progress={10} />
-            <Progress color="yellow" progress={45} />
-            <Progress color="red" progress={100} />
+          > 
+            <Progress color="green" progress={40} />
+            <Progress color="grey" progress={100} />
           </MultiSlider>
+          </Tooltip>
+      
+        
+          
           </Box>
         </Grid>
       
@@ -217,16 +273,18 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <Box
           ml={13}
           >
+          <Tooltip title="20%">
           <MultiSlider 
             width='100%'
             height='30px'
             roundedCorners='true'
             
           >
-            <Progress color="green" progress={10} />
-            <Progress color="yellow" progress={45} />
-            <Progress color="red" progress={100} />
+            
+            <Progress color="orange" progress={20} />
+            
           </MultiSlider>
+          </Tooltip>
           </Box>
         </Grid>
       
@@ -255,16 +313,17 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <Box
           ml={13}
           >
+        <Tooltip title="100%">
           <MultiSlider 
             width='100%'
             height='30px'
             roundedCorners='true'
             
           >
-            <Progress color="green" progress={10} />
-            <Progress color="yellow" progress={45} />
+            
             <Progress color="red" progress={100} />
           </MultiSlider>
+          </Tooltip>
           </Box>
         </Grid>
       
@@ -285,7 +344,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
           mb={-3.5}
           >
           <Typography>
-            Assignments
+            Assignments 
           </Typography>
           </Box>
         </Grid>
@@ -296,7 +355,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <MultiSlider 
             width='100%'
             height='50px'
-            
+            roundedCorners='true'
             
           >
             <Progress color="green" progress={25} />
@@ -322,8 +381,8 @@ const ClassesCard = ({ className, product, ...rest }) => {
           spacing={0}
         >
           <Grid
-            className={classes.statsItem}
-            item
+            className={classes.link}
+           
             
           >
             
@@ -335,7 +394,8 @@ const ClassesCard = ({ className, product, ...rest }) => {
             
           </Grid>
 
-          <Grid>
+          <Grid
+          className={classes.link}>
           <Link
             className={classes.link}
             >
@@ -343,7 +403,8 @@ const ClassesCard = ({ className, product, ...rest }) => {
             </Link>
             
           </Grid>
-          <Grid>
+          <Grid
+          className={classes.link}>
           <Link
             className={classes.link}
             >
