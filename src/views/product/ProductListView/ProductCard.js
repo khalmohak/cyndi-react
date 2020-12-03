@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, { Progress } from 'react-multi-bar-slider';
-import ProgressBar from 'react-bootstrap/ProgressBar'
+
 import {
   Avatar,
   Box,
@@ -13,13 +13,14 @@ import {
   Link,
   Typography,
   makeStyles,
-  Button,
-  Tooltip,
-  LinearProgress
+  Tooltip
+  
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
+// import AccessTimeIcon from '@material-ui/icons/AccessTime';
+// import GetAppIcon from '@material-ui/icons/GetApp';
 import CardHeader from '../../../components/card_header_white';
+import NotifyMe from 'react-notification-timeline';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,15 +96,29 @@ const useStyles = makeStyles((theme) => ({
   avatar:{
       height:'60px',
       width:'60px'
+  },
+  notification:{
+    height:'5px',
+    width:'5px',
+    backgroundColor:'#fff',
+    color:'#fff'
   }
-
 
 }));
 
 var attendancePercent = '40%';
 
 
-
+var data=[
+  {
+    "update":"70 new employees are shifted",
+    "timestamp":1596119688264
+  },
+  {
+    "update":"Time to take a Break, TADA!!!",
+    "timestamp":1596119686811
+  }
+]
 
 
 const ClassesCard = ({ className, product, ...rest }) => {
@@ -111,7 +126,12 @@ const ClassesCard = ({ className, product, ...rest }) => {
   const handleClassCard = (event)=>{
       console.log('card clicked');
   }
-
+  // States for notifications
+const [showCount, setShowCount] = useState(false);
+const [messageCount, setMessageCount] = useState(0);
+const [show, setShow] = useState(false);
+const [target, setTarget] = useState(null);
+const [raedIndex, setReadIndex] = useState(0);
 
 
   return (
@@ -144,7 +164,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
             >
               <Box 
               //className={classes.cardHeaderRound}
-              ml={1}
+              ml={0}
               mb={-4.1} >
             <CardHeader
              
@@ -184,21 +204,51 @@ const ClassesCard = ({ className, product, ...rest }) => {
         </Typography>
         
         <Box
-        pl={40}
-        mt={-4.5}
+        pl={32}
+        mt={-2.5}
         className={classes.nextClassDateBox}
         >
             <Typography
             className={classes.nextClassDate}
             >
-            Next Class
+            Next Class -
             </Typography>
-            <Typography
+            
+        </Box>
+        <Box
+        pl={47}
+        mt={-2.2}
+        >
+        <Typography
             className={classes.nextClassDate}
             >
             {'12/12/2020'}
             </Typography>
+            
         </Box>
+        <Box
+        ml={50}
+        mb={-5}
+        mt={-8}
+        pb={8}
+        pt={-20}
+        >
+        <NotifyMe
+              className={classes.notification}
+              data={data}
+              storageKey='notific_key'
+              notific_key='timestamp'
+              notific_value='update'
+              heading='Notifications'
+              sortedByKey={false}
+              showDate={true}
+              size='20'
+              
+              color="white"
+            />
+        </Box>
+   
+
         <Box
         mt={5}
         mb={2}
@@ -208,7 +258,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
   {/* Class Description */}
       <Box
       mb={2}
-      pb={1}
+      pb={1.7}
       pt={1.5}
       pl={2}
       pr={1.5}
@@ -218,7 +268,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
       >
         <Grid>
           <Box
-          mb={-3.5}
+          mb={-2.5}
           >
           <Typography>
             Attendance 
@@ -233,7 +283,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <Tooltip title={attendancePercent}>
           <MultiSlider 
             width='100%'
-            height='30px'
+            height='20px'
             roundedCorners='true'
             
           > 
@@ -251,7 +301,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
 
       <Box
       mb={2}
-      pb={1}
+      pb={1.7}
       pt={1.5}
       pl={2}
       pr={1.5}
@@ -262,7 +312,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
       >
         <Grid>
           <Box
-          mb={-3.5}
+          mb={-2.5}
           >
           <Typography>
             Courses
@@ -276,13 +326,13 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <Tooltip title="20%">
           <MultiSlider 
             width='100%'
-            height='30px'
+            height='20px'
             roundedCorners='true'
             
           >
             
             <Progress color="orange" progress={20} />
-            
+            <Progress color="grey" progress={100} />
           </MultiSlider>
           </Tooltip>
           </Box>
@@ -291,7 +341,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
       </Box>
       <Box
       mb={2}
-      pb={1}
+      pb={1.7}
       pt={1.5}
       pl={2}
       pr={1.5}
@@ -302,7 +352,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
       >
         <Grid>
           <Box
-          mb={-3.5}
+          mb={-2.5}
           >
           <Typography>
             Classes
@@ -312,16 +362,17 @@ const ClassesCard = ({ className, product, ...rest }) => {
         <Grid>
           <Box
           ml={13}
+          
           >
         <Tooltip title="100%">
           <MultiSlider 
             width='100%'
-            height='30px'
+            height='20px'
             roundedCorners='true'
             
           >
-            
-            <Progress color="red" progress={100} />
+            <Progress color="grey" progress={100} />
+            <Progress color="red" progress={70} />
           </MultiSlider>
           </Tooltip>
           </Box>
@@ -355,8 +406,6 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <MultiSlider 
             width='100%'
             height='50px'
-            roundedCorners='true'
-            
           >
             <Progress color="green" progress={25} />
             <Progress color="yellow" progress={50} />
