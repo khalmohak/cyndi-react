@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Pagination from "react-js-pagination";
+
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,

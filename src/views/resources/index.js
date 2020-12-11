@@ -8,7 +8,7 @@ import {
 import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import ResourceCard from './ProductCard';
+import ResourceCard from './ResourceCard';
 import data from './data';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +39,7 @@ const ResoucresListView = () => {
             container
             spacing={3}
           >
-            {products.map((product) => (
+            {/* {products.map((product) => (
               <Grid
                 item
                 key={product.id}
@@ -52,7 +52,8 @@ const ResoucresListView = () => {
                   product={product}
                 />
               </Grid>
-            ))}
+            ))} */}
+            <ResourceCard></ResourceCard>
           </Grid>
         </Box>
         <Box

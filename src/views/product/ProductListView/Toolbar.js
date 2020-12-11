@@ -9,7 +9,8 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  makeStyles
+  makeStyles,
+ 
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
+  
 
   return (
     <div

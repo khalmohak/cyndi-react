@@ -75,4 +75,5 @@ TopBar.propTypes = {
   onMobileNavOpen: PropTypes.func
 };
 
+
 export default TopBar;

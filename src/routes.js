@@ -14,7 +14,7 @@ import ResoucresList from 'src/views/resources/index'
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+     element: <DashboardLayout />,
     children: [
       // { path: 'account', element: <AccountView /> },
       { path: 'customers', element: <CustomerListView /> },
@@ -27,7 +27,7 @@ const routes = [
   },
   {
     path: '/',
-    element: <MainLayout />,
+     element: <MainLayout />,
     children: [
       // { path: 'login', element: <LoginView /> },
       // { path: 'register', element: <RegisterView /> },

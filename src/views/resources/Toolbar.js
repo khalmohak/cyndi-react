@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -9,7 +9,9 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  makeStyles
+  makeStyles,
+  Menu,
+  MenuItem
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -20,12 +22,24 @@ const useStyles = makeStyles((theme) => ({
   },
   exportButton: {
     marginRight: theme.spacing(1)
+  },
+  menuButton:{
+    backgroundColor:"#025fa1",
+    color:"#fff"
   }
 }));
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div
       className={clsx(classes.root, className)}
@@ -41,12 +55,26 @@ const Toolbar = ({ className, ...rest }) => {
         <Button className={classes.exportButton}>
           Export
         </Button> */}
-        <Button
+        {/* <Button
           color="primary"
           variant="contained"
         >
           Add Class
+        </Button> */}
+        <Button className={classes.menuButton} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        Add Resource
         </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>Add Test</MenuItem>
+          <MenuItem onClick={handleClose}>Add Quiz</MenuItem>
+          <MenuItem onClick={handleClose}>Add Assignment</MenuItem>
+        </Menu>
       </Box>
       <Box mt={3}>
         <Card>

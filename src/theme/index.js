@@ -11,11 +11,11 @@ const theme = createMuiTheme({
     },
     primary: {
       // main: colors.indigo[500]
-      main: '#4768b1'
+      main: '#025fa1'
       //4768b1
     },
     secondary: {
-      main:'#4768b1'
+      main:'#025fa1'
     },
     text: {
       primary: colors.blueGrey[900],

@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/src/views/form-builder
+/src/form-builder
 /.pnp
 .pnp.js
 

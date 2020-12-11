@@ -1,0 +1,4 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: local('Lato'), url(src/fonts/OpenSans-Regular.ttf) format('opentype');
+  }

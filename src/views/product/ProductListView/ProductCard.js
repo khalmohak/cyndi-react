@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, { Progress } from 'react-multi-bar-slider';
@@ -19,7 +19,7 @@ import {
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
 // import GetAppIcon from '@material-ui/icons/GetApp';
 import CardHeader from '../../../components/card_header_white';
-import NotifyMe from 'react-notification-timeline';
+import NotifyMe from '/media/mohak/Dont Touch/Project/idk/react-material-dashboard/src/views/NotifyMe.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -117,6 +117,14 @@ var data=[
   {
     "update":"Time to take a Break, TADA!!!",
     "timestamp":1596119686811
+  },
+  {
+    "update":"70 new employees are shifted",
+    "timestamp":1596119688264
+  },
+  {
+    "update":"Time to take a Break, TADA!!!",
+    "timestamp":1596119686811
   }
 ]
 
@@ -126,12 +134,8 @@ const ClassesCard = ({ className, product, ...rest }) => {
   const handleClassCard = (event)=>{
       console.log('card clicked');
   }
-  // States for notifications
-const [showCount, setShowCount] = useState(false);
-const [messageCount, setMessageCount] = useState(0);
-const [show, setShow] = useState(false);
-const [target, setTarget] = useState(null);
-const [raedIndex, setReadIndex] = useState(0);
+
+
 
 
   return (
@@ -227,9 +231,9 @@ const [raedIndex, setReadIndex] = useState(0);
             
         </Box>
         <Box
-        ml={50}
+        ml={58}
         mb={-5}
-        mt={-8}
+        mt={-8.5}
         pb={8}
         pt={-20}
         >
@@ -242,9 +246,9 @@ const [raedIndex, setReadIndex] = useState(0);
               heading='Notifications'
               sortedByKey={false}
               showDate={true}
-              size='20'
+              size='25'
               
-              color="white"
+              color="black"
             />
         </Box>
    
