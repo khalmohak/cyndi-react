@@ -168,12 +168,12 @@ const ResourceCard = ({ className, ...rest }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const submitFile = () => {
+  const submitFile = async () => {
     console.log("This function is working")
-    // try {
-    //   if (!file) {
-    //     throw new Error('Select a file first!');
-    //   }
+    try {
+      if (!file) {
+        throw new Error('Select a file first!');
+      }
       const formData = new FormData();
       formData.append('file', file[0]);
       console.log(formData);
@@ -191,11 +191,11 @@ const ResourceCard = ({ className, ...rest }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      // handle success
+     
     } catch (error) {
-      // handle error
+      console.log("Error "+error);
     }
-    console.log("Raw Response "+rawResponse)
+    
     
     }
 
