@@ -19,7 +19,7 @@ import {
 // import AccessTimeIcon from '@material-ui/icons/AccessTime';
 // import GetAppIcon from '@material-ui/icons/GetApp';
 import CardHeader from '../../../components/card_header_white';
-import NotifyMe from '/media/mohak/Dont Touch/Project/idk/react-material-dashboard/src/views/NotifyMe.js';
+import NotifyMe from '/home/mohak/Documents/project/cyndi react/src/views/NotifyMe.js';
 
 
 const useStyles = makeStyles((theme) => ({

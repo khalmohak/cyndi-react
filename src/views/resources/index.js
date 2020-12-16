@@ -35,9 +35,11 @@ const ResoucresListView = () => {
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Grid
+          <Box
             container
             spacing={3}
+            display="flex"
+          justifyContent="center"
           >
             {/* {products.map((product) => (
               <Grid
@@ -54,7 +56,7 @@ const ResoucresListView = () => {
               </Grid>
             ))} */}
             <ResourceCard></ResourceCard>
-          </Grid>
+          </Box>
         </Box>
         <Box
           mt={3}
