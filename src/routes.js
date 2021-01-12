@@ -11,6 +11,7 @@ import ProductListView from 'src/views/product/ProductListView';
 // import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResoucresList from 'src/views/resources/index'
+import ChatUIIndex from 'src/views/chat/index';
 const routes = [
   {
     path: 'app',
@@ -22,6 +23,7 @@ const routes = [
       { path: 'products', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'resources', element: <ResoucresList /> },
+      { path: 'chatui', element: <ChatUIIndex /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

@@ -52,6 +52,11 @@ const items = [
     icon: UserPlusIcon,
     title: 'Resources'
   },
+  {
+    href: '/app/chatui',
+    icon: UserPlusIcon,
+    title: 'Chat'
+  },
   // {
   //   href: '/app/account',
   //   icon: UserIcon,

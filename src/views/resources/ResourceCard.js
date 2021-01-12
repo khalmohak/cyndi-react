@@ -1,8 +1,9 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import axios from 'axios';
+import S3 from 'react-aws-s3';
+import AWS from 'aws-sdk';
 
 import {
   FormControl,
@@ -37,7 +38,9 @@ import FileUpload from './uploadFile';
 import './App.css';
 const Dropzone = require('react-dropzone');
 const upload = require('superagent')
+var ReactS3Uploader = require('react-s3-uploader');
 
+//Styling for elements
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -92,28 +95,25 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-
+//Component for form starts here
 const ResourceCard = ({ className, ...rest }) => {
   const classes = useStyles();
  
-  const [file, setFile] = useState(null);
+  //States for different widgets
+  const [files, setFiles] = useState(null);
   const [formName,setFormName]= useState({formName:""});
   const [forms,setForm] = useState([ ]);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-
   const [scheduled, setScheduled] = React.useState({
     checkedA: false,
     
   });
 
+
+  //Handeler for scheduled if the form was scheduled
   const handleSceduled = (event) => {
     setScheduled({ ...scheduled, [event.target.name]: event.target.checked });
   };
-
-
-
-
 
 
   // handle input change
@@ -124,15 +124,19 @@ const ResourceCard = ({ className, ...rest }) => {
     setForm(list);
   };
 
+  //handle if the question was required
   const handleRequired = (e, index) => {
     const { name, value } = e.target;
     const list = [...forms];
     list[index][name] = value;
     setForm(list);
   };
+
+  //Handeler for change of name of the form
   const handleFormNameChange = (e) => {
     setFormName({formName:e.target.value})
   };
+
   // handle click event of the Remove button
   const handleRemoveClick = index => {
     const list = [...forms];
@@ -144,22 +148,25 @@ const ResourceCard = ({ className, ...rest }) => {
     setForm([...forms,{ "type":"text", "firstName": "", "lastName": "" , "required": false}]);
   };
   const handleMCQAddClick = () => {
-    setForm([...forms, { type:"mcq", question: "", answer: "",option1:"",option2:"",option3:"",option4:"" }]);
+    setForm([...forms, { type:"mcq", question: "", answer: "",option1:"",option2:"",option3:"",option4:"","required": false }]);
   };
   const handleFileAddClick = () => {
     setForm([...forms, { type:"file", fileName:"" }]);
   };
   const handleDateAddClick = () => {
-    setForm([...forms, { type:"date", questionDate:"", date:"" }]);
+    setForm([...forms, { type:"date", questionDate:"", date:"" ,"required": false}]);
   };
   const handleTimeAddClick = () => {
-    setForm([...forms, { type:"time", questionTime:"", time:"" }]);
+    setForm([...forms, { type:"time", questionTime:"", time:"" ,"required": false}]);
   };
   const handleScaleAddClick = () => {
-    setForm([...forms, { type:"scale", questionScale:"", startVal:"", endVal:"" }]);
+    setForm([...forms, { type:"scale", questionScale:"", startVal:"", endVal:"","required": false }]);
   };
   const handleLongAddClick = () => {
-    setForm([...forms, { type:"long", questionLong:"", answerLong:""}]);
+    setForm([...forms, { type:"long", questionLong:"", answerLong:"","required": false}]);
+  };
+  const handleDropdownAddClick = () => {
+    setForm([...forms, { type:"dropdown", dropdown1:"",dropdown2:"",dropdown3:"",dropdown4:"",}]);
   };
   
   const handleClose = () => {
@@ -168,36 +175,53 @@ const ResourceCard = ({ className, ...rest }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const submitFile = async () => {
-    console.log("This function is working")
-    try {
-      if (!file) {
-        throw new Error('Select a file first!');
-      }
-      const formData = new FormData();
-      formData.append('file', file[0]);
-      console.log(formData);
-    //   const rawResponse = fetch('http://localhost:5000/test-upload', {
-    //   method: 'POST',
-    //   headers: {
-        
-    //     'Content-Type': 'multipart/form-data'
-    //   },
-    //   body: formData
+  const handleDropdownCounter = (event, index)=>{
+    var count = document.getElementById('dropdownTextField').value;
+    for(var i=0;i<count;i++){ 
+      return(
+                <TextField 
+                     type="time" 
+                     name="fTime" 
+                     placeholder="Time" 
+                     className={classes.cardInput}
+                     inputProps={{style: {fontSize: 20,height: 25}}}
+                     
+                />
+      )
+    }
+  }
+
+
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_ACCESS_ID,
+    secretAccessKey: process.env.REACT_APP_ACCESS_KEY
+  }) 
+  var myBucket = new AWS.S3({
+    params: { Bucket: process.env.REACT_APP_ACCESS_BUCKET},
+    region: process.env.REACT_APP_ACCESS_REGION,
+  })
+  
+  var uploadFile = (file) => {
+    const params = {
+      ACL: 'public-read',
+      Key: 'backend'+file.name,
+      ContentType: file.type,
+      Body: file,
+    }
+   myBucket.putObject(params)
       
-    // });
-    await axios.post(`http://localhost:5000/test-upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-     
-    } catch (error) {
-      console.log("Error "+error);
-    }
+      .send((err) => {
+         if (err) {
+           // handle the error here
+         }
+      })
+  }
+  
+
+
+
+
     
-    
-    }
 
     function scheduledHandler(){ if(scheduled.checkedA){
       return(
@@ -211,28 +235,20 @@ const ResourceCard = ({ className, ...rest }) => {
       )
     }}
 
-
-
+    const Success_message = () => (
+      <div style={{padding:50}}>
+        <h3 style={{color: 'green'}}>SUCCESSFUL UPLOAD</h3>
+        <a href={this.state.url}>Access the file here</a>
+        <br/>
+      </div>
+    )
+      function uploadFileHandeler(){
+          uploadFile(files[0]);
+      }
    
     return(
       <>
-      
-         {/* <form action="/formSubmitted" method="post"> */}
-         
-         
-
-
-
-
-
-
-
-
-
-
-
-
-      <form onSubmit={submitFile}>
+      <form>
       <Box>
           <Typography>
             Scheduled
@@ -285,12 +301,7 @@ const ResourceCard = ({ className, ...rest }) => {
          
           </CardContent>
           <CardActions>
-            {/* <Button 
-            id="topButtons"
-            className={classes.buttons} onClick={handleAddClick}>Add Text Box</Button>
-            <Button 
-            id="topButtons"
-            className={classes.buttons} onClick={handleMCQAddClick}>Add MCQ</Button> */}
+          
              <div>
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                   Add Component
@@ -309,6 +320,7 @@ const ResourceCard = ({ className, ...rest }) => {
                   <MenuItem onClick={handleTimeAddClick}>Add Time</MenuItem>
                   <MenuItem onClick={handleScaleAddClick}>Add Scale</MenuItem>
                   <MenuItem onClick={handleLongAddClick}>Add Long Question</MenuItem>
+                  <MenuItem onClick={handleDropdownAddClick}>Add DropDown Question</MenuItem>
                 </Menu>
              </div>
             
@@ -316,7 +328,13 @@ const ResourceCard = ({ className, ...rest }) => {
           </CardActions>
         </Card>
           {forms.map((x,i)=>{
-           
+      
+
+
+
+        //Text Question 
+
+
          if(x.type=="text"){    
        
 
@@ -372,10 +390,7 @@ const ResourceCard = ({ className, ...rest }) => {
               <Typography>Required</Typography>
               </Grid>
               <Grid>
-
-                
                <Switch
-                
                 onChange={e=>handleRequired(e,i)}
                 name="required"
                 inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -389,6 +404,11 @@ const ResourceCard = ({ className, ...rest }) => {
           
           );
          }
+
+
+        //MCQ
+        
+        
          else if(x.type =="mcq"){
            return(
            
@@ -481,14 +501,25 @@ const ResourceCard = ({ className, ...rest }) => {
                 </Button>
               </Grid>
                 
-                
+              <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
             </Grid>
+            
             </CardActions>
             </Card>
             
             </Box>
            );
          }
+
+
+         //File
+
          else if(x.type=="file"){
            return(
              <Card
@@ -496,7 +527,8 @@ const ResourceCard = ({ className, ...rest }) => {
              >
                <CardContent>
                  <div>
-                 <input type="file" onChange={event => setFile(event.target.files)} />
+                 <input type="file" onChange={event => setFiles(event.target.files)} />
+                 <Button onClick={uploadFileHandeler}>Upload</Button>
                  </div>
                </CardContent>
                <CardActions>
@@ -517,13 +549,24 @@ const ResourceCard = ({ className, ...rest }) => {
                       onClick={handleFileAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
                     </Button>
                   </Grid>
-                    
+                  <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                     
                 </Grid>
                </CardActions>
              </Card>
+
            )
          }
+
+         //Date
+
+
          else if(x.type == "date"){
            return(
             <Card className={classes.card}>
@@ -563,13 +606,23 @@ const ResourceCard = ({ className, ...rest }) => {
                       onClick={handleDateAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
                     </Button>
                   </Grid>
-                    
+                  <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                     
                 </Grid>
             </CardActions>
             </Card>
 
          )}
+
+        //Time
+
+
          else if(x.type == "time"){
           return(
            <Card className={classes.card}>
@@ -610,35 +663,25 @@ const ResourceCard = ({ className, ...rest }) => {
                   onClick={handleTimeAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
                 </Button>
               </Grid>
-                
+              <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                 
             </Grid>
             </CardActions>
            </Card>
 
         )}
-        // else if(x.type == "checkboxes"){ 
-        //   return(
-        //     <Card className={classes.card}>
-        //       <CardContent>
-        //       <FormGroup>
-        //           <FormControlLabel
-        //             control={<Checkbox checked={gilad} onChange={handleChange} name="gilad" />}
-        //             label="Gilad Gray"
-        //           />
-        //           <FormControlLabel
-        //             control={<Checkbox checked={jason} onChange={handleChange} name="jason" />}
-        //             label="Jason Killian"
-        //           />
-        //           <FormControlLabel
-        //             control={<Checkbox checked={antoine} onChange={handleChange} name="antoine" />}
-        //             label="Antoine Llorca"
-        //           />
-        //         </FormGroup>
-        //       </CardContent>
-        //     </Card>
-        //   )
-        // }
+        
+
+
+        //Scale
+
+
         else if(x.type == "scale"){
           return(
             <Card className={classes.card}>
@@ -715,13 +758,23 @@ const ResourceCard = ({ className, ...rest }) => {
                   onClick={handleScaleAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
                 </Button>
               </Grid>
-                
+              <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                 
             </Grid>
             </CardActions>
             </Card>
           )
         }
+
+
+        //Long
+
         else if(x.type=="long"){    
        
 
@@ -776,7 +829,97 @@ const ResourceCard = ({ className, ...rest }) => {
                   onClick={handleLongAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
                 </Button>
               </Grid>
+              <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                 
+            </Grid>
+            </CardActions>
+            
+            </Card>
+            </Grid>
+          
+          );
+         }
+
+
+         else if(x.type=="dropdown"){    
+       
+
+          return(
+            
+            <Grid item xs={12}>
+              
+            <Card className={classes.card}>
+            <CardContent>
+              <Box>
+              <TextField
+              name="longQuestion"
+              placeholder="Question"
+              id="dropdownTextField"
+          
+              className={classes.cardInput}
+              inputProps={{style: {fontSize: 25,height: 30}}} 
+              variant="filled"
+              
+              />
+              {handleDropdownCounter()}
+              
+            {/* <TextField
+              name="longQuestion"
+              placeholder="Question"
+              value={x.firstName}
+              onChange={e => handleInputChange(e, i)}
+              className={classes.cardInput}
+              inputProps={{style: {fontSize: 25,height: 30}}} 
+              variant="filled"
+            /> */}
+            </Box>
+            <Box>
+            {/* <TextField
+
+              
+              name="longAnswer"
+              placeholder="Long answer text"
+              value={x.lastName}
+              onChange={e => handleInputChange(e, i)}
+              className={classes.cardInput}
+              inputProps={{style: {fontSize: 20,height: 25}}} 
+              multiline
+              rows={5}
+             
+            /> */}
+            </Box>
+            </CardContent>
+            <CardActions>
+            <Grid
+            container
+            justify="flex-end"
+            spacing={0}
+            >
+              <Grid>
+                <Button
+                  
+                  onClick={() => handleRemoveClick(i)}><DeleteIcon id="cardBottomButtons"></DeleteIcon>
+                </Button>
+              </Grid>
+               
+              <Grid>
+                <Button
+                  onClick={handleLongAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
+                </Button>
+              </Grid>
+              <Grid>
+               <Switch
+                onChange={e=>handleRequired(e,i)}
+                name="required"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />  
+              </Grid> 
                 
             </Grid>
             </CardActions>
