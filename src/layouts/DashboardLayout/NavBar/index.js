@@ -53,36 +53,11 @@ const items = [
     title: 'Resources'
   },
   {
-    href: '/app/chatui',
-    icon: UserPlusIcon,
-    title: 'Chat'
-  },
-  // {
-  //   href: '/app/account',
-  //   icon: UserIcon,
-  //   title: 'Account'
-  // },
-  {
     href: '/app/settings',
     icon: SettingsIcon,
     title: 'Settings'
-  },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // },
-  // {
-  //   href: '/register',
-  //   icon: UserPlusIcon,
-  //   title: 'Register'
-  // },
-  // {
-  //   href: '/404',
-  //   icon: AlertCircleIcon,
-  //   title: 'Error'
-  // }
-];
+  }]
+
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -106,8 +81,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
 
   const [user, setValues] = useState({
     avatar: '/static/images/avatars/avatar_6.png',
-    jobTitle: 'Senior Developer',
-    name: 'Katarina Smith'
+    jobTitle: 'Developer',
+    name: 'Mohak'
   });
 
   axios.get(`http://localhost:5000/profile_data`)

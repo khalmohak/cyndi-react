@@ -12,7 +12,7 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { Bell, BookOpen, AlertTriangle } from 'react-feather';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '/home/mohak/Documents/project/cyndi react/src/views/NotifyMe.css';
+import './NotifyMe.js';
 
 const NotifyMe = props => {
     moment.locale(navigator.languages[0].toLowerCase());

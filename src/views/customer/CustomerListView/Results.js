@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -61,7 +60,6 @@ const Results = ({ className, customers, ...rest }) => {
         selectedCustomerIds.slice(selectedIndex + 1)
       );
     }
-
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 

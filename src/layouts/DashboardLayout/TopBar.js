@@ -39,7 +39,7 @@ const TopBar = ({
       {...rest}
     >
       <Toolbar>
-        <RouterLink to="/">
+        <RouterLink to="/app/dashboard">
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
@@ -54,7 +54,10 @@ const TopBar = ({
             </Badge>
           </IconButton>
           <IconButton color="inherit">
-            <InputIcon />
+
+            <RouterLink to='/'>
+                <InputIcon />
+            </RouterLink>
           </IconButton>
         </Hidden>
         <Hidden lgUp>

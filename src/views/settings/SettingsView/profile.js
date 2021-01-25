@@ -9,13 +9,11 @@ import {
   Box,
   Button,
   Card,
-
   CardContent,
   Divider,
   Typography,
   makeStyles
 } from '@material-ui/core';
-//import { orange } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles(() => ({
@@ -43,11 +41,11 @@ const Profile = ({ className, ...rest }) => {
 
   const [user, setValues] = useState({
     avatar: '/static/images/avatars/avatar_6.png',
-    city: 'dummt',
-    country: 'fagag',
-    jobTitle: 'agagag',
-    name: 'agasgag',
-    timezone: 'aggag'
+    city: 'Mumbai',
+    country: 'India',
+    jobTitle: 'DEVELOPER',
+    name: 'Mohak',
+    timezone: 'GMT-5:30'
   });
 
 
@@ -138,5 +136,4 @@ const Profile = ({ className, ...rest }) => {
 Profile.propTypes = {
   className: PropTypes.string
 };
-
 export default Profile;
