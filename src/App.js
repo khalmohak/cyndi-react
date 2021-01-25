@@ -12,13 +12,7 @@ import {useCookies} from "react-cookie";
 
 const App = () => {
 
-  const [cookies, setCookie, removeCookie] = useCookies(['auth']);
-  setCookie('loggedIn',true);
-  let appCookies = {
-    loggedIn:cookies.loggedIn
-
-  };
-  const routing = useRoutes(route(isLoggedIn,appCookies));
+  const routing = useRoutes(route(isLoggedIn));
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />

@@ -31,7 +31,9 @@ const TopBar = ({
 }) => {
   const classes = useStyles();
   const [notifications] = useState([]);
-
+  const removeLoggedInStatus = ()=>{
+    sessionStorage.removeItem('loggedIn');
+  }
   return (
     <AppBar
       className={clsx(classes.root, className)}
@@ -56,7 +58,10 @@ const TopBar = ({
           <IconButton color="inherit">
 
             <RouterLink to='/'>
-                <InputIcon />
+
+                <InputIcon
+                onClick={removeLoggedInStatus}
+                />
             </RouterLink>
           </IconButton>
         </Hidden>

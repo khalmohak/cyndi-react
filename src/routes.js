@@ -10,9 +10,9 @@ import ProductListView from 'src/views/product/ProductListView';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResoucresList from 'src/views/resources/index';
 
-let route = (isAuthenticated,cookies)=>{
-
-  if(isAuthenticated || cookies.loggedIn==true){
+let route = (isAuthenticated)=>{
+const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
+  if(isAuthenticated || isAlreadyLoggedIn === 'true'){
       return(
        [
           {
@@ -47,62 +47,14 @@ let route = (isAuthenticated,cookies)=>{
         element: <MainLayout />,
         children: [
           { path: 'login', element: <LoginView /> },
-          { path: '404', element: <LoginView /> },
           { path: '/', element: <Navigate to="/login" /> },
-          { path: '*', element: <Navigate to="/404" /> }
+          { path: '*', element: <Navigate to="/login" /> }
         ]
       }
     ])
   }
 };
 console.log("Routes "+isLoggedIn);
-// if(isLoggedIn){
-//   routes = [
-//     {
-//       path: 'app',
-//       element: <DashboardLayout />,
-//       children: [
-//         { path: 'customers', element: <CustomerListView /> },
-//         { path: 'dashboard', element: <DashboardView /> },
-//         { path: 'products', element: <ProductListView /> },
-//         { path: 'settings', element: <SettingsView /> },
-//         { path: 'resources', element: <ResoucresList /> },
-//         { path: '*', element: <Navigate to="/404" /> }
-//       ]
-//     },
-//     {
-//       path: '/',
-//       element: <MainLayout />,
-//       children: [
-//         { path: 'login', element: <LoginView /> },
-//         { path: '404', element: <NotFoundView /> },
-//         { path: '/', element: <Navigate to="/login" /> },
-//         { path: '*', element: <Navigate to="/404" /> }
-//       ]
-//     }
-//   ];
-// }
-// else{
-//   routes = [
-//     {
-//       path: '/',
-//       element: <MainLayout />,
-//       children: [
-//         { path: 'login', element: <LoginView /> },
-//         { path: '404', element: <LoginView /> },
-//         { path: '/', element: <Navigate to="/login" /> },
-//         { path: '*', element: <Navigate to="/404" /> }
-//       ]
-//     }
-//   ];
-// }
-
-
-
-
-
-
-
 
 
 export default route;

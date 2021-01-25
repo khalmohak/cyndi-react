@@ -48,10 +48,10 @@ const LoginView = () => {
   async function loginUser(credentials) {
     return axios.post('http://localhost:4000/login', credentials)
       .then(data => {
-        if(data.data.auth == true){
+        if(data.data.auth === true){
           auth = 1;
           isLoggedIn = true;
-          setCookie('loggedIn',isLoggedIn)
+          sessionStorage.setItem('loggedIn',true);
           navigateDashboard();
         }
         else{
