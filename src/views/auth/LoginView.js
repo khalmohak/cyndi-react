@@ -62,7 +62,22 @@ const LoginView = () => {
       .then(data => {
         if(data.data.auth === true){
           auth = 1;
+          console.log(data.data);
           isLoggedIn = true;
+          sessionStorage.setItem('userId',data.data.id);
+          sessionStorage.setItem('userName',data.data.name);
+          sessionStorage.setItem('userEmail',data.data.email);
+          sessionStorage.setItem('userPhone',data.data.phone_no);
+          if(!data.data.photo_url){
+            sessionStorage.setItem('userPhoto','null');
+          }else{
+            sessionStorage.setItem('userPhoto',data.data.photo_url);
+          }
+          sessionStorage.setItem('token',data.data.token);
+          sessionStorage.setItem('userDOB',data.data.dob);
+          sessionStorage.setItem('userRole',data.data.role);
+
+
           sessionStorage.setItem('loggedIn',true);
           navigateDashboard();
         }
