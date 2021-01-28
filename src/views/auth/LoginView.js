@@ -36,16 +36,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-
   large:{ height:'100px', width:'100px', marginBottom:'10px'},
   dkpal:{backgroundColor:'#01509f', padding:'50px 0',borderTopLeftRadius:'10px' ,borderTopRightRadius:'10px'},
   login:{backgroundColor:'#ffffff', padding:'0 30px',borderBottomRightRadius:'10px' ,borderBottomLeftRadius:'10px'},
   mainlogin:{backgroundColor:'#e0e0e0', padding:'30px' ,borderRadius:'10px' ,},
   color:{color:'#ffffff'},
   flot1:{float:'right'}
-
- 
-
 
 }));
 
@@ -113,8 +109,8 @@ const LoginView = () => {
     }
  }
  const roleButton= (event, value)=>{
-   setRole(value);
- }
+  setRole(value);
+}
 
   return (
     <Page

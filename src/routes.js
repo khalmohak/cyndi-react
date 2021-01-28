@@ -10,6 +10,7 @@ import ProductListView from 'src/views/product/ProductListView';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResoucresList from 'src/views/resources/index';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
+import {Register} from 'src/views/auth/Register';
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -34,6 +35,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
             element: <MainLayout />,
             children: [
               { path: 'login', element: <LoginView /> },
+              { path: 'register', element: <Register /> },
               { path: '404', element: <NotFoundView /> },
               { path: '/', element: <Navigate to="/login" /> },
               { path: '*', element: <Navigate to="/404" /> }
@@ -49,6 +51,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
         element: <MainLayout />,
         children: [
           { path: 'login', element: <LoginView /> },
+          { path: 'register', element: <Register /> },
           { path: '/', element: <Navigate to="/login" /> },
           { path: '*', element: <Navigate to="/login" /> }
         ]

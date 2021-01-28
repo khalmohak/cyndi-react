@@ -78,30 +78,22 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-
+  const s3Region = `ap-south-1`;
+  const s3Bucket = `cyndi.primary.bucket`;
   const [user, setValues] = useState({
-    avatar: '/static/images/avatars/avatar_6.png',
-    jobTitle: 'Developer',
-    name: 'Mohak'
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}` ,
+    email: sessionStorage.getItem('userEmail'),
+    jobTitle: sessionStorage.getItem('userRole'),
+    name: sessionStorage.getItem('userName')
   });
 
-  axios.get(`http://localhost:5000/profile_data`)
-  .then(res => {
-    setValues({
-      ...user,
-      avatar: res.data.user.avatar,
-      
-      jobTitle: res.data.user.jobTitle,
-      name: res.data.user.name,
-      
-    });
-    
-  })
-
-
-
-
-
+  const avatarName = ()=>{
+    if(user.avatar == 'null'){
+      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+    }else{
+      return <Avatar className={classes.avatar} src={user.avatar}/>
+    }
+  };
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -122,12 +114,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         flexDirection="column"
         p={2}
       >
-        <Avatar
-          className={classes.avatar}
-          component={RouterLink}
-          src={user.avatar}
-          to="/app/settings"
-        />
+        {avatarName()}
         <Typography
           className={classes.name}
           color="textPrimary"

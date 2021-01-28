@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius:'10px'
+    borderRadius:'10px',
+    width:"520px"
   },
   statsItem: {
     alignItems: 'center',

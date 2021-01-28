@@ -2,7 +2,6 @@ import React,{ useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import axios from 'axios';
 import { ImagePicker } from 'react-file-picker';
 import {
   Avatar,
@@ -14,7 +13,6 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -35,46 +33,27 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-
-const Profile = ({ className, ...rest }) => {
+  const Profile = ({ className, ...rest }) => {
   const classes = useStyles();
-
-  const [user, setValues] = useState({
-    avatar: '/static/images/avatars/avatar_6.png',
-    city: 'Mumbai',
-    country: 'India',
-    jobTitle: 'DEVELOPER',
-    name: 'Mohak',
+  const s3Region = `ap-south-1`;
+  const s3Bucket = `cyndi.primary.bucket`;
+  const [user] = useState({
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}` ,
+    email: sessionStorage.getItem('userEmail'),
+    jobTitle: sessionStorage.getItem('userRole'),
+    name: sessionStorage.getItem('userName'),
     timezone: 'GMT-5:30'
   });
 
-
-
-
- 
-  axios.get(`http://localhost:5000/profile_data`)
-  .then(res => {
-    setValues({
-      ...user,
-      avatar: res.data.user.avatar,
-      city: res.data.user.city,
-      country: res.data.user.country,
-      jobTitle: res.data.user.jobTitle,
-      name: res.data.user.name,
-      timezone: res.data.user.timezone
-    });
-    
-  })
-  
-
- 
-  
-  
-
-
+  const avatarName = ()=>{
+    if(user.avatar === 'null'){
+      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
+    }else{
+      return <Avatar className={classes.avatar} src={user.avatar}/>
+    }
+  }
 
   return (
-    
     <Card
       className={clsx(classes.root, className)}
       {...rest}
@@ -85,10 +64,12 @@ const Profile = ({ className, ...rest }) => {
           display="flex"
           flexDirection="column"
         >
-          <Avatar
-            className={classes.avatar}
-            src={user.avatar}
-          />
+
+          {/*<Avatar*/}
+          {/*  className={classes.avatar}*/}
+          {/*  src={user.avatar}*/}
+          {/*/>*/}
+          {avatarName()};
           <ImagePicker
             extensions={['jpg', 'jpeg', 'png']}
             dims={{minWidth: 100, maxWidth: 500, minHeight: 100, maxHeight: 500}}
@@ -98,7 +79,6 @@ const Profile = ({ className, ...rest }) => {
           color="primary"
           fullWidth
           variant="text"
-          
         >
           Edit
         </Button>
@@ -115,16 +95,14 @@ const Profile = ({ className, ...rest }) => {
             color="textSecondary"
             variant="body1"
           >
-            {`${user.city} ${user.country}`}
+            {`${user.email}`}
           </Typography>
           <Typography
-            className={classes.dateText}
             color="textSecondary"
             variant="body1"
           >
             {`${moment().format('hh:mm A')} ${user.timezone}`}
           </Typography>
-          
         </Box>
       </CardContent>
       <Divider />

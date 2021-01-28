@@ -2,7 +2,6 @@ import React,{ useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import axios from 'axios';
 import {
   Avatar,
   Box,
@@ -28,7 +27,7 @@ const useStyles = makeStyles(() => ({
 const Profile = ({ className, ...rest }) => {
   const classes = useStyles();
 
-  const [user, setValues] = useState({
+  const [user] = useState({
     avatar: '/static/images/avatars/avatar_6.png',
     city: 'dummt',
     country: 'fagag',
@@ -36,30 +35,6 @@ const Profile = ({ className, ...rest }) => {
     name: 'agasgag',
     timezone: 'aggag'
   });
-
-
-
-
- 
-  axios.get(`http://localhost:5000/profile_data`)
-  .then(res => {
-    setValues({
-      ...user,
-      avatar: res.data.user.avatar,
-      city: res.data.user.city,
-      country: res.data.user.country,
-      jobTitle: res.data.user.jobTitle,
-      name: res.data.user.name,
-      timezone: res.data.user.timezone
-    });
-    
-  })
-  
-
- 
-  
-  
-
 
 
   return (
@@ -92,7 +67,7 @@ const Profile = ({ className, ...rest }) => {
             {`${user.city} ${user.country}`}
           </Typography>
           <Typography
-            className={classes.dateText}
+
             color="textSecondary"
             variant="body1"
           >
