@@ -15,6 +15,7 @@ import {
   makeStyles,
   Select,
   MenuItem,
+  Avatar
 } from '@material-ui/core';
 import {Alert,
   ToggleButton,
@@ -34,7 +35,18 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
-  }
+  },
+
+  large:{ height:'100px', width:'100px', marginBottom:'10px'},
+  dkpal:{backgroundColor:'#01509f', padding:'50px 0',borderTopLeftRadius:'10px' ,borderTopRightRadius:'10px'},
+  login:{backgroundColor:'#ffffff', padding:'0 30px',borderBottomRightRadius:'10px' ,borderBottomLeftRadius:'10px'},
+  mainlogin:{backgroundColor:'#e0e0e0', padding:'30px' ,borderRadius:'10px' ,},
+  color:{color:'#ffffff'},
+  flot1:{float:'right'}
+
+ 
+
+
 }));
 
 const LoginView = () => {
@@ -85,20 +97,67 @@ const LoginView = () => {
       )
     }
  }
+ const roleButton= (event, value)=>{
+   setRole(value);
+ }
 
   return (
     <Page
       className={classes.root}
       title="Login"
     >
-      <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-      >
-        <Container maxWidth="sm">
-          <Formik
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      height="100%"
+                      justifyContent="center"
+                    >
+        <Container maxWidth="xs" className={classes.mainlogin}>
+
+     
+
+
+
+                  <Grid container spacing={3} className={classes.dkpal}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12}>
+                                    <Grid
+                                    container
+                                    direction="row"
+                                    justify="center"
+                                    alignItems="center"
+                                    ><Avatar className={classes.large} src="../static/avtor2.png"> </Avatar>
+                                    </Grid>
+                                            
+                                    <Box mb={1}>
+                                    <Typography
+                                    color="textPrimary"
+                                    variant="h2" className={classes.color}>
+                                    Sign in
+                                    </Typography>
+                                    </Box>
+
+                                    <Typography
+                                    align="center"
+                                    color="textSecondary"
+                                    variant="body1" className={classes.color}>
+                                    or login with email address
+                                    </Typography>
+
+                                </Grid>
+                              </Grid>
+                  </Grid>
+
+
+
+        <Grid container spacing={3} className={classes.login}>
+
+          <Grid item xs={12}>
+              <Grid container spacing={3}>
+             
+              <Grid item xs={12}>
+
+              <Formik
             initialValues={{
               email: '',
               password: ''
@@ -110,15 +169,7 @@ const LoginView = () => {
 
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box mb={3}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Sign in
-                  </Typography>
-                  
-                </Box>
+               
                 <Grid
                   container
                   spacing={3}
@@ -128,13 +179,7 @@ const LoginView = () => {
                   mt={3}
                   mb={1}
                 >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
+                  
                 </Box>
                 <TextField
                   fullWidth
@@ -145,7 +190,6 @@ const LoginView = () => {
                   onChange={e=>setUserName(e.target.value)}
                   type="email"
                   value={userName}
-                  variant="outlined"
                 />
                 <TextField
                   fullWidth
@@ -156,18 +200,25 @@ const LoginView = () => {
                   onChange={e=>setPassword(e.target.value)}
                   type="password"
                   value={userPassword}
-                  variant="outlined"
                 />
 
                 <ToggleButtonGroup
-                fullwidth
+                exclusive
                 value={role}
-                onClick={e=>{setRole(e.target.value)}}
+                aria-label="text alignment"
+                onChange={roleButton}
                 >
-                  <ToggleButton value={"Student"}>Student</ToggleButton>
-                  <ToggleButton value={"Teacher"}>Teacher</ToggleButton>
+
+                  <ToggleButton value={"Student"} >Student</ToggleButton>
+                  <ToggleButton value={"Teacher"} >Teacher</ToggleButton>
+
+                  
 
                 </ToggleButtonGroup>
+
+
+
+                
                 <Box my={2}>
                   <Button
                     color="primary"
@@ -182,6 +233,13 @@ const LoginView = () => {
               </form>
             )}
           </Formik>
+              </Grid>
+            </Grid>
+
+          </Grid>
+          </Grid>
+
+          
           {loginError()}
         </Container>
       </Box>
