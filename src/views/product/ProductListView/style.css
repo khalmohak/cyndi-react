@@ -1,0 +1,34 @@
+.topheader{ height: 105px; background:#fff; border-radius:7px; padding: 10px; width:100%; position:relative;}
+.topheader:after{ background:#1c75bc; width:20px; left: 0px; top:0px; height: 100%; border-top-left-radius:6px; border-bottom-left-radius:6px; position: absolute; content:"";
+box-shadow: -0px 1px 2px 1px rgba(0,0,0,0.31) inset; -webkit-box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.31) inset;
+-moz-box-shadow: -7px 1px 7px 1px rgba(0,0,0,0.31) inset;}
+ 
+.topheader span {padding:10px 12px; width: 12.5%; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002; 
+border-radius:50%; float:left;}
+.topheader i{float:left; width: 75%; display: inline-block; margin-left: 10px;}
+.hadding{ font-size: 13px; font-style:normal;}
+
+.date{ width:230px; height: 36px; bottom: 0px; float: right; background-image: url("./yellow-strip.png"); padding: 10px 0px; position:absolute; right:0px;}
+.date h2{font-size: 10px; margin:0px;}
+.date i{ text-align: right; font-weight:normal;}
+
+.dkpal{ position:absolute; right:12px; top:10px; }
+.assignment{margin: 10px 0; border-radius:20px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
+box-shadow:inset 0 0 4px #666;}
+.assignment .inner{padding: 0px 5px; font-size: 13px; width:25%;}
+
+.assignment2{margin: 10px 0; border-radius:40px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
+box-shadow: inset 0 0 4px #666;}
+.assignment2 .inner2{padding: 0px 5px; font-size: 13px;}
+.inner3{padding: 10px 5px 0px 5px; font-size: 13px;}
+.css-rxe5vq, .css-wx4x39{border-radius:7px !important;}
+
+.white-g{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666;}
+
+.col1{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#fd5d67;}
+.col2{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#55caba;}
+.col3{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#0b6f91;}
+.curve{border-radius: 10px !important;}
+
+
+

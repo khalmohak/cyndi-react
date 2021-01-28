@@ -16,18 +16,22 @@ import {
   Tooltip
   
 } from '@material-ui/core';
-// import AccessTimeIcon from '@material-ui/icons/AccessTime';
-// import GetAppIcon from '@material-ui/icons/GetApp';
 import CardHeader from '../../../components/card_header_white';
 import NotifyMe from '../../NotifyMe';
+import {Accessibility } from '@material-ui/icons'
+import './style.css';
+import { after } from 'lodash';
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius:'10px',
-    width:"520px"
+    borderRadius:'6px',
+    width:"100%"
   },
   statsItem: {
     alignItems: 'center',
@@ -69,10 +73,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:'#1e1f26'
   },
   
-  cardHeaderBackground:{
-    borderRadius:'10px',
-   
-    backgroundColor:'pink'
+  cardHeaderBackground:{borderRadius:'6px', backgroundColor:'pink'
     
     
     
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:'7px'
   },
   cardContent:{
-    backgroundColor:'#b0ada4'
+    backgroundColor:'#e6e7e8', padding:'6px'
   },
   nextClassDate:{
     fontSize:'12px',
@@ -103,7 +104,13 @@ const useStyles = makeStyles((theme) => ({
     width:'5px',
     backgroundColor:'#fff',
     color:'#fff'
-  }
+  },
+
+
+
+
+
+
 
 }));
 
@@ -146,100 +153,17 @@ const ClassesCard = ({ className, product, ...rest }) => {
       {...rest}
 
     >
-      <CardContent
-      className={classes.cardContent}
+      <CardContent  className={classes.cardContent}
       >
         
-        <Box
-          display="flex"
-          justifyContent="left"
-          //ml={-10}
-          //className={classes.cardHeaderRound}
-          
-        >
-          {/* <Avatar
-            alt="Product"
-            src={product.media}
-            variant="square" */}
-            <Box
-            className={classes.cardHeaderBackground}
-            mt={-10}
-            mb={-7}
-            ml={-2}
-            >
-              <Box 
-              //className={classes.cardHeaderRound}
-              ml={0}
-              mb={-4.1} >
-            <CardHeader
-             
-              className={classes.title}
-            ></CardHeader>
-            </Box>
-            </Box>
-        </Box>
-        <Typography
-          className={classes.titleColor}
-          color="inherit"
-          gutterBottom
-          variant="h4"
-          
-          
-        >
-         
-          {product.title}
-          <br></br>
-          <Box
-          className={classes.teacherName}
-          >
+        <Box display="flex" justifyContent="left">
 
-          {product.teacherName}
-          </Box>
-          <Box 
-          ml={-8.5}
-          mt={-6.5}
-          >
-            <Avatar
-            className={classes.avatar}
-            >H
-            </Avatar>
-          </Box>
+          <Box className={'topheader'}>
+          <span>dd</span>
+          <i>
           
-          
-        </Typography>
-        
-        <Box
-        pl={32}
-        mt={-2.5}
-        className={classes.nextClassDateBox}
-        >
-            <Typography
-            className={classes.nextClassDate}
-            >
-            Next Class -
-            </Typography>
-            
-        </Box>
-        <Box
-        pl={47}
-        mt={-2.2}
-        >
-        <Typography
-            className={classes.nextClassDate}
-            >
-            {'12/12/2020'}
-            </Typography>
-            
-        </Box>
-        <Box
-        ml={58}
-        mb={-5}
-        mt={-8.5}
-        pb={8}
-        pt={-20}
-        >
+          <Box className={'dkpal'}>
         <NotifyMe
-              className={classes.notification}
               data={data}
               storageKey='notific_key'
               notific_key='timestamp'
@@ -252,175 +176,94 @@ const ClassesCard = ({ className, product, ...rest }) => {
               color="black"
             />
         </Box>
-   
 
-        <Box
-        mt={5}
-        mb={2}
-        mr={2}
-        ml={2}
-        >
-  {/* Class Description */}
-      <Box
-      mb={2}
-      pb={1.7}
-      pt={1.5}
-      pl={2}
-      pr={1.5}
-      justify="space-around"
-      spacing={5}
-      className={classes.classDescription}
-      >
-        <Grid>
-          <Box
-          mb={-2.5}
-          >
-          <Typography>
-            Attendance 
-          </Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box
-          ml={13}
           
-          >
-          <Tooltip title={attendancePercent}>
-          <MultiSlider 
-            width='100%'
-            height='20px'
-            roundedCorners='true'
-            
-          > 
-            <Progress color="green" progress={40} />
-            <Progress color="grey" progress={100} />
-          </MultiSlider>
-          </Tooltip>
-      
+          <Typography color="inherit" gutterBottom className={'hadding'}>
+          {product.title}
+
+          <Box className={'hadding'}>
+          {product.teacherName}
+          </Box>
+
+          <Box className={'date'}> 
+              <Typography className={classes.nextClassDate}>
+                <i>Next Class - <b>{'12/12/2020'}</b></i>
+              </Typography>
+            </Box>
+         
+        </Typography>
+
+          </i>
+          </Box>
+        </Box>
         
-          
-          </Box>
-        </Grid>
-      
-      </Box>
+        
+   <Box>
+                <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
+                <Box p={1} className={'inner'}>Attendance </Box>
+                <Box p={1} flexGrow={1} className={'inner'}>
+                <Tooltip title={attendancePercent}>
+                <MultiSlider 
+                width='100%'
+                height='20px'
+                roundedCorners='true'> 
+                <Progress className={'col1'} progress={40} />
+                <Progress className={'white-g'} progress={100} />
+                </MultiSlider>
+                </Tooltip>
+                </Box>
+                
+        </Box>
 
-      <Box
-      mb={2}
-      pb={1.7}
-      pt={1.5}
-      pl={2}
-      pr={1.5}
-      justify="space-around"
-      spacing={5}
-      className={classes.classDescription}
-    
-      >
-        <Grid>
-          <Box
-          mb={-2.5}
-          >
-          <Typography>
-            Courses
-          </Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box
-          ml={13}
-          >
-          <Tooltip title="20%">
-          <MultiSlider 
-            width='100%'
-            height='20px'
-            roundedCorners='true'
-            
-          >
-            
-            <Progress color="orange" progress={20} />
-            <Progress color="grey" progress={100} />
-          </MultiSlider>
-          </Tooltip>
-          </Box>
-        </Grid>
-      
-      </Box>
-      <Box
-      mb={2}
-      pb={1.7}
-      pt={1.5}
-      pl={2}
-      pr={1.5}
-      justify="space-around"
-      spacing={5}
-      className={classes.classDescription}
-            
-      >
-        <Grid>
-          <Box
-          mb={-2.5}
-          >
-          <Typography>
-            Classes
-          </Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box
-          ml={13}
-          
-          >
-        <Tooltip title="100%">
-          <MultiSlider 
-            width='100%'
-            height='20px'
-            roundedCorners='true'
-            
-          >
-            <Progress color="grey" progress={100} />
-            <Progress color="red" progress={70} />
-          </MultiSlider>
-          </Tooltip>
-          </Box>
-        </Grid>
-      
-      </Box>
-      <Box
-      mb={2}
-      pb={1}
-      pt={1.5}
-      pl={2}
-      pr={1.5}
-      justify="space-around"
-      spacing={5}
-      className={classes.classDescription}
-    
-      >
-        <Grid>
-          <Box
-          mb={-3.5}
-          >
-          <Typography>
-            Assignments 
-          </Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box
-          ml={13}
-          >
-          <MultiSlider 
-            width='100%'
-            height='50px'
-          >
-            <Progress color="green" progress={25} />
-            <Progress color="yellow" progress={50} />
-            <Progress color="red" progress={75} />
-            <Progress color="blue" progress={100} />
-          </MultiSlider>
-          </Box>
-        </Grid>
-      
-      </Box>
+
+        <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
+               <Box p={1} className={'inner'}>Courses </Box>
+                <Box p={1} flexGrow={1} className={'inner'}>
+                <Tooltip title="20%">
+                <MultiSlider 
+                width='100%'
+                height='20px'
+                roundedCorners='true'>
+                <Progress className={'col2'} progress={20} />
+                <Progress className={'white-g'} progress={100} />
+                </MultiSlider>
+                </Tooltip>
+                </Box>
+        </Box>
+
+        <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
+                <Box p={1} className={'inner'}>Courses </Box>
+                <Box p={1} flexGrow={1} className={'inner'}>
+                <Tooltip title="100%">
+                <MultiSlider 
+                width='100%'
+                height='20px'
+                roundedCorners='true'>
+                <Progress className={'white-g'} progress={100} />
+                <Progress className={'col1'}  progress={70} />
+                </MultiSlider>
+                </Tooltip>
+                </Box>
+        </Box>
+
+
+        <Box display="flex" p={1} bgcolor="background.paper" className={'assignment2'}>
+                <Box p={1} className={'inner3'}>Courses </Box>
+                <Box p={1} flexGrow={1} className={'inner2'}>
+                <MultiSlider 
+                width='100%'
+                height='40px'>
+                <Progress color="#a1d9cc" progress={25} />
+                <Progress color="#95c7bc" progress={50} />
+                <Progress color="#88b7ad" progress={75} />
+                <Progress className={'curve'} color="#7ca79d" progress={100} />
+                </MultiSlider>
+                </Box>
+        </Box>
+
+
+
+ 
       
         </Box>
       </CardContent>
@@ -443,7 +286,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
             <Link
             className={classes.link}
             >
-              Board
+              <Accessibility></Accessibility>Board
             </Link>
             
           </Grid>

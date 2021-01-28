@@ -10,8 +10,8 @@ class CardHeader extends Component {
       src='/static/card_bg.svg'
       className="logo"
       alt="cardHeader"
-      width='550'
-      height='175'
+      width='100%'
+      height='155'
     />
     )
   }
