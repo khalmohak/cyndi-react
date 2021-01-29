@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import CardHeader from '../../../components/card_header_white';
 import NotifyMe from '../../NotifyMe';
-import {Accessibility } from '@material-ui/icons'
+import {Accessibility, Dashboard, InfoOutlined, AssignmentOutlined } from '@material-ui/icons'
 import './style.css';
 import { after } from 'lodash';
 
@@ -68,9 +68,6 @@ const useStyles = makeStyles((theme) => ({
   
   cardTableHeading:{
       fontWeight:'500'
-  },
-  bottomColor:{
-    backgroundColor:'#1e1f26'
   },
   
   cardHeaderBackground:{borderRadius:'6px', backgroundColor:'pink'
@@ -163,6 +160,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
           <i>
           
           <Box className={'dkpal'}>
+          <Box className={'dkpal2'}> 
         <NotifyMe
               data={data}
               storageKey='notific_key'
@@ -172,9 +170,11 @@ const ClassesCard = ({ className, product, ...rest }) => {
               sortedByKey={false}
               showDate={true}
               size='25'
-              
               color="black"
             />
+          </Box> 
+
+
         </Box>
 
           
@@ -267,51 +267,35 @@ const ClassesCard = ({ className, product, ...rest }) => {
       
         </Box>
       </CardContent>
+
       <Box flexGrow={1} />
       <Divider />
-      <Box p={2}
-      className={classes.bottomColor}
-      >
-        <Grid
-          container
-          justify="space-between"
-          spacing={0}
-        >
-          <Grid
-            className={classes.link}
-           
-            
-          >
-            
-            <Link
-            className={classes.link}
-            >
-              <Accessibility></Accessibility>Board
+      <Box className={'bottomColor'}>
+        <Grid container justify="space-between" spacing={0}>
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <Dashboard></Dashboard> Board
             </Link>
-            
+           </Grid>
+
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+               <InfoOutlined></InfoOutlined> Information
+            </Link>
           </Grid>
 
-          <Grid
-          className={classes.link}>
-          <Link
-            className={classes.link}
-            >
-              Information
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+               <AssignmentOutlined></AssignmentOutlined> Activity
             </Link>
-            
           </Grid>
-          <Grid
-          className={classes.link}>
-          <Link
-            className={classes.link}
-            >
-              Activity
-            </Link>
-            
-          </Grid>
-          
 
-          
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+            <InfoOutlined></InfoOutlined>
+            </Link>
+          </Grid>
+        
         </Grid>
       </Box>
     </Card>

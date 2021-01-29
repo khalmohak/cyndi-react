@@ -2,19 +2,12 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  AppBar,
-  Badge,
-  Box,
-  Hidden,
-  IconButton,
-  Toolbar,
-  makeStyles
-} from '@material-ui/core';
+import {AppBar, Badge, Box, Hidden, IconButton, Toolbar, makeStyles}from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from 'src/components/Logo';
+import {ExitToApp} from '@material-ui/icons'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -46,24 +39,26 @@ const TopBar = ({
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
+          
+          
+         
+          <IconButton color="inherit" className={'button_notifi'}>
+          <RouterLink to='/'>
+              <NotificationsIcon onClick={removeLoggedInStatus} className={'button_notifi'}/>
+              </RouterLink>
+            </IconButton>
 
-            <RouterLink to='/'>
+            <IconButton color="inherit" className={'button_notifi'}>
+          <RouterLink to='/'>
+              <ExitToApp onClick={removeLoggedInStatus} className={'button_notifi'}/>
+              </RouterLink>
+            </IconButton>
+           
 
-                <InputIcon
-                onClick={removeLoggedInStatus}
-                />
-            </RouterLink>
-          </IconButton>
+
+
+
+
         </Hidden>
         <Hidden lgUp>
           <IconButton

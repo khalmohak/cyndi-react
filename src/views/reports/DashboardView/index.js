@@ -22,15 +22,7 @@ const Dashboard = () => {
   const [user,setUser] = useState({
     name:"Mohak"
   });
-  axios.get(`http://localhost:5000/profile_data`)
-    .then(res => {
-      setUser({
-        ...user,
-        name: res.data.user.name,
-
-      });
-
-    })
+  
 
   return (
     <Page
