@@ -270,6 +270,8 @@ const ClassesCard = ({ className, product, ...rest }) => {
 
       <Box flexGrow={1} />
       <Divider />
+      <Box flexGrow={1} />
+      <Divider />
       <Box className={'bottomColor'}>
         <Grid container justify="space-between" spacing={0}>
           <Grid className={classes.link}>
@@ -292,7 +294,7 @@ const ClassesCard = ({ className, product, ...rest }) => {
 
           <Grid className={classes.link}>
             <Link className={classes.link}>
-            <InfoOutlined></InfoOutlined>
+            <InfoOutlined></InfoOutlined> 
             </Link>
           </Grid>
         

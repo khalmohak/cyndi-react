@@ -33,28 +33,20 @@ const Toolbar = ({ className, ...rest }) => {
       className={clsx(classes.root, className)}
       {...rest}
     >
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-      >
-        
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Class
-        </Button>
-      </Box>
+      
       <Box mt={3}>
-        <Card>
+        <Card className={'search-main'}>
           <CardContent>
-            <Box className={'search'}>
+            <Box className={'search s_pos'}>
               <TextField
                 fullWidth
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SvgIcon fontSize="small" color="action">
+                      <SvgIcon
+                        fontSize="small"
+                        color="action"
+                      >
                         <SearchIcon />
                       </SvgIcon>
                     </InputAdornment>
@@ -64,6 +56,13 @@ const Toolbar = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Box>
+
+            <Button
+          color="primary"
+          variant="contained"
+        >
+          Add Class
+        </Button>
           </CardContent>
         </Card>
       </Box>

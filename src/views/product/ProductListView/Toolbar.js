@@ -38,17 +38,14 @@ const Toolbar = ({ className, ...rest }) => {
         justifyContent="flex-end"
       >
         
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Class
-        </Button>
+        
+
+
       </Box>
       <Box mt={3}>
-        <Card>
+        <Card className={'search-main'}>
           <CardContent>
-            <Box className={'search'}>
+            <Box className={'search s_pos'}>
               <TextField
                 fullWidth
                 InputProps={{
@@ -67,6 +64,13 @@ const Toolbar = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Box>
+
+            <Button
+          color="primary"
+          variant="contained"
+        >
+          Add Class
+        </Button>
           </CardContent>
         </Card>
       </Box>
