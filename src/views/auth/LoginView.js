@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {useCookies} from 'react-cookie'
+import {apiEndPoint} from "../../constants";
 import {
   Box,
   Button,
@@ -54,7 +55,7 @@ const LoginView = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['auth']);
 
   async function loginUser(credentials) {
-    return axios.post('http://localhost:4000/login', credentials)
+    return axios.post(`${apiEndPoint}/login`, credentials)
       .then(data => {
         if(data.data.auth === true){
           auth = 1;
@@ -76,11 +77,37 @@ const LoginView = () => {
 
           sessionStorage.setItem('loggedIn',true);
           navigateDashboard();
+          userDetails();
         }
         else{
           logErr = 1;
           navigateLogin();
         }
+      })
+  }
+  async function userDetails(){
+    console.log(sessionStorage.getItem('userId'));
+    console.log(sessionStorage.getItem('userRole'));
+    let headers = {
+
+      'user_id':sessionStorage.getItem('userId'),
+      'x-access-token':sessionStorage.getItem('token')
+    };
+    let data={
+      'role':sessionStorage.getItem('userRole')
+    }
+    axios.post(`${apiEndPoint}/get/role/details`,data, {
+      headers:headers
+    }).then((response)=>{
+
+      sessionStorage.setItem('universityName',response.data[0].university_name);
+      sessionStorage.setItem('collegeName',response.data[0].college_name);
+      sessionStorage.setItem('userYear',response.data[0].year);
+      sessionStorage.setItem('userCourse',response.data[0].course);
+      sessionStorage.setItem('userSemester',response.data[0].semester);
+    })
+      .catch(err=>{
+        console.log(err);
       })
   }
 

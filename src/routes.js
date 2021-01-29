@@ -6,7 +6,7 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import {LoginView,isLoggedIn} from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/product/ProductListView';
+import ClassListView from 'src/views/product/ClassListView';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResoucresList from 'src/views/resources/index';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
@@ -23,7 +23,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
             children: [
               { path: 'customers', element: <CustomerListView /> },
               { path: 'dashboard', element: <DashboardView /> },
-              { path: 'products', element: <ProductListView /> },
+              { path: 'class', element: <ClassListView /> },
               { path: 'settings', element: <SettingsView /> },
               { path: 'resources', element: <ResoucresList /> },
               { path: 'teacher', element: <TeacherCard /> },

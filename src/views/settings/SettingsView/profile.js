@@ -65,10 +65,7 @@ const useStyles = makeStyles(() => ({
           flexDirection="column"
         >
 
-          {/*<Avatar*/}
-          {/*  className={classes.avatar}*/}
-          {/*  src={user.avatar}*/}
-          {/*/>*/}
+
           {avatarName()};
           <ImagePicker
             extensions={['jpg', 'jpeg', 'png']}
