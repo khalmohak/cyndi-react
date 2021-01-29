@@ -275,6 +275,12 @@ const TeachersCard = ({ className, product, ...rest }) => {
                <AssignmentOutlined></AssignmentOutlined> Activity
             </Link>
           </Grid>
+
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+            <InfoOutlined></InfoOutlined>
+            </Link>
+          </Grid>
         
         </Grid>
       </Box>
