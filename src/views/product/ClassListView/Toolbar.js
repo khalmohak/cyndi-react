@@ -10,7 +10,7 @@ import {
   InputAdornment,
   SvgIcon,
   makeStyles,
- 
+
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
-  
+
 
   return (
     <div
@@ -37,23 +37,15 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        {/* <Button className={classes.importButton}>
-          Import
-        </Button>
-        <Button className={classes.exportButton}>
-          Export
-        </Button> */}
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Class
-        </Button>
+
+
+
+
       </Box>
       <Box mt={3}>
-        <Card>
+        <Card className={'search-main'}>
           <CardContent>
-            <Box maxWidth={500}>
+            <Box className={'search s_pos'}>
               <TextField
                 fullWidth
                 InputProps={{
@@ -72,6 +64,13 @@ const Toolbar = ({ className, ...rest }) => {
                 variant="outlined"
               />
             </Box>
+
+            <Button
+              color="primary"
+              variant="contained"
+            >
+              Add Class
+            </Button>
           </CardContent>
         </Card>
       </Box>

@@ -1,18 +1,7 @@
-import React, { useState,useEffect } from 'react';
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
-import Page from 'src/components/Page';
-import Toolbar from './Toolbar';
-import ClassesCard from './classCard';
-import data from './data';
+import React, {useEffect, useState} from 'react';
+import {makeStyles} from '@material-ui/core';
 import {apiEndPoint} from "../../../constants";
 import axios from 'axios';
-import {func} from "prop-types";
 import ClassListGenerator from "./classCardComponentGenerator";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,40 +16,96 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ClassList = () => {
-  const classes = useStyles();
 
-  const [classData,setClassData] = useState();
-  const headers = {
-    'user_id':sessionStorage.getItem('userId'),
-    'x-access-token':sessionStorage.getItem('token')
-  };
-  const ApiData = {
-    university_name:sessionStorage.getItem('universityName'),
-    college_name:sessionStorage.getItem('collegeName'),
-    year:sessionStorage.getItem('userYear'),
-    course:sessionStorage.getItem('userCourse')
+
+export class ClassList extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      classData:"",
+
+
+
+    };
   };
 
-  useEffect(() => {
-    getClassData();
-  }, []);
+   headers = {
+    'user_id': sessionStorage.getItem('userId'),
+    'x-access-token': sessionStorage.getItem('token')
+  };
+   ApiData = {
+    university_name: sessionStorage.getItem('universityName'),
+    college_name: sessionStorage.getItem('collegeName'),
+    year: sessionStorage.getItem('userYear'),
+    course: sessionStorage.getItem('userCourse')
+  };
 
-  const getClassData = ()=> {
-    axios.post(`${apiEndPoint}/get/class/student`, ApiData, {
-      headers: headers
+   getClassData (){
+    axios.post(`${apiEndPoint}/get/class/student`, this.ApiData, {
+      headers: this.headers
     }).then(response => {
       const classArray = response.data;
-      setClassData(classArray);
+      this.setState({
+        classData:classArray
+      })
+      console.log(this.state.classData);
     })
       .catch(err => {
         console.log(err)
       })
-
   }
-  return(
-    <ClassListGenerator classArrayData={classData}/>
-  )
-};
+  componentDidMount(){
+    this.getClassData();
+  }
+  render(){
+
+
+    return (
+      <>
+        <ClassListGenerator classArrayData={this.state.classData}/>
+      </>
+    )
+  }
+}
+
+//
+// const ClassList = () => {
+//   const classes = useStyles();
+//   const [classData, setClassData] = useState();
+//   const headers = {
+//     'user_id': sessionStorage.getItem('userId'),
+//     'x-access-token': sessionStorage.getItem('token')
+//   };
+//   const ApiData = {
+//     university_name: sessionStorage.getItem('universityName'),
+//     college_name: sessionStorage.getItem('collegeName'),
+//     year: sessionStorage.getItem('userYear'),
+//     course: sessionStorage.getItem('userCourse')
+//   };
+//
+//
+//   const getClassData = () => {
+//     axios.post(`${apiEndPoint}/get/class/student`, ApiData, {
+//       headers: headers
+//     }).then(response => {
+//       const classArray = response.data;
+//       setClassData(classArray);
+//     })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//   }
+//
+//   useEffect(() => {
+//     getClassData();
+//   }, []);
+//
+//
+//   return (
+//     <>
+//       <ClassListGenerator classArrayData={classData}/>
+//     </>
+//   )
+// };
 
 export default ClassList;

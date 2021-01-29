@@ -4,24 +4,67 @@ import clsx from 'clsx';
 import {Avatar, Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography, Table, TableBody, TableCell, TableContainer, TableHead,TableRow, Paper} from '@material-ui/core';
 import CardHeader from '../../../components/card_header_white';
 import MultiSlider, {Progress} from "react-multi-bar-slider";
+import '../../product/ClassListView/style.css';
+import NotifyMe from '../../NotifyMe';
+import {Accessibility, Dashboard, InfoOutlined, AssignmentOutlined } from '@material-ui/icons'
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius:'10px',
-    width:"500px"
+    borderRadius:'6px',
+    width:"100%"
   },
-  cardHeaderBg:{
-    backgroundColor:'#FFA500'
+  statsItem: {
+    alignItems: 'center',
+    display: 'flex'
   },
-  avatar:{
-    height:'60px',
-    width:'60px'
+  statsIcon: {
+    marginRight: theme.spacing(1)
   },
-  className:{
-    marginLeft:"70px"
+  title:{
+    position:'relative',
+    boxShadow: `5px #808080`,
+    
+  },
+  titleColor:{
+    color:'#000',
+    marginLeft:'80px',
+    fontSize:'17px',
+    textTransform:'uppercase'
+  },
+  teacherName:{
+    color:'#808080',
+    textTransform:'capitalize',
+    fontSize:'15px'
+  },
+  link:{
+    color:'#fff',
+    
+    '&:hover':{
+      
+      
+      color:'blue'
+    }
+  },
+  
+  cardTableHeading:{
+      fontWeight:'500'
+  },
+  
+  cardHeaderBackground:{borderRadius:'6px', backgroundColor:'pink'
+    
+    
+    
+  },
+  classDescription:{
+    backgroundColor:'#fff',
+    borderRadius:'7px'
+  },
+  cardContent:{
+    backgroundColor:'#e6e7e8', padding:'6px'
   },
   nextClassDate:{
     fontSize:'12px',
@@ -30,36 +73,25 @@ const useStyles = makeStyles((theme) => ({
   nextClassDateBox:{
     width:'400px',
     marginLeft:'50px',
-
+    
     position:'flex'
   },
-  title:{
-  position:'relative',
-  boxShadow: `5px #808080`,
-},
-  classDescription:{
+  avatar:{
+      height:'60px',
+      width:'60px'
+  },
+  notification:{
+    height:'5px',
+    width:'5px',
     backgroundColor:'#fff',
-    borderRadius:'7px'
+    color:'#fff'
   },
-  cardContent:{
-    backgroundColor:'#b0ada4'
-  },
-  table:{
-    borderRadius:'7px',
 
-  },
-  done:{
-    color:"#0000ff"
-  }
-  ,
-  remaining:{
-  color:"#ffff00"
-},
-  next:{
-    color:"#00ff00"
-  }
+
 
 }));
+
+
 
 function createData(name, classes, assignments, projects, test_quiz) {
   return { name, classes, assignments, projects, test_quiz };
@@ -72,6 +104,30 @@ const rows = [
   createData('Test/Quiz', 12, 3, 9, '12/5/'),
 
 ];
+
+var attendancePercent = '40%';
+
+
+var data=[
+  {
+    "update":"70 new employees are shifted",
+    "timestamp":1596119688264
+  },
+  {
+    "update":"Time to take a Break, TADA!!!",
+    "timestamp":1596119686811
+  },
+  {
+    "update":"70 new employees are shifted",
+    "timestamp":1596119688264
+  },
+  {
+    "update":"Time to take a Break, TADA!!!",
+    "timestamp":1596119686811
+  }
+]
+
+
 
 const TeachersCard = ({ className, product, ...rest }) => {
   const classes = useStyles();
@@ -89,126 +145,76 @@ const TeachersCard = ({ className, product, ...rest }) => {
       {...rest}
 
     >
-      <CardContent
-      className={classes.cardContent}
+      <CardContent  className={classes.cardContent}
       >
-        <Box
-          display="flex"
-          justifyContent="left"
-        >
-          <Box
-            className={classes.cardHeaderBg}
-            fullwidth
-            mt={-10}
-            mb={-7}
-            ml={-2}
-          >
-            <Box
-              ml={0}
-              mb={-4.1} >
-              <CardHeader
-                className={classes.title}
-              ></CardHeader>
-            </Box>
-          </Box>
-        </Box>
-        <Typography
+        
+        <Box display="flex" justifyContent="left">
 
-          variant="h4"
-        >
-          <Box
-            className={classes.className}
-          >
-            Mohak
-          </Box>
+          <Box className={'topheader'}>
+          <span>dd</span>
+          <i>
+          
+          <Box className={'dkpal'}>
+          <Box className={'dkpal2'}> 
+        <NotifyMe
+              data={data}
+              storageKey='notific_key'
+              notific_key='timestamp'
+              notific_value='update'
+              heading='Notifications'
+              sortedByKey={false}
+              showDate={true}
+              size='25'
+              color="black"
+            />
+          </Box> 
 
-          <Box
-          ml={8.5}
-          >
-            Teacher's name
-          </Box>
-          <Box
-            ml={1}
-            mt={-7}
-          >
-            <Avatar
-              className={classes.avatar}
-            >H
-            </Avatar>
-          </Box>
-
-        </Typography>
-        <Box
-          pl={32}
-          mt={-2.5}
-          className={classes.nextClassDateBox}
-        >
-          <Typography
-            className={classes.nextClassDate}
-          >
-            Next Class -
-          </Typography>
 
         </Box>
-        <Box
-          pl={47}
-          mt={-2.2}
-        >
-          <Typography
-            className={classes.nextClassDate}
-          >
-            {'12/12/2020'}
-          </Typography>
 
-        </Box>
-      {/* Description */}
-        <Box
-          mb={2}
-          pb={1.7}
-          mt={3}
-          pt={2}
-          pl={2}
-          pr={1.5}
-          justify="space-around"
-          spacing={5}
-          className={classes.classDescription}
-        >
-          <Grid>
-            <Box
-              mb={-2.5}
-            >
-              <Typography>
-                Syllabus
+          
+          <Typography color="inherit" gutterBottom className={'hadding'}>
+          {product.name}
+
+          <Box className={'hadding'}>
+          {product.name}
+          </Box>
+
+          <Box className={'date'}> 
+              <Typography className={classes.nextClassDate}>
+                <i>Next Class - <b>{'12/12/2020'}</b></i>
               </Typography>
             </Box>
-          </Grid>
-          <Grid>
-            <Box
-              ml={13}
+         
+        </Typography>
 
-            >
-              <Tooltip title={50}>
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'
-
-                >
-                  <Progress color="green" progress={40} />
-                  <Progress color="grey" progress={100} />
+          </i>
+          </Box>
+        </Box>
+        
+        
+   <Box>
+                <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
+                <Box p={1} className={'inner'}>Attendance </Box>
+                <Box p={1} flexGrow={1} className={'inner'}>
+                <Tooltip title={attendancePercent}>
+                <MultiSlider 
+                width='100%'
+                height='20px'
+                roundedCorners='true'> 
+                <Progress className={'col1'} progress={40} />
+                <Progress className={'white-g'} progress={100} />
                 </MultiSlider>
-              </Tooltip>
-
-
-
-            </Box>
-          </Grid>
-
+                </Tooltip>
+                </Box>
+                
         </Box>
 
-        <Box>
+
+        
+<Box>
           <TableContainer component={Paper}>
-            <Table className={classes.table} size="small" aria-label="a dense table">
+            <Table className={'teacher'} size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
                   <TableCell>Progress</TableCell>
@@ -236,56 +242,42 @@ const TeachersCard = ({ className, product, ...rest }) => {
         </Box>
       {/*Description End*/}
 
+       
 
+
+        
+
+
+
+ 
+      
+        </Box>
       </CardContent>
+
       <Box flexGrow={1} />
       <Divider />
-      <Box p={2}
-           className={classes.bottomColor}
-      >
-        <Grid
-          container
-          justify="space-between"
-          spacing={0}
-        >
-          <Grid
-            className={classes.link}
-
-
-          >
-
-            <Link
-              className={classes.link}
-            >
-              Board
+      <Box className={'bottomColor'}>
+        <Grid container justify="space-between" spacing={0}>
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <Dashboard></Dashboard> Board
             </Link>
+           </Grid>
 
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+               <InfoOutlined></InfoOutlined> Information
+            </Link>
           </Grid>
 
-          <Grid
-            className={classes.link}>
-            <Link
-              className={classes.link}
-            >
-              P&A
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+               <AssignmentOutlined></AssignmentOutlined> Activity
             </Link>
-
           </Grid>
-          <Grid
-            className={classes.link}>
-            <Link
-              className={classes.link}
-            >
-              Q.E.S
-            </Link>
-
-          </Grid>
-
-
-
+        
         </Grid>
       </Box>
-
     </Card>
   );
 };

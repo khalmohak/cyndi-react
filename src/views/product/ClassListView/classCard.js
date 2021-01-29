@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, {Progress} from 'react-multi-bar-slider';
 
-import {Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
+import {Avatar, Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
 import NotifyMe from '../../NotifyMe';
-import {Accessibility} from '@material-ui/icons'
+import {Accessibility, Dashboard, InfoOutlined, AssignmentOutlined} from '@material-ui/icons'
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     color: '#fff'
   },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
 
 
 }));
@@ -117,11 +121,17 @@ var data = [
 const ClassesCard = ({className, card, ...rest}) => {
   const classes = useStyles();
   const [teacherName, setTeacherName] = useState(0);
+  const s3Region = `ap-south-1`;
+  const s3Bucket = `cyndi.primary.bucket`;
+  let teacherNameTemp = '';
+  let teacherPictureTemp = '';
+
+
 
   const handleClassCard = (event) => {
     console.log('card clicked');
   }
-  let teacherNameTemp = '';
+
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
     const teacherId = card.user_id;
@@ -130,13 +140,25 @@ const ClassesCard = ({className, card, ...rest}) => {
       if (teacherDetails.user_id === teacherId) {
         //setTeacherName(teacherDetails.name);
         teacherNameTemp = teacherDetails.name;
+        teacherPictureTemp = teacherDetails.photo_url;
 
       }
     }
   };
   getTeacherName();
-  setTeacherName(teacherNameTemp);
-  console.log(teacherName)
+  //setTeacherName(teacherNameTemp);
+  const user = {
+    avatar:`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
+  }
+
+  const avatarName = ()=>{
+    if(teacherPictureTemp === 'null'){
+      return <Avatar >{teacherNameTemp[0]}</Avatar>
+    }else{
+      return <Avatar src={user.avatar}/>
+    }
+  }
+  console.log(teacherPictureTemp)
 
   return (
     <Card
@@ -145,28 +167,31 @@ const ClassesCard = ({className, card, ...rest}) => {
       {...rest}
 
     >
-      <CardContent className={classes.cardContent}
+      <CardContent  className={classes.cardContent}
       >
 
         <Box display="flex" justifyContent="left">
 
           <Box className={'topheader'}>
-            <span>dd</span>
+            <span>{avatarName()}</span>
             <i>
 
               <Box className={'dkpal'}>
-                <NotifyMe
-                  data={data}
-                  storageKey='notific_key'
-                  notific_key='timestamp'
-                  notific_value='update'
-                  heading='Notifications'
-                  sortedByKey={false}
-                  showDate={true}
-                  size='25'
+                <Box className={'dkpal2'}>
+                  <NotifyMe
+                    data={data}
+                    storageKey='notific_key'
+                    notific_key='timestamp'
+                    notific_value='update'
+                    heading='Notifications'
+                    sortedByKey={false}
+                    showDate={true}
+                    size='25'
+                    color="black"
+                  />
+                </Box>
 
-                  color="black"
-                />
+
               </Box>
 
 
@@ -174,7 +199,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                 {card.class_name}
 
                 <Box className={'hadding'}>
-                  {card.class_description}
+                  {/*{card.class_description}*/}
+                  {teacherNameTemp}
                 </Box>
 
                 <Box className={'date'}>
@@ -199,8 +225,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'col1'} progress={40}/>
-                  <Progress className={'white-g'} progress={100}/>
+                  <Progress className={'col1'} progress={40} />
+                  <Progress className={'white-g'} progress={100} />
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -216,8 +242,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'col2'} progress={20}/>
-                  <Progress className={'white-g'} progress={100}/>
+                  <Progress className={'col2'} progress={20} />
+                  <Progress className={'white-g'} progress={100} />
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -231,8 +257,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'white-g'} progress={100}/>
-                  <Progress className={'col1'} progress={70}/>
+                  <Progress className={'white-g'} progress={100} />
+                  <Progress className={'col1'}  progress={70} />
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -245,60 +271,50 @@ const ClassesCard = ({className, card, ...rest}) => {
               <MultiSlider
                 width='100%'
                 height='40px'>
-                <Progress color="#a1d9cc" progress={25}/>
-                <Progress color="#95c7bc" progress={50}/>
-                <Progress color="#88b7ad" progress={75}/>
-                <Progress className={'curve'} color="#7ca79d" progress={100}/>
+                <Progress color="#a1d9cc" progress={25} />
+                <Progress color="#95c7bc" progress={50} />
+                <Progress color="#88b7ad" progress={75} />
+                <Progress className={'curve'} color="#7ca79d" progress={100} />
               </MultiSlider>
             </Box>
           </Box>
 
 
+
+
+
         </Box>
       </CardContent>
-      <Box flexGrow={1}/>
-      <Divider/>
-      <Box p={2}
-           className={classes.bottomColor}
-      >
-        <Grid
-          container
-          justify="space-between"
-          spacing={0}
-        >
-          <Grid
-            className={classes.link}
 
-
-          >
-
-            <Link
-              className={classes.link}
-            >
-              <Accessibility></Accessibility>Board
+      <Box flexGrow={1} />
+      <Divider />
+      <Box flexGrow={1} />
+      <Divider />
+      <Box className={'bottomColor'}>
+        <Grid container justify="space-between" spacing={0}>
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <Dashboard></Dashboard> Board
             </Link>
-
           </Grid>
 
-          <Grid
-            className={classes.link}>
-            <Link
-              className={classes.link}
-            >
-              Information
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <InfoOutlined></InfoOutlined> Information
             </Link>
-
-          </Grid>
-          <Grid
-            className={classes.link}>
-            <Link
-              className={classes.link}
-            >
-              Activity
-            </Link>
-
           </Grid>
 
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <AssignmentOutlined></AssignmentOutlined> Activity
+            </Link>
+          </Grid>
+
+          <Grid className={classes.link}>
+            <Link className={classes.link}>
+              <InfoOutlined></InfoOutlined>
+            </Link>
+          </Grid>
 
         </Grid>
       </Box>

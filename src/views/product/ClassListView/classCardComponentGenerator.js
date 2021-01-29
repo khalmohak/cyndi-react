@@ -64,12 +64,13 @@ const ClassListGenerator = (props) => {
                   </Grid>
                 ))}
               </Grid>
-              <Pagination
-                color="primary"
-                count={3}
-                size="small"
-              />
+
             </Box>
+            <Pagination
+              color="primary"
+              count={3}
+              size="small"
+            />
           </Container>
         </Page>
       );

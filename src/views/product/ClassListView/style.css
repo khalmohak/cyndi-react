@@ -1,10 +1,10 @@
 .topheader{ height: 105px; background:#fff; border-radius:7px; padding: 10px; width:100%; position:relative;}
 .topheader:after{ background:#1c75bc; width:20px; left: 0px; top:0px; height: 100%; border-top-left-radius:6px; border-bottom-left-radius:6px; position: absolute; content:"";
-box-shadow: -0px 1px 2px 1px rgba(0,0,0,0.31) inset; -webkit-box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.31) inset;
--moz-box-shadow: -7px 1px 7px 1px rgba(0,0,0,0.31) inset;}
- 
-.topheader span {padding:10px 12px; width: 12.5%; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002; 
-border-radius:50%; float:left;}
+    box-shadow: -0px 1px 2px 1px rgba(0,0,0,0.31) inset; -webkit-box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.31) inset;
+    -moz-box-shadow: -7px 1px 7px 1px rgba(0,0,0,0.31) inset;}
+
+.topheader span {padding:10px 12px; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002;
+    border-radius:50%; float:left;}
 .topheader i{float:left; width: 75%; display: inline-block; margin-left: 10px;}
 .hadding{ font-size: 13px; font-style:normal;}
 
@@ -12,15 +12,15 @@ border-radius:50%; float:left;}
 .date h2{font-size: 10px; margin:0px;}
 .date i{ text-align: right; font-weight:normal;}
 
-.dkpal{ position:absolute; right:12px; top:10px; }
+
 .assignment{margin: 10px 0; border-radius:20px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
-box-shadow:inset 0 0 4px #666;}
+    box-shadow:inset 0 0 4px #666;}
 .assignment .inner{padding: 0px 5px; font-size: 13px; width:25%;}
 
 .assignment2{margin: 10px 0; border-radius:40px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
-box-shadow: inset 0 0 4px #666;}
+    box-shadow: inset 0 0 4px #666;}
 .assignment2 .inner2{padding: 0px 5px; font-size: 13px;}
-.inner3{padding: 10px 5px 0px 5px; font-size: 13px;}
+.inner3{padding: 10px 5px 0px 5px; font-size: 13px; width: 25%;}
 .css-rxe5vq, .css-wx4x39{border-radius:7px !important;}
 
 .white-g{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666;}
@@ -29,6 +29,41 @@ box-shadow: inset 0 0 4px #666;}
 .col2{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#55caba;}
 .col3{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#0b6f91;}
 .curve{border-radius: 10px !important;}
+.bottomColor{background:#fff; color: #333;}
+.bottomColor a{ color: #333;}
+.bottomColor .makeStyles-link-30, .bottomColor .makeStyles-link-29{ margin: 20px auto;}
+
+.dkpal{ position:absolute; right:12px; top:10px; }
+.dkpal span{ display: block; color: #333; padding: 0px; margin: 0px; background: none; width: auto; border-radius: 0%; }
+
+.dkpal2 #popover-contained{ width:320px; line-height:20px }
+.dkpal2 #popover-contained .popover-body ul{ list-style: none;}
+.dkpal2 #popover-contained .popover-body ul li{ list-style: none; font-size: 13px; display: block;}
+.dkpal2 #popover-contained .popover-body ul li div{ display: inline-block; width: 100%; padding: 0 0 2px 9px;}
+.dkpal2 #popover-contained .popover-body ul li .timestamp span:first-child{ color: #333; font-weight: bold;}
+.search{ width: 100%; float: left; }
+.search-main .MuiCardContent-root:last-child{display: flex; padding: 16px;}
+
+.s_pos{position: relative;}
+.search-main{ position: relative ;}
+.search-main .MuiButton-containedPrimary{ padding: 16px 16px 15px 16px;  position: absolute; right:15px; }
 
 
 
+.teacher {width: 100%;}
+.teacher td, #customers th {border: 1px solid #ddd; padding: 8px; text-align: center;}
+.teacher tr:nth-child(even){background-color: #f2f2f2; text-align: center;}
+.teacher tr:hover {background-color: #ddd;}
+.teacher th {padding:6px 5px 6px 5px !important;  background-color: #4CAF50; color: white; text-align:center;}
+
+.teacher th:nth-child(1){text-align: left;}
+.teacher th:nth-child(2){background-color: #f2f2f2; color: #333;}
+.teacher th:nth-child(3){background-color: #7ca69c; color: #fff;}
+.teacher th:nth-child(4){background-color: #fbb040; color: #333;}
+.teacher th:nth-child(5){background-color: #0b6f91; color: #fff;}
+.teacher td:nth-child(3){background-color: #7ca69c; color: #fff;}
+.teacher td:nth-child(4){background-color: #fbb040; color: #333;}
+.teacher td:nth-child(5){background-color: #0b6f91; color: #fff;}
+
+
+.button_notifi a{ color: #fff; display: flex; }
