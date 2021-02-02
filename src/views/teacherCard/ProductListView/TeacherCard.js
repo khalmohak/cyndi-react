@@ -1,13 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import MultiSlider, {Progress} from 'react-multi-bar-slider';
-import {Navigate, useNavigate} from 'react-router-dom';
-import {Avatar, Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  Link,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography
+} from '@material-ui/core';
+import MultiSlider, {Progress} from "react-multi-bar-slider";
+import '../../product/ClassListView/style.css';
 import NotifyMe from '../../NotifyMe';
-import {Accessibility, Dashboard, InfoOutlined, AssignmentOutlined} from '@material-ui/icons'
-import './style.css';
-import ClassCardIn from '../../classCardIn/index';
+import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,9 +69,6 @@ const useStyles = makeStyles((theme) => ({
   cardTableHeading: {
     fontWeight: '500'
   },
-  bottomColor: {
-    backgroundColor: '#1e1f26'
-  },
 
   cardHeaderBackground: {
     borderRadius: '6px', backgroundColor: 'pink'
@@ -89,13 +102,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     color: '#fff'
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
 
 
 }));
+
+
+function createData(name, classes, assignments, projects, test_quiz) {
+  return {name, classes, assignments, projects, test_quiz};
+}
+
+const rows = [
+  createData('Classes', 12, 6, 6, '12/5/'),
+  createData('Assignments', 12, 9, 3, '12/5'),
+  createData('Projects', 12, 10, 2, '12/5/'),
+  createData('Test/Quiz', 12, 3, 9, '12/5/'),
+
+];
 
 var attendancePercent = '40%';
 
@@ -119,24 +141,13 @@ var data = [
   }
 ]
 
-let current_class_id=0;
 
-const ClassesCard = ({className, card, ...rest}) => {
+const TeachersCard = ({className, card, ...rest}) => {
   const classes = useStyles();
-  const [teacherName, setTeacherName] = useState(0);
   const s3Region = `ap-south-1`;
   const s3Bucket = `cyndi.primary.bucket`;
   let teacherNameTemp = '';
   let teacherPictureTemp = '';
-  const navigate = useNavigate();
-
-
-
-  const handleClassCard = (event) => {
-       current_class_id=card.class_id;
-       navigate('/app/student',{replace:true});
-
-  }
 
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
@@ -164,16 +175,17 @@ const ClassesCard = ({className, card, ...rest}) => {
       return <Avatar src={user.avatar}/>
     }
   }
-  console.log(teacherPictureTemp)
+
+
 
   return (
     <Card
-      onClick={handleClassCard}
+
       className={clsx(classes.root, className)}
       {...rest}
 
     >
-      <CardContent  className={classes.cardContent}
+      <CardContent className={classes.cardContent}
       >
 
         <Box display="flex" justifyContent="left">
@@ -205,7 +217,6 @@ const ClassesCard = ({className, card, ...rest}) => {
                 {card.class_name}
 
                 <Box className={'hadding'}>
-                  {/*{card.class_description}*/}
                   {teacherNameTemp}
                 </Box>
 
@@ -231,8 +242,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'col1'} progress={40} />
-                  <Progress className={'white-g'} progress={100} />
+                  <Progress className={'col1'} progress={40}/>
+                  <Progress className={'white-g'} progress={100}/>
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -240,62 +251,42 @@ const ClassesCard = ({className, card, ...rest}) => {
           </Box>
 
 
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
-            <Box p={1} className={'inner'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner'}>
-              <Tooltip title="20%">
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'>
-                  <Progress className={'col2'} progress={20} />
-                  <Progress className={'white-g'} progress={100} />
-                </MultiSlider>
-              </Tooltip>
-            </Box>
+          <Box>
+            <TableContainer component={Paper}>
+              <Table className={'teacher'} size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Progress</TableCell>
+                    <TableCell align="right">Planned</TableCell>
+                    <TableCell align="right" className={classes.done}>Done</TableCell>
+                    <TableCell align="right">Remaining</TableCell>
+                    <TableCell align="right">Next</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.classes}</TableCell>
+                      <TableCell align="right" className={classes.done}>{row.assignments}</TableCell>
+                      <TableCell align="right" className={classes.remaining}>{row.projects}</TableCell>
+                      <TableCell align="right" className={classes.next}>{row.test_quiz}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
-
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
-            <Box p={1} className={'inner'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner'}>
-              <Tooltip title="100%">
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'>
-                  <Progress className={'white-g'} progress={100} />
-                  <Progress className={'col1'}  progress={70} />
-                </MultiSlider>
-              </Tooltip>
-            </Box>
-          </Box>
-
-
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment2'}>
-            <Box p={1} className={'inner3'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner2'}>
-              <MultiSlider
-                width='100%'
-                height='40px'>
-                <Progress color="#a1d9cc" progress={25} />
-                <Progress color="#95c7bc" progress={50} />
-                <Progress color="#88b7ad" progress={75} />
-                <Progress className={'curve'} color="#7ca79d" progress={100} />
-              </MultiSlider>
-            </Box>
-          </Box>
-
-
-
+          {/*Description End*/}
 
 
         </Box>
       </CardContent>
 
-      <Box flexGrow={1} />
-      <Divider />
-      <Box flexGrow={1} />
-      <Divider />
+      <Box flexGrow={1}/>
+      <Divider/>
       <Box className={'bottomColor'}>
         <Grid container justify="space-between" spacing={0}>
           <Grid className={classes.link}>
@@ -328,9 +319,9 @@ const ClassesCard = ({className, card, ...rest}) => {
   );
 };
 
-ClassesCard.propTypes = {
+TeachersCard.propTypes = {
   className: PropTypes.string,
-  card: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired
 };
 
-export {ClassesCard,current_class_id};
+export default TeachersCard;

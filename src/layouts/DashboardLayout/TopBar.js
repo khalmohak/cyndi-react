@@ -44,8 +44,7 @@ const TopBar = ({
          
           <IconButton color="inherit" className={'button_notifi'}>
           <RouterLink to='/'>
-              <NotificationsIcon onClick={removeLoggedInStatus} className={'button_notifi'}/>
-              </RouterLink>
+              <NotificationsIcon className={'button_notifi'}/></RouterLink>
             </IconButton>
 
             <IconButton color="inherit" className={'button_notifi'}>

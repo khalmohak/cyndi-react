@@ -1,18 +1,11 @@
-import React, { useState,useEffect } from 'react';
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles, Typography
-} from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import React, {useState} from 'react';
+import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
+import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import ClassesCard from './classCard';
+import {ClassesCard} from './classCard';
 import data from './data';
-import {apiEndPoint} from "../../../constants";
-import axios from 'axios';
-import {func} from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -22,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
   classCard: {
     height: '100%'
+  },
+  loading:{
+
   }
 }));
 
@@ -80,7 +76,7 @@ const ClassListGenerator = (props) => {
   }
   else{
     return(
-      <div>Loading...</div>
+      <CircularProgress className={classes.loading}/>
     )
   }
 

@@ -14,22 +14,17 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
- 
   BarChart as BarChartIcon,
-  
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
-  
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  LogOut as LogOutIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-
-// const user = {
-//   avatar: '/static/images/avatars/avatar_6.png',
-//   jobTitle: 'Senior Developer',
-//   name: 'Katarina Smith'
-// };
+const removeLoggedInStatus = ()=>{
+  sessionStorage.removeItem('loggedIn');
+}
 
 const items = [
   {
@@ -55,8 +50,15 @@ const items = [
   {
     href: '/app/settings',
     icon: SettingsIcon,
-    title: 'Settings'
-  }]
+    title: 'Settings',
+  },
+  {
+    href: '/login',
+    icon: LogOutIcon,
+    title: 'Log Out',
+    onClick:removeLoggedInStatus()
+  }
+  ]
 
 
 const useStyles = makeStyles(() => ({

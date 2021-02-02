@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles
-} from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import React, {useEffect, useState} from 'react';
+import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
+import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
-import TeachersCard from './ProductCard';
-import data from './data';
+import TeachersCard from './TeacherCard';
+import axios from "axios";
+import {apiEndPoint} from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,50 +21,84 @@ const useStyles = makeStyles((theme) => ({
 
 const TeacherCard = () => {
   const classes = useStyles();
-  const [products] = useState(data);
+  const [teacherData, setTeacherData] = useState();
+  const headers = {
+    'user_id': sessionStorage.getItem('userId'),
+    'x-access-token': sessionStorage.getItem('token')
+  };
+  const ApiData = {
+    university_name: sessionStorage.getItem('universityName'),
+    college_name: sessionStorage.getItem('collegeName')
+  };
 
-  return (
-    <Page
-      className={classes.root}
-      title="Class"
-    >
-      <Container maxWidth={false}>
-        <Toolbar />
-        <Box mt={3}>
-          <Grid
-            container
-            spacing={3}
+
+  const getClassData = () => {
+    axios.post(`${apiEndPoint}/get/class/teacher`, ApiData, {
+      headers: headers
+    }).then(response => {
+      const classArray = response.data;
+      setTeacherData(classArray);
+      console.log("TeacherCard")
+      console.log(classArray);
+    })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    getClassData();
+  }, []);
+
+
+  if (teacherData) {
+    return (
+      <Page
+        className={classes.root}
+        title="Class"
+      >
+        <Container maxWidth={false}>
+          <Toolbar/>
+          <Box mt={3}>
+            <Grid
+              container
+              spacing={3}
+            >
+              {teacherData.map((card) => (
+                <Grid
+                  item
+                  key={card.class_id}
+                  lg={4}
+                  md={6}
+                  xs={12}
+                >
+                  <TeachersCard
+                    className={classes.classCard}
+                    card={card}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+          <Box
+            mt={3}
+            display="flex"
+            justifyContent="center"
           >
-            {products.map((product) => (
-              <Grid
-                item
-                key={product.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <TeachersCard
-                  className={classes.classCard}
-                  product={product}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-        <Box
-          mt={3}
-          display="flex"
-          justifyContent="center"
-        >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
-        </Box>
-      </Container>
-    </Page>
-  );
+            <Pagination
+              color="primary"
+              count={3}
+              size="small"
+            />
+          </Box>
+        </Container>
+      </Page>
+    );
+  } else {
+    return (
+      <CircularProgress className={classes.loading}/>
+    )
+  }
 };
 
 export default TeacherCard;

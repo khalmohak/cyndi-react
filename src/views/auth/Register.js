@@ -1,9 +1,10 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Formik} from 'formik';
-import {Avatar, Box, Button, Container, Grid, makeStyles, TextField, Typography} from '@material-ui/core';
+import {Avatar, Box, Button, Container, Grid, makeStyles, TextField, Typography, Paper} from '@material-ui/core';
 import Page from 'src/components/Page';
 import {Call, DateRange, Email, PermIdentity, VpnKey} from '@material-ui/icons';
+import '../product/ClassListView/style.css';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,20 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
   large: {height: '100px', width: '100px', marginBottom: '10px'},
   dkpal: {backgroundColor: '#01509f', padding: '50px 0', borderTopLeftRadius: '10px', borderTopRightRadius: '10px'},
-  login: {
-    backgroundColor: '#ffffff',
-    padding: '0 30px',
-    borderBottomRightRadius: '10px',
-    borderBottomLeftRadius: '10px'
-  },
-  mainlogin: {backgroundColor: '#e0e0e0', padding: '30px', borderRadius: '10px',},
-  color: {color: '#ffffff'},
-  color2: {color: '#999', fontsize: '20px !important'},
-  flot1: {float: 'right'},
-  inputdata: {padding: '5px', margin: '0px'},
-  wfull: {width: '100%'}
-
-
+  
 }));
 
 const Register = () => {
@@ -37,52 +25,19 @@ const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <Page
-      className={classes.root}
-      title="Login"
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-      >
-        <Container maxWidth="xs" className={classes.mainlogin}>
+    <Page className={classes.root} title="Login" >
 
 
-          <Grid container spacing={3} className={classes.dkpal}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Grid
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                ><Avatar className={classes.large} src="../static/register.png"> </Avatar>
-                </Grid>
+      <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
 
-                <Box mb={1}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2" className={classes.color}>
-                    Register
-                  </Typography>
-                </Box>
+        <Container spacing={2} maxWidth="md" >
+            
+        <Grid container item xs={12} spacing={3} className='shadow-box'>
+            <Grid item lg={5} className='bg' justifyContent="center" ><img src='/static/register2.png'/></Grid>
+            <Grid item lg={7} className='bg2' alignItems="flex-start">
 
-
-              </Grid>
-            </Grid>
-          </Grid>
-
-
-          <Grid container spacing={3} className={classes.login}>
-
-            <Grid item xs={12}>
-              <Grid container spacing={3}>
-
-                <Grid item xs={12}>
-
-                  <Formik
+              
+            <Formik
                     initialValues={{
                       email: '',
                       password: ''
@@ -93,107 +48,92 @@ const Register = () => {
                         handleChange,
 
                       }) => (
+
+                        
                       <form>
 
-                        <Grid
-                          container
-                          spacing={3}
-                        >
-                        </Grid>
-                        <Box
-                          mt={3}
-                          mb={1}
-                        >
+<Box display="flex" flexDirection="column" height="100%" justifyContent="center">
+              
+              <Grid container item xs={12} spacing={5} className='mar'>
 
-                        </Box>
-
-                        <Grid
-                          container
-                          spacing={3}
-                        >
-                        </Grid>
+                <h2>Register</h2>
+                
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <PermIdentity/>
+                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Name" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
 
 
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <PermIdentity/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Name" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <Call/>                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Phome" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <Email/>
+                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Email" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <DateRange/>
+                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Date of Birth" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <VpnKey/>
+                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Password" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
+
+                  <Grid container spacing={2} alignItems="flex-end" className='font'>
+                  <Grid item lg={1}  >
+                  <VpnKey/>
+                  </Grid>
+                  <Grid item lg={11} alignItems="flex-start">
+                  <TextField id="input-with-icon-grid" label="Confirm Passwor" className={classes.wfull}/>
+                  </Grid>
+                  </Grid>
+
+                  <Button color="primary" fullWidth size="large" type="submit" variant="contained" className='white-btn text-lowercase'>Register</Button>
 
 
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <Call/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Phome" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
+                </Grid>
 
+                
 
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <Email/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Email" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
+                </Box>
 
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <DateRange/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Date of Birth" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <VpnKey/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Password" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={1} alignItems="flex-end">
-                          <Grid item lg={1}>
-                            <VpnKey/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid" label="Confirm Passwor" className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-
-                        <Box my={2}>
-                          <Button
-                            color="primary"
-                            fullWidth
-                            size="large"
-                            type="submit"
-                            variant="contained"
-                          >
-                            Register
-                          </Button>
-                        </Box>
-                      </form>
+              </form>
                     )}
                   </Formik>
-                </Grid>
-              </Grid>
+
+
 
             </Grid>
-          </Grid>
-
+        </Grid>
 
         </Container>
+
       </Box>
+
     </Page>
   );
 };

@@ -17,95 +17,99 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-export class ClassList extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      classData:"",
-
-
-
-    };
-  };
-
-   headers = {
-    'user_id': sessionStorage.getItem('userId'),
-    'x-access-token': sessionStorage.getItem('token')
-  };
-   ApiData = {
-    university_name: sessionStorage.getItem('universityName'),
-    college_name: sessionStorage.getItem('collegeName'),
-    year: sessionStorage.getItem('userYear'),
-    course: sessionStorage.getItem('userCourse')
-  };
-
-   getClassData (){
-    axios.post(`${apiEndPoint}/get/class/student`, this.ApiData, {
-      headers: this.headers
-    }).then(response => {
-      const classArray = response.data;
-      this.setState({
-        classData:classArray
-      })
-      console.log(this.state.classData);
-    })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-  componentDidMount(){
-    this.getClassData();
-  }
-  render(){
-
-
-    return (
-      <>
-        <ClassListGenerator classArrayData={this.state.classData}/>
-      </>
-    )
-  }
-}
-
 //
-// const ClassList = () => {
-//   const classes = useStyles();
-//   const [classData, setClassData] = useState();
-//   const headers = {
+// export class ClassList extends React.Component{
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       classData:"",
+//
+//
+//
+//     };
+//   };
+//
+//    headers = {
 //     'user_id': sessionStorage.getItem('userId'),
 //     'x-access-token': sessionStorage.getItem('token')
 //   };
-//   const ApiData = {
+//    ApiData = {
 //     university_name: sessionStorage.getItem('universityName'),
 //     college_name: sessionStorage.getItem('collegeName'),
 //     year: sessionStorage.getItem('userYear'),
 //     course: sessionStorage.getItem('userCourse')
 //   };
 //
-//
-//   const getClassData = () => {
-//     axios.post(`${apiEndPoint}/get/class/student`, ApiData, {
-//       headers: headers
+//    getClassData (){
+//     axios.post(`${apiEndPoint}/get/class/student`, this.ApiData, {
+//       headers: this.headers
 //     }).then(response => {
 //       const classArray = response.data;
-//       setClassData(classArray);
+//       console.log("hellop rect")
+//       this.setState({
+//         classData:classArray
+//       })
+//       console.log(this.state.classData);
 //     })
 //       .catch(err => {
 //         console.log(err)
 //       })
 //   }
+//   componentDidMount(){
+//     this.getClassData();
+//   }
 //
-//   useEffect(() => {
-//     getClassData();
-//   }, []);
+//   render(){
 //
 //
-//   return (
-//     <>
-//       <ClassListGenerator classArrayData={classData}/>
-//     </>
-//   )
-// };
+//     return (
+//       <>
+//         {this.getClassData()}
+//         <ClassListGenerator classArrayData={this.state.classData}/>
+//       </>
+//     )
+//   }
+// }
+
+
+const ClassList = () => {
+  const classes = useStyles();
+  const [classData, setClassData] = useState();
+  const headers = {
+    'user_id': sessionStorage.getItem('userId'),
+    'x-access-token': sessionStorage.getItem('token')
+  };
+  const ApiData = {
+    university_name: sessionStorage.getItem('universityName'),
+    college_name: sessionStorage.getItem('collegeName'),
+    year: sessionStorage.getItem('userYear'),
+    course: sessionStorage.getItem('userCourse')
+  };
+
+
+  const getClassData = () => {
+    axios.post(`${apiEndPoint}/get/class/student`, ApiData, {
+      headers: headers
+    }).then(response => {
+      const classArray = response.data;
+      setClassData(classArray);
+      console.log(classArray);
+    })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    getClassData();
+  }, []);
+
+
+  return (
+    <>
+      <ClassListGenerator classArrayData={classData}/>
+    </>
+  )
+};
 
 export default ClassList;

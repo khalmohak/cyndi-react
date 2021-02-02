@@ -6,51 +6,98 @@ import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
 import {LoginView,isLoggedIn} from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ClassListView from 'src/views/product/ClassListView';
+import ClassListView from 'src/views/product/ClassListView/index.js';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResoucresList from 'src/views/resources/index';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
 import {Register} from 'src/views/auth/Register';
+// import Zoom from 'src/views/zoom/index';
+import ClassCardIn from "./views/classCardIn/index";
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
   if(isAuthenticated || isAlreadyLoggedIn === 'true'){
-      return(
-       [
+    if(sessionStorage.getItem('userRole')==='Student') {
+      return (
+        [
           {
             path: 'app',
-            element: <DashboardLayout />,
+            element: <DashboardLayout/>,
             children: [
-              { path: 'customers', element: <CustomerListView /> },
-              { path: 'dashboard', element: <DashboardView /> },
-              { path: 'class', element: <ClassListView /> },
-              { path: 'settings', element: <SettingsView /> },
-              { path: 'resources', element: <ResoucresList /> },
-              { path: 'teacher', element: <TeacherCard /> },
-              { path: '*', element: <Navigate to="/404" /> }
+              {path: 'customers', element: <CustomerListView/>},
+              {path: 'dashboard', element: <DashboardView/>},
+              {path: 'class', element: <ClassListView/>},
+              {path: 'student', element: <ClassCardIn/>},
+              {path: 'settings', element: <SettingsView/>},
+              {path: 'resources', element: <ResoucresList/>},
+
+              // { path: 'zoom', element: <Zoom /> },
+              {path: '*', element: <Navigate to="/404"/>}
             ]
           },
           {
             path: '/',
-            element: <MainLayout />,
+            element: <MainLayout/>,
             children: [
-              { path: 'login', element: <LoginView /> },
-              { path: 'register', element: <Register /> },
-              { path: '404', element: <NotFoundView /> },
-              { path: '/', element: <Navigate to="/login" /> },
-              { path: '*', element: <Navigate to="/404" /> }
+              {path: 'login', element: <LoginView/>},
+              {path: 'register', element: <Register/>},
+              {path: '404', element: <NotFoundView/>},
+              {path: '/', element: <Navigate to="/login"/>},
+              {path: '*', element: <Navigate to="/404"/>}
             ]
           }
         ]
       )
     }
+    else if(sessionStorage.getItem('userRole')==='Teacher'){
+      return (
+        [
+          {
+            path: 'app',
+            element: <DashboardLayout/>,
+            children: [
+              {path: 'customers', element: <CustomerListView/>},
+              {path: 'dashboard', element: <DashboardView/>},
+              {path: 'class', element: <TeacherCard/>},
+              {path: 'settings', element: <SettingsView/>},
+              {path: 'resources', element: <ResoucresList/>},
+              {path: 'student', element: <ClassCardIn/>},
+              {path: '*', element: <Navigate to="/404"/>}
+            ]
+          },
+          {
+            path: '/',
+            element: <MainLayout/>,
+            children: [
+              {path: 'login', element: <LoginView/>},
+              {path: 'register', element: <Register/>},
+              {path: '404', element: <NotFoundView/>},
+              {path: 'student', element: <ClassCardIn/>},
+              {path: '/', element: <Navigate to="/login"/>},
+              {path: '*', element: <Navigate to="/404"/>}
+            ]
+          }
+        ]
+      )
+    }
+    }
   else{
     return([
+      {
+        path: 'app',
+        element: <DashboardLayout/>,
+        children: [
+
+          {path: 'student', element: <ClassCardIn/>},
+
+        ]
+      },
       {
         path: '/',
         element: <MainLayout />,
         children: [
           { path: 'login', element: <LoginView /> },
+
           { path: 'register', element: <Register /> },
           { path: '/', element: <Navigate to="/login" /> },
           { path: '*', element: <Navigate to="/login" /> }
@@ -59,7 +106,6 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
     ])
   }
 };
-console.log("Routes "+isLoggedIn);
 
 
 export default route;
