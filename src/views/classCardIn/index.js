@@ -1,7 +1,6 @@
 import React from 'react';
 import {Box, Container, Grid, makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
-import Toolbar from "./Toolbar";
 import ClassCardInContent from "./ClassCardInContent";
 
 
@@ -25,7 +24,7 @@ const ClassCardIn = () => {
       title="Class"
     >
       <Container maxWidth={false}>
-        <Toolbar/>
+
         <Box mt={3}>
           <Grid
             container

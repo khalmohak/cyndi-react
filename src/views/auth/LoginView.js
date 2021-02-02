@@ -71,10 +71,9 @@ const LoginView = () => {
             sessionStorage.setItem('userPhoto',data.data.photo_url);
           }
           sessionStorage.setItem('token',data.data.token);
+          sessionStorage.setItem('firebaseToken',data.data.firebase_auth_token);
           sessionStorage.setItem('userDOB',data.data.dob);
           sessionStorage.setItem('userRole',data.data.role);
-
-
           sessionStorage.setItem('loggedIn',true);
           navigateDashboard();
           userDetails();
