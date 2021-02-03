@@ -141,8 +141,8 @@ const ClassesCard = ({className, card, ...rest}) => {
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
     const teacherId = card.user_id;
-    for (let i = 0; i < teachersList.teachers.length; i++) {
-      const teacherDetails = JSON.parse(teachersList.teachers[i]);
+    for (let i = 0; i < teachersList.users.length; i++) {
+      const teacherDetails = JSON.parse(teachersList.users[i]);
       if (teacherDetails.user_id === teacherId) {
         //setTeacherName(teacherDetails.name);
         teacherNameTemp = teacherDetails.name;

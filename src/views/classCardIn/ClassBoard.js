@@ -68,9 +68,12 @@ const ClassBoard = ()=>{
     });
     console.log('DATA RETRIEVED');
   };
-
+  let messages=[];
   if(chat){
-    console.log(chat['15']);
+    for(let i in chat['15']){
+      messages.push(chat['15'][i]['message']);
+    }
+    console.log(messages);
   }
 
   useEffect(()=>{
@@ -99,11 +102,11 @@ const ClassBoard = ()=>{
           <div className="chatroom">
             <h3>Class Chat</h3>
             <ul className="chats" >
-              {/*{*/}
-              {/*  chats.map((chat) =>*/}
-              {/*    <Message chat={chat} user={username} />*/}
-              {/*  )*/}
-              {/*}*/}
+              {
+                messages.map((chat) =>
+                  <Message chat={chat} user={username} />
+                )
+              }
             </ul>
             <form className="input" >
               <input type="text"  />
