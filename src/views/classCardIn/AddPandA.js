@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Modal, Backdrop, Fade, Button, TextField} from '@material-ui/core';
+import React, {useEffect, useRef, useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {Backdrop, Box, Button, Fade, Menu, MenuItem, Modal, TextField} from '@material-ui/core';
+import {useNavigate} from 'react-router-dom';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -23,27 +25,107 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const AddPandA = ({className, ...rest})=>{
+const AddPandA = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  //const [pandaType, setPandaType] = useState();
+  const navigate = useNavigate();
 
-  const handleOpen = () => {
+  const [formDetails, setFormDetails] = useState({
+    formTitle: "",
+    formDescription: "",
+    maxMarks: "",
+    eachQuestionMarks: "",
+    maxDuration: "",
+    eachQuestionDuration: "",
+    pandaType: ""
+  });
+
+  const open2 = Boolean(anchorEl);
+
+
+  const handleOpenModal = (e) => {
+    sessionStorage.setItem('pandaType',e);
+    setAnchorEl(null);
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseModal = () => {
     setOpen(false);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleFormTitle = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.formTitle = title;
+  };
+  const handleFormDescription = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.formDescription = title;
+  };
+  const handleFormmaxMarks = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.maxMarks = title;
+  };
+  const handleFormEachMarks = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.eachQuestionMarks = title;
+  };
+  const handleFormMaxDuration = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.maxDuration = title;
+  };
+  const handleFormEachDuration = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.eachQuestionDuration = title;
+  };
+
+  const nextButton = () => {
+    let form = formDetails;
+    form.pandaType =sessionStorage.getItem('pandaType');
+    setFormDetails(form);
+    sessionStorage.setItem('formDetails', JSON.stringify(formDetails));
+    navigate('/app/resources', {replace: true});
   };
 
   return (
     <div>
-      <Button type="button" onClick={handleOpen} className={classes.pandaAddButton}>Add</Button>
+      <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} className={classes.pandaAddButton}>
+        Add
+      </Button>
+      <Menu
+        id="fade-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={open2}
+        onClose={handleCloseMenu}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={e => handleOpenModal("Projects")} value={"Projects"}>Projects</MenuItem>
+        <MenuItem onClick={e => handleOpenModal("Assignments")} value={"Assignments"}>Assignments</MenuItem>
+      </Menu>
+
+      {/*Modal form for projects and assignements*/}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -57,13 +139,42 @@ const AddPandA = ({className, ...rest})=>{
               <TextField
                 label="Title"
                 id="formTitle"
-                placeholder="Title"
+                onChange={handleFormTitle}
+              />
+              <br/>
+              <TextField
+                label="Description"
+                id="formDescription"
+                onChange={handleFormDescription}
+              />
+              <br/>
+              <TextField
+                label="Max marks"
+                id="max marks"
+                onChange={handleFormmaxMarks}
               />
               <TextField
-                label="Hello"
-                id="formDescription"
-                placeholder="Description"
+                label="Each question marks"
+                id="each question marks"
+                onChange={handleFormEachMarks}
               />
+              <br/>
+              <TextField
+                label="Max duration"
+                id="maxDuration"
+                onChange={handleFormMaxDuration}
+              />
+              <TextField
+                label="Each question duration"
+                id="eachQuestionDuration"
+                onChange={handleFormEachDuration}
+              />
+              <br/>
+              <Box
+                mt={2}
+              >
+                <Button className={classes.pandaAddButton} onClick={nextButton}>Next</Button>
+              </Box>
 
             </form>
           </div>
