@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, {Progress} from 'react-multi-bar-slider';
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Avatar, Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
 import NotifyMe from '../../NotifyMe';
-import {Accessibility, Dashboard, InfoOutlined, AssignmentOutlined} from '@material-ui/icons'
+import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
 import './style.css';
-import ClassCardIn from '../../classCardIn/index';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -119,7 +118,7 @@ var data = [
   }
 ]
 
-let current_class_id=0;
+let current_class_id = 0;
 
 const ClassesCard = ({className, card, ...rest}) => {
   const classes = useStyles();
@@ -130,12 +129,9 @@ const ClassesCard = ({className, card, ...rest}) => {
   let teacherPictureTemp = '';
   const navigate = useNavigate();
 
-
-
   const handleClassCard = (event) => {
-       current_class_id=card.class_id;
-       navigate('/app/student',{replace:true});
-
+    current_class_id = card.class_id;
+    navigate('/app/student', {replace: true});
   }
 
   function getTeacherName() {
@@ -147,24 +143,23 @@ const ClassesCard = ({className, card, ...rest}) => {
         //setTeacherName(teacherDetails.name);
         teacherNameTemp = teacherDetails.name;
         teacherPictureTemp = teacherDetails.photo_url;
-
       }
     }
   };
   getTeacherName();
   //setTeacherName(teacherNameTemp);
   const user = {
-    avatar:`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
   }
 
-  const avatarName = ()=>{
-    if(teacherPictureTemp === 'null'){
-      return <Avatar >{teacherNameTemp[0]}</Avatar>
-    }else{
+  const avatarName = () => {
+    if (teacherPictureTemp === 'null') {
+      return <Avatar>{teacherNameTemp[0]}</Avatar>
+    } else {
       return <Avatar src={user.avatar}/>
     }
   }
-  console.log(teacherPictureTemp)
+
 
   return (
     <Card
@@ -173,7 +168,7 @@ const ClassesCard = ({className, card, ...rest}) => {
       {...rest}
 
     >
-      <CardContent  className={classes.cardContent}
+      <CardContent className={classes.cardContent}
       >
 
         <Box display="flex" justifyContent="left">
@@ -231,8 +226,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'col1'} progress={40} />
-                  <Progress className={'white-g'} progress={100} />
+                  <Progress className={'col1'} progress={40}/>
+                  <Progress className={'white-g'} progress={100}/>
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -248,8 +243,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'col2'} progress={20} />
-                  <Progress className={'white-g'} progress={100} />
+                  <Progress className={'col2'} progress={20}/>
+                  <Progress className={'white-g'} progress={100}/>
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -263,8 +258,8 @@ const ClassesCard = ({className, card, ...rest}) => {
                   width='100%'
                   height='20px'
                   roundedCorners='true'>
-                  <Progress className={'white-g'} progress={100} />
-                  <Progress className={'col1'}  progress={70} />
+                  <Progress className={'white-g'} progress={100}/>
+                  <Progress className={'col1'} progress={70}/>
                 </MultiSlider>
               </Tooltip>
             </Box>
@@ -277,25 +272,22 @@ const ClassesCard = ({className, card, ...rest}) => {
               <MultiSlider
                 width='100%'
                 height='40px'>
-                <Progress color="#a1d9cc" progress={25} />
-                <Progress color="#95c7bc" progress={50} />
-                <Progress color="#88b7ad" progress={75} />
-                <Progress className={'curve'} color="#7ca79d" progress={100} />
+                <Progress color="#a1d9cc" progress={25}/>
+                <Progress color="#95c7bc" progress={50}/>
+                <Progress color="#88b7ad" progress={75}/>
+                <Progress className={'curve'} color="#7ca79d" progress={100}/>
               </MultiSlider>
             </Box>
           </Box>
 
 
-
-
-
         </Box>
       </CardContent>
 
-      <Box flexGrow={1} />
-      <Divider />
-      <Box flexGrow={1} />
-      <Divider />
+      <Box flexGrow={1}/>
+      <Divider/>
+      <Box flexGrow={1}/>
+      <Divider/>
       <Box className={'bottomColor'}>
         <Grid container justify="space-between" spacing={0}>
           <Grid className={classes.link}>
@@ -333,4 +325,4 @@ ClassesCard.propTypes = {
   card: PropTypes.object.isRequired
 };
 
-export {ClassesCard,current_class_id};
+export {ClassesCard, current_class_id};

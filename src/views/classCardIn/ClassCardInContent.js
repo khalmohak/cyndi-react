@@ -1,41 +1,17 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import ClassBoard from './ClassBoard';
 import './Style.css'
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Button,
-  Grid,
-  Link,
-  makeStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
-  Typography,
-  AppBar,
-  Tabs,
-  Tab,
-  Container
-} from '@material-ui/core';
+import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Typography} from '@material-ui/core';
 import PandAClassCard from "./PandA";
 import QESClassCard from "./QES";
 import {apiEndPoint} from '../../constants';
 import axios from "axios";
 import {current_class_id} from '../product/ClassListView/classCard';
-
+import AddPandA from "./AddPandA";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const {children, value, index, ...other} = props;
 
   return (
     <div
@@ -73,52 +49,53 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: '6px',
     width: "100%"
-  },
-  pandaAddButton:{
-      backgroundColor:'#025fa1',
-      color:'#ffffff',
-    '&:hover':{
-      color:'#025fa1',
-      borderColor:"#025fa1"
-    }
   }
 
 }));
+let pandaData = undefined;
 
-const PandAAPI = ()=>{
-  const data = {
-    class_id : current_class_id,
-    limit : 10,
-    offset : 0
+const PandAAPI = () => {
+  const dataAPI = {
+    class_id: current_class_id,
+    limit: 10,
+    offset: 0
   };
   const headers = {
     'x-access-token': sessionStorage.getItem('token'),
     'user_id': sessionStorage.getItem('userId')
   }
-  axios.post(`${apiEndPoint}/get/panda`,data,{
-    headers:headers
+  axios.post(`http://localhost:4000/get/panda`, dataAPI, {
+    headers: headers
   }).then(
-    res => console.log(res)
+    res => {
+      pandaData = res.data;
+    }
   )
 };
 
-const QESAPI = ()=>{
-  const data = {
-    class_id : current_class_id,
-    limit : 10,
-    offset : 0
+let qesData = undefined;
+
+const QESAPI = () => {
+  let dataAPI = {
+    'class_id': current_class_id,
+    'limit': 10,
+    'offset': 0
   };
-  const headers = {
+  let headers = {
     'x-access-token': sessionStorage.getItem('token'),
     'user_id': sessionStorage.getItem('userId')
   }
-  axios.post(`${apiEndPoint}/get/qes`,data,{
-    headers:headers
-  }).then(
-    res => console.log(res)
-  )
-}
 
+  axios.post(`http://localhost:4000/get/qes`, dataAPI, {
+    headers: headers
+  }).then(
+    res => {
+      qesData = res.data;
+
+    }
+  )
+    .catch(err => console.log(err));
+}
 
 const ClassCardInContent = ({className, card, ...rest}) => {
   const classes = useStyles();
@@ -127,12 +104,16 @@ const ClassCardInContent = ({className, card, ...rest}) => {
     setValue(newValue);
   };
 
-  useEffect(()=>{
+
+
+  useEffect(() => {
     PandAAPI();
     QESAPI();
-  },[])
-
-
+    if (qesData && pandaData) {
+      console.log(qesData);
+      console.log(pandaData);
+    }
+  }, [qesData, pandaData])
 
   return (
     <div className={classes.root}>
@@ -149,7 +130,8 @@ const ClassCardInContent = ({className, card, ...rest}) => {
       <TabPanel value={value} index={1}>
 
         <Container maxWidth={false}>
-          <Button className={classes.pandaAddButton}>Add</Button>
+
+          <AddPandA/>
           <Box mt={3}>
             <Grid
               container
@@ -181,7 +163,6 @@ const ClassCardInContent = ({className, card, ...rest}) => {
           {/*  />*/}
           {/*</Box>*/}
         </Container>
-
       </TabPanel>
       <TabPanel value={value} index={2}>
         <QESClassCard/>

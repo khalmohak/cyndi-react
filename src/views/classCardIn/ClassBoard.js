@@ -66,14 +66,14 @@ const ClassBoard = ()=>{
         setChat(snapshot.val());
 
     });
-    console.log('DATA RETRIEVED');
+
   };
   let messages=[];
   if(chat){
     for(let i in chat['15']){
       messages.push(chat['15'][i]['message']);
     }
-    console.log(messages);
+
   }
 
   useEffect(()=>{

@@ -59,7 +59,6 @@ const LoginView = () => {
       .then(data => {
         if(data.data.auth === true){
           auth = 1;
-          console.log(data.data);
           isLoggedIn = true;
           sessionStorage.setItem('userId',data.data.id);
           sessionStorage.setItem('userName',data.data.name);
@@ -85,8 +84,6 @@ const LoginView = () => {
       })
   }
   async function userDetails(){
-    console.log(sessionStorage.getItem('userId'));
-    console.log(sessionStorage.getItem('userRole'));
     let headers = {
 
       'user_id':sessionStorage.getItem('userId'),
@@ -283,5 +280,4 @@ const LoginView = () => {
     </Page>
   );
 };
-console.log("LoginView "+isLoggedIn);
 export {LoginView,isLoggedIn};

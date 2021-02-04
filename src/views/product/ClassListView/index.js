@@ -17,60 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-//
-// export class ClassList extends React.Component{
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       classData:"",
-//
-//
-//
-//     };
-//   };
-//
-//    headers = {
-//     'user_id': sessionStorage.getItem('userId'),
-//     'x-access-token': sessionStorage.getItem('token')
-//   };
-//    ApiData = {
-//     university_name: sessionStorage.getItem('universityName'),
-//     college_name: sessionStorage.getItem('collegeName'),
-//     year: sessionStorage.getItem('userYear'),
-//     course: sessionStorage.getItem('userCourse')
-//   };
-//
-//    getClassData (){
-//     axios.post(`${apiEndPoint}/get/class/student`, this.ApiData, {
-//       headers: this.headers
-//     }).then(response => {
-//       const classArray = response.data;
-//       console.log("hellop rect")
-//       this.setState({
-//         classData:classArray
-//       })
-//       console.log(this.state.classData);
-//     })
-//       .catch(err => {
-//         console.log(err)
-//       })
-//   }
-//   componentDidMount(){
-//     this.getClassData();
-//   }
-//
-//   render(){
-//
-//
-//     return (
-//       <>
-//         {this.getClassData()}
-//         <ClassListGenerator classArrayData={this.state.classData}/>
-//       </>
-//     )
-//   }
-// }
-
 
 const ClassList = () => {
   const classes = useStyles();
