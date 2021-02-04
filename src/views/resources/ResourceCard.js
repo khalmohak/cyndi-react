@@ -21,6 +21,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import './App.css';
+import {current_class_id} from "../product/ClassListView/classCard";
 
 const Dropzone = require('react-dropzone');
 const upload = require('superagent')
@@ -33,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: '10px',
     margin: "10px",
+
     textAlign: "center",
     padding: "10px",
     borderTop: '7px solid #025fa1',
     width: "800px"
+
   },
   card: {
     width: '800px',
@@ -47,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     boxShadow: "10",
     borderLeft: '7px solid #025fa1'
+
   },
   cardHeadings: {
     width: '800px',
@@ -55,7 +59,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '20px'
   },
   cardInput: {
-    width: '750px'
+    width: '750px',
+
+
   },
   buttons: {
     backgroundColor: '#025fa1',
@@ -68,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
   resize: {
     fontSize: 50
   },
+
+
 }));
+
 
 //Component for form starts here
 const ResourceCard = ({className, ...rest}) => {
@@ -84,10 +93,12 @@ const ResourceCard = ({className, ...rest}) => {
 
   });
 
+
   //Handeler for scheduled if the form was scheduled
   const handleSceduled = (event) => {
     setScheduled({...scheduled, [event.target.name]: event.target.checked});
   };
+
 
   // handle input change
   const handleInputChange = (e, index) => {
@@ -116,6 +127,7 @@ const ResourceCard = ({className, ...rest}) => {
     list.splice(index, 1);
     setForm(list);
   };
+
   const handleAddClick = () => {
     setForm([...forms, {"type": "text", "firstName": "", "lastName": "", "required": false}]);
   };
@@ -149,6 +161,7 @@ const ResourceCard = ({className, ...rest}) => {
   const handleDropdownAddClick = () => {
     setForm([...forms, {type: "dropdown", dropdown1: "", dropdown2: "", dropdown3: "", dropdown4: "",}]);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -170,6 +183,7 @@ const ResourceCard = ({className, ...rest}) => {
       )
     }
   }
+
 
   AWS.config.update({
     accessKeyId: process.env.REACT_APP_ACCESS_ID,
@@ -195,6 +209,7 @@ const ResourceCard = ({className, ...rest}) => {
         }
       })
   }
+
 
   function scheduledHandler() {
     if (scheduled.checkedA) {
@@ -222,8 +237,37 @@ const ResourceCard = ({className, ...rest}) => {
     uploadFile(files[0]);
   }
 
-  function submitForm() {
-    axios.post('http://localhost:4000/add/form', forms);
+  function submitForm(){
+    let form = [...forms];
+    const lastForm = JSON.parse(sessionStorage.getItem('formDetails'));
+    form.push(lastForm);
+    setForm(form);
+    let questions = [];
+    let numberOfQuestions = 0;
+    forms.map(questionJSON =>{
+      questions.push(questionJSON.ques);
+      numberOfQuestions++;
+    })
+
+
+
+    const dataToBeSent = {
+      class_id : current_class_id,
+      activity_type:lastForm.pandaType,
+      public_visibility:"yes",
+      title:lastForm.formTitle,
+      description:lastForm.formDescription,
+      questions:{"questions":questions},
+      no_of_questions:numberOfQuestions,
+      marks_detail:{"maxMarks":lastForm.maxMarks, "eachQuestionMarks":lastForm.eachQuestionMarks},
+      duration_detail:{"maxDuration":lastForm.maxDuration,"eachQuestionDuration" : lastForm.eachQuestionDuration},
+      datetime:"",
+      scheduled_time:"",
+      visible_before_time:"",
+      attached_files:""
+    };
+    axios.post('http://localhost:4000/add/form', dataToBeSent
+    )
   };
 
 
@@ -308,18 +352,22 @@ const ResourceCard = ({className, ...rest}) => {
           </Card>
           {forms.map((x, i) => {
 
+
             //Text Question
+
 
             if (x.type == "text") {
 
+
               return (
+
                 <Grid item xs={12}>
 
                   <Card className={classes.card}>
                     <CardContent>
                       <Box>
                         <TextField
-                          name="question"
+                          name="firstName"
                           placeholder="Question"
                           value={x.firstName}
                           onChange={e => handleInputChange(e, i)}
@@ -330,8 +378,9 @@ const ResourceCard = ({className, ...rest}) => {
                       </Box>
                       <Box>
                         <TextField
+
                           className="ml10"
-                          name="answer"
+                          name="lastName"
                           placeholder="Short answer text"
                           value={x.lastName}
                           onChange={e => handleInputChange(e, i)}
@@ -348,9 +397,11 @@ const ResourceCard = ({className, ...rest}) => {
                       >
                         <Grid>
                           <Button
+
                             onClick={() => handleRemoveClick(i)}><DeleteIcon id="cardBottomButtons"></DeleteIcon>
                           </Button>
                         </Grid>
+
                         <Grid>
                           <Button
                             onClick={handleAddClick}><FileCopyIcon id="cardBottomButtons"></FileCopyIcon>
@@ -366,10 +417,12 @@ const ResourceCard = ({className, ...rest}) => {
                             inputProps={{'aria-label': 'secondary checkbox'}}
                           />
                         </Grid>
+
                       </Grid>
                     </CardActions>
                   </Card>
                 </Grid>
+
               );
             }
 
