@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import AWS from 'aws-sdk';
 import axios from "axios";
@@ -13,10 +13,12 @@ import {
   makeStyles,
   Menu,
   MenuItem,
-  Select,
   Switch,
   TextField,
-  Typography
+  Typography,
+  Modal,
+  Backdrop,
+  Fade
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -74,7 +76,17 @@ const useStyles = makeStyles((theme) => ({
   resize: {
     fontSize: 50
   },
-
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 
 }));
 
@@ -90,9 +102,18 @@ const ResourceCard = ({className, ...rest}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [scheduled, setScheduled] = React.useState({
     checkedA: false,
-
+    scheduledDate: '',
+    scheduledTime: ''
   });
+  const [open, setOpen] = React.useState(false);
 
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   //Handeler for scheduled if the form was scheduled
   const handleSceduled = (event) => {
@@ -129,7 +150,7 @@ const ResourceCard = ({className, ...rest}) => {
   };
 
   const handleAddClick = () => {
-    setForm([...forms, {"type": "text", "firstName": "", "lastName": "", "required": false}]);
+    setForm([...forms, {"type": "text", "question": "", "answer": "", "required": false}]);
   };
   const handleMCQAddClick = () => {
     setForm([...forms, {
@@ -147,16 +168,16 @@ const ResourceCard = ({className, ...rest}) => {
     setForm([...forms, {type: "file", fileName: ""}]);
   };
   const handleDateAddClick = () => {
-    setForm([...forms, {type: "date", questionDate: "", date: "", "required": false}]);
+    setForm([...forms, {type: "date", question: "", date: "", "required": false}]);
   };
   const handleTimeAddClick = () => {
-    setForm([...forms, {type: "time", questionTime: "", time: "", "required": false}]);
+    setForm([...forms, {type: "time", question: "", time: "", "required": false}]);
   };
   const handleScaleAddClick = () => {
-    setForm([...forms, {type: "scale", questionScale: "", startVal: "", endVal: "", "required": false}]);
+    setForm([...forms, {type: "scale", question: "", startVal: "", endVal: "", "required": false}]);
   };
   const handleLongAddClick = () => {
-    setForm([...forms, {type: "long", questionLong: "", answerLong: "", "required": false}]);
+    setForm([...forms, {type: "long", question: "", answerLong: "", "required": false}]);
   };
   const handleDropdownAddClick = () => {
     setForm([...forms, {type: "dropdown", dropdown1: "", dropdown2: "", dropdown3: "", dropdown4: "",}]);
@@ -210,6 +231,21 @@ const ResourceCard = ({className, ...rest}) => {
       })
   }
 
+  function handleScheduledDate(e) {
+    const scheduledDate = scheduled;
+    scheduledDate.scheduledDate = e.target.value;
+    setScheduled(scheduledDate);
+
+
+  }
+
+  function handleScheduledTime(e) {
+    const scheduledTime = scheduled;
+    scheduledTime.scheduledTime = e.target.value;
+    setScheduled(scheduledTime);
+
+  }
+
 
   function scheduledHandler() {
     if (scheduled.checkedA) {
@@ -217,9 +253,17 @@ const ResourceCard = ({className, ...rest}) => {
         <Box>
           <Typography>Scheduled Date</Typography>
 
-          <Input type="date" id="scheduledDate" name="scheduledDate"></Input>
-          <Typography>Scheduled Time</Typography>
-          <Input type="time" name="scheduledTime"></Input>
+          <Input
+            type="date"
+            id="scheduledDate"
+            name="scheduledDate"
+            onChange={e => handleScheduledDate(e)}
+          ></Input>
+          <Input
+            type="time"
+            name="scheduledTime"
+            onChange={e => handleScheduledTime(e)}
+          ></Input>
         </Box>
       )
     }
@@ -237,43 +281,96 @@ const ResourceCard = ({className, ...rest}) => {
     uploadFile(files[0]);
   }
 
-  function submitForm(){
+
+  function submitForm() {
     let form = [...forms];
     const lastForm = JSON.parse(sessionStorage.getItem('formDetails'));
     form.push(lastForm);
     setForm(form);
     let questions = [];
     let numberOfQuestions = 0;
-    forms.map(questionJSON =>{
-      questions.push(questionJSON.ques);
+    console.log(scheduled);
+    forms.map(questionJSON => {
+      questions.push(questionJSON.question);
       numberOfQuestions++;
     })
 
 
-
     const dataToBeSent = {
-      class_id : current_class_id,
-      activity_type:lastForm.pandaType,
-      public_visibility:"yes",
-      title:lastForm.formTitle,
-      description:lastForm.formDescription,
-      questions:{"questions":questions},
-      no_of_questions:numberOfQuestions,
-      marks_detail:{"maxMarks":lastForm.maxMarks, "eachQuestionMarks":lastForm.eachQuestionMarks},
-      duration_detail:{"maxDuration":lastForm.maxDuration,"eachQuestionDuration" : lastForm.eachQuestionDuration},
-      datetime:"",
-      scheduled_time:"",
-      visible_before_time:"",
-      attached_files:""
+      class_id: current_class_id,
+      activity_type: lastForm.pandaType,
+      public_visibility: "yes",
+      title: lastForm.formTitle,
+      description: lastForm.formDescription,
+      questions: {"questions": questions},
+      no_of_questions: numberOfQuestions,
+      marks_detail: {"maxMarks": lastForm.maxMarks, "eachQuestionMarks": lastForm.eachQuestionMarks},
+      duration_detail: {"maxDuration": lastForm.maxDuration, "eachQuestionDuration": lastForm.eachQuestionDuration},
+      datetime: "10/10/10",
+      scheduled_time: scheduled,
+      visible_before_time: "",
+      attached_files: "sample",
+      questions_type: "text"
     };
-    axios.post('http://localhost:4000/add/form', dataToBeSent
-    )
+
+    const header = {
+      'user_id': sessionStorage.getItem('userId'),
+      'x-access-token': sessionStorage.getItem('token')
+    }
+    axios.post('http://localhost:4000/add/activity', dataToBeSent, {
+        headers: header
+      }
+    ).then(res => {
+      console.log(res.data);
+      if(res.data == 'Activity Added'){
+        setOpen(true);
+        setForm([]);
+        sessionStorage.delete('formDetails');
+      }
+
+    })
+      .catch(err => console.log(err));
   };
+
+
+  const ActivityAddedSuccess = ()=>{
+
+
+    return(
+      <div>
+        {/*<button type="button" onClick={handleOpenModal}>*/}
+        {/*  react-transition-group*/}
+        {/*</button>*/}
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={handleCloseModal}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <div className={classes.paper}>
+              <h2 id="transition-modal-title">Activity Added</h2>
+
+            </div>
+          </Fade>
+        </Modal>
+      </div>
+    )
+  }
+
+
 
 
   return (
     <>
       <form>
+        {ActivityAddedSuccess()}
         <Box>
           <Typography>
             Scheduled
@@ -296,30 +393,30 @@ const ResourceCard = ({className, ...rest}) => {
           <Card className={classes.root}>
             <CardContent>
 
-              <TextField
-                name="formName"
-                fullWidth="true"
-                placeholder="Enter Form Name Here"
-                autoFocus="true"
-                variant="standard"
-                value={formName.formName}
-                onChange={e => handleFormNameChange(e)}
-                variant="filled"
-                inputProps={{style: {fontSize: 25, height: 30}}}
+              {/*<TextField*/}
+              {/*  name="formName"*/}
+              {/*  fullWidth="true"*/}
+              {/*  placeholder="Enter Form Name Here"*/}
+              {/*  autoFocus="true"*/}
+              {/*  variant="standard"*/}
+              {/*  value={formName.formName}*/}
+              {/*  onChange={e => handleFormNameChange(e)}*/}
+              {/*  variant="filled"*/}
+              {/*  inputProps={{style: {fontSize: 25, height: 30}}}*/}
 
-              />
-              <TextField
-                name="formDescription"
-                fullWidth="true"
-                placeholder="Form Description"
-                autoFocus="true"
-                variant="standard"
-                value={formName.formName}
-                onChange={e => handleFormNameChange(e)}
+              {/*/>*/}
+              {/*<TextField*/}
+              {/*  name="formDescription"*/}
+              {/*  fullWidth="true"*/}
+              {/*  placeholder="Form Description"*/}
+              {/*  autoFocus="true"*/}
+              {/*  variant="standard"*/}
+              {/*  value={formName.formName}*/}
+              {/*  onChange={e => handleFormNameChange(e)}*/}
 
-                inputProps={{style: {fontSize: 15, height: 20}}}
+              {/*  inputProps={{style: {fontSize: 15, height: 20}}}*/}
 
-              />
+              {/*/>*/}
 
 
             </CardContent>
@@ -367,9 +464,9 @@ const ResourceCard = ({className, ...rest}) => {
                     <CardContent>
                       <Box>
                         <TextField
-                          name="firstName"
+                          name="question"
                           placeholder="Question"
-                          value={x.firstName}
+                          value={x.question}
                           onChange={e => handleInputChange(e, i)}
                           className={classes.cardInput}
                           inputProps={{style: {fontSize: 25, height: 30}}}
@@ -380,9 +477,9 @@ const ResourceCard = ({className, ...rest}) => {
                         <TextField
 
                           className="ml10"
-                          name="lastName"
-                          placeholder="Short answer text"
-                          value={x.lastName}
+                          name="answer"
+                          placeholder="Description"
+                          value={x.answer}
                           onChange={e => handleInputChange(e, i)}
                           className={classes.cardInput}
                           inputProps={{style: {fontSize: 20, height: 25}}}
@@ -440,9 +537,9 @@ const ResourceCard = ({className, ...rest}) => {
                       <Box>
                         <TextField
 
-                          name="ques"
+                          name="question"
                           placeholder="Enter Question Here"
-                          value={x.ques}
+                          value={x.question}
                           onChange={e => handleInputChange(e, i)}
                           className={classes.cardInput}
                           inputProps={{style: {fontSize: 20, height: 25}}}
@@ -453,7 +550,7 @@ const ResourceCard = ({className, ...rest}) => {
                         <Input
 
                           name="answer"
-                          placeholder="Enter Answer Here"
+                          placeholder="Description"
                           value={x.answer}
                           onChange={e => handleInputChange(e, i)}
                           className={classes.cardInput}
@@ -594,19 +691,22 @@ const ResourceCard = ({className, ...rest}) => {
                   <CardContent>
                     <Box>
                       <TextField type="text"
-                                 name="fDateQuestion"
+                                 name="question"
+                                 value={x.question}
+                                 onChange={e => handleInputChange(e, i)}
                                  placeholder="Question"
                                  className={classes.cardInput}
                                  inputProps={{style: {fontSize: 25, height: 30}}}
                                  variant="filled"
                       />
-                      <TextField type="date"
-                                 name="fDate"
-                                 placeholder="Day,Month,Year"
-                                 className={classes.cardInput}
-                                 inputProps={{style: {fontSize: 20, height: 25}}}
+                      {/*<TextField type="date"*/}
+                      {/*           name="fDate"*/}
+                      {/*           onChange={e => handleInputChange(e, i)}*/}
+                      {/*           placeholder="Day,Month,Year"*/}
+                      {/*           className={classes.cardInput}*/}
+                      {/*           inputProps={{style: {fontSize: 20, height: 25}}}*/}
 
-                      />
+                      {/*/>*/}
                     </Box>
                   </CardContent>
                   <CardActions>
@@ -651,20 +751,22 @@ const ResourceCard = ({className, ...rest}) => {
                   <CardContent>
                     <Box>
                       <TextField type="text"
-                                 name="fTimeQuestion"
+                                 name="question"
+                                 onChange={e => handleInputChange(e, i)}
                                  placeholder="Question"
                                  className={classes.cardInput}
                                  inputProps={{style: {fontSize: 25, height: 30}}}
                                  variant="filled"
                       />
-                      <TextField
-                        type="time"
-                        name="fTime"
-                        placeholder="Time"
-                        className={classes.cardInput}
-                        inputProps={{style: {fontSize: 20, height: 25}}}
+                      {/*<TextField*/}
+                      {/*  type="time"*/}
+                      {/*  onChange={e => handleInputChange(e, i)}*/}
+                      {/*  name="fTime"*/}
+                      {/*  placeholder="Time"*/}
+                      {/*  className={classes.cardInput}*/}
+                      {/*  inputProps={{style: {fontSize: 20, height: 25}}}*/}
 
-                      />
+                      {/*/>*/}
                     </Box>
                   </CardContent>
                   <CardActions>
@@ -712,55 +814,56 @@ const ResourceCard = ({className, ...rest}) => {
 
                     <Box>
                       <TextField type="text"
-                                 name="fScale"
+                                 name="question"
+                                 onChange={e => handleInputChange(e, i)}
                                  placeholder="Question"
                                  className={classes.cardInput}
                                  inputProps={{style: {fontSize: 25, height: 30}}}
                                  variant="filled"
                       ></TextField>
-                      <Box mt={1}>
-                        <Typography>
-                          Start Value
-                        </Typography>
-                        <Select name="fScaleStart"
-                                labelID="scale-start-value"
-                                inputProps={{style: {fontSize: 20, height: 25}}}
-                        >
-                          <MenuItem value={0}>0</MenuItem>
-                          <MenuItem value={1}>1</MenuItem>
-                        </Select>
-                      </Box>
-                      <Box>
-                        <Typography>
-                          End Value
-                        </Typography>
-                        <Select name="fScaleEnd"
-                                inputProps={{style: {fontSize: 20, height: 25}}}
-                        >
-                          <MenuItem value={2}>2</MenuItem>
-                          <MenuItem value={3}>3</MenuItem>
-                          <MenuItem value={4}>4</MenuItem>
-                          <MenuItem value={5}>5</MenuItem>
-                          <MenuItem value={6}>6</MenuItem>
-                          <MenuItem value={7}>7</MenuItem>
-                          <MenuItem value={8}>8</MenuItem>
-                          <MenuItem value={9}>9</MenuItem>
-                          <MenuItem value={10}>10</MenuItem>
-                        </Select>
-                      </Box>
-                      <TextField type="text"
-                                 name="fScaleStart"
-                                 placeholder="Start Label"
-                                 className={classes.cardInput}
-                                 inputProps={{style: {fontSize: 20, height: 25}}}
+                      {/*<Box mt={1}>*/}
+                      {/*  <Typography>*/}
+                      {/*    Start Value*/}
+                      {/*  </Typography>*/}
+                      {/*  <Select name="fScaleStart"*/}
+                      {/*          labelID="scale-start-value"*/}
+                      {/*          inputProps={{style: {fontSize: 20, height: 25}}}*/}
+                      {/*  >*/}
+                      {/*    <MenuItem value={0}>0</MenuItem>*/}
+                      {/*    <MenuItem value={1}>1</MenuItem>*/}
+                      {/*  </Select>*/}
+                      {/*</Box>*/}
+                      {/*<Box>*/}
+                      {/*  <Typography>*/}
+                      {/*    End Value*/}
+                      {/*  </Typography>*/}
+                      {/*  <Select name="fScaleEnd"*/}
+                      {/*          inputProps={{style: {fontSize: 20, height: 25}}}*/}
+                      {/*  >*/}
+                      {/*    <MenuItem value={2}>2</MenuItem>*/}
+                      {/*    <MenuItem value={3}>3</MenuItem>*/}
+                      {/*    <MenuItem value={4}>4</MenuItem>*/}
+                      {/*    <MenuItem value={5}>5</MenuItem>*/}
+                      {/*    <MenuItem value={6}>6</MenuItem>*/}
+                      {/*    <MenuItem value={7}>7</MenuItem>*/}
+                      {/*    <MenuItem value={8}>8</MenuItem>*/}
+                      {/*    <MenuItem value={9}>9</MenuItem>*/}
+                      {/*    <MenuItem value={10}>10</MenuItem>*/}
+                      {/*  </Select>*/}
+                      {/*</Box>*/}
+                      {/*<TextField type="text"*/}
+                      {/*           name="fScaleStart"*/}
+                      {/*           placeholder="Start Label"*/}
+                      {/*           className={classes.cardInput}*/}
+                      {/*           inputProps={{style: {fontSize: 20, height: 25}}}*/}
 
-                      ></TextField>
-                      <TextField type="text"
-                                 name="fScaleEnd"
-                                 placeholder="End Label"
-                                 className={classes.cardInput}
-                                 inputProps={{style: {fontSize: 20, height: 25}}}
-                      ></TextField>
+                      {/*></TextField>*/}
+                      {/*<TextField type="text"*/}
+                      {/*           name="fScaleEnd"*/}
+                      {/*           placeholder="End Label"*/}
+                      {/*           className={classes.cardInput}*/}
+                      {/*           inputProps={{style: {fontSize: 20, height: 25}}}*/}
+                      {/*></TextField>*/}
                     </Box>
                   </CardContent>
                   <CardActions>
@@ -809,7 +912,7 @@ const ResourceCard = ({className, ...rest}) => {
                     <CardContent>
                       <Box>
                         <TextField
-                          name="longQuestion"
+                          name="question"
                           placeholder="Question"
                           value={x.firstName}
                           onChange={e => handleInputChange(e, i)}
@@ -823,7 +926,7 @@ const ResourceCard = ({className, ...rest}) => {
 
 
                           name="longAnswer"
-                          placeholder="Long answer text"
+                          placeholder="Description"
                           value={x.lastName}
                           onChange={e => handleInputChange(e, i)}
                           className={classes.cardInput}
@@ -878,7 +981,7 @@ const ResourceCard = ({className, ...rest}) => {
                     <CardContent>
                       <Box>
                         <TextField
-                          name="longQuestion"
+                          name="question"
                           placeholder="Question"
                           id="dropdownTextField"
 

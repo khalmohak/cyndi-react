@@ -9,6 +9,7 @@ import {apiEndPoint} from '../../constants';
 import axios from "axios";
 import {current_class_id} from '../product/ClassListView/classCard';
 import AddPandA from "./AddPandA";
+import AddQandA from "./AddQandA";
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -165,7 +166,40 @@ const ClassCardInContent = ({className, card, ...rest}) => {
         </Container>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <QESClassCard/>
+        <Container maxWidth={false}>
+
+          <AddQandA/>
+          <Box mt={3}>
+            <Grid
+              container
+              spacing={3}
+            >
+              {/*{products.map((product) => (*/}
+              {/*  <Grid*/}
+              {/*    item*/}
+              {/*    key={product.id}*/}
+              {/*    lg={4}*/}
+              {/*    md={6}*/}
+              {/*    xs={12}*/}
+              {/*  >*/}
+              {/*    <PandAClassCard/>*/}
+              {/*  </Grid>*/}
+              {/*))}*/}
+              <QESClassCard/>
+            </Grid>
+          </Box>
+          {/*<Box*/}
+          {/*  mt={3}*/}
+          {/*  display="flex"*/}
+          {/*  justifyContent="center"*/}
+          {/*>*/}
+          {/*  <Pagination*/}
+          {/*    color="primary"*/}
+          {/*    count={3}*/}
+          {/*    size="small"*/}
+          {/*  />*/}
+          {/*</Box>*/}
+        </Container>
       </TabPanel>
     </div>
   );
