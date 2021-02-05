@@ -1,6 +1,6 @@
 .topheader{ height: 105px; background:#fff; border-radius:7px; padding: 10px; width:100%; position:relative;}
-.topheader:after{ background:#1c75bc; width:20px; left: 0px; top:0px; height: 100%; border-top-left-radius:6px; border-bottom-left-radius:6px; position: absolute; content:"";
-
+.topheader:after{ background:#1c75bc; width:20px; left: 0px; top:0px; height: 100%; border-top-left-radius:6px; 
+border-bottom-left-radius:6px; position: absolute; content:"";
 .box-shadow: -0px 1px 2px 1px rgba(0,0,0,0.31) inset; -webkit-box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.31) inset;
 -moz-box-shadow: -7px 1px 7px 1px rgba(0,0,0,0.31) inset;}
  
@@ -8,8 +8,7 @@
 border-radius:50%; float:left;}
 .topheader i{float:left; width: 73%; display: inline-block; margin-left: 10px;}
 .topheader span {padding:5px 8px; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002;
-    border-radius:50%; float:left;}
-
+border-radius:50%; float:left;}
 
 .hadding{ font-size: 13px; font-style:normal;}
 
@@ -17,17 +16,15 @@ border-radius:50%; float:left;}
 .date h2{font-size: 10px; margin:0px;}
 .date i{ text-align: right; font-weight:normal;}
 
-
 .assignment{margin: 10px 0; border-radius:20px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
-    box-shadow:inset 0 0 4px #666;}
+box-shadow:inset 0 0 4px #666;}
 .assignment .inner{padding: 0px 5px; font-size: 13px; width:25%;}
 
 .assignment2{margin: 10px 0; border-radius:40px; -moz-box-shadow:inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;
-    box-shadow: inset 0 0 4px #666;}
+box-shadow: inset 0 0 4px #666;}
 .assignment2 .inner2{padding: 0px 5px; font-size: 13px;}
 .inner3{padding: 10px 5px 0px 5px; font-size: 13px; width: 25%;}
 .css-rxe5vq, .css-wx4x39{border-radius:7px !important;}
-
 .white-g{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666;}
 
 .col1{-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; background:#fd5d67;}
@@ -37,7 +34,6 @@ border-radius:50%; float:left;}
 .bottomColor{background:#fff; color: #333;}
 .bottomColor a{ color: #333;}
 .bottomColor .makeStyles-link-29, .bottomColor .makeStyles-link-41{ margin: 20px auto;}
-
 .dkpal{ position:absolute; right:12px; top:10px; }
 .dkpal span{ display: block; color: #333; padding: 0px; margin: 0px; background: none; width: auto; border-radius: 0%; }
 
@@ -68,18 +64,11 @@ border-radius:50%; float:left;}
 .teacher td:nth-child(5){color: #0b6f91;}
 .button_notifi a{ color: #fff; display: flex; }
 
-
 .bg{ width:100%; background: #dcdbd9; text-align: center; color: #333;}
-
 .bg2{ width:100%; background: #0070c0; color: #fff; padding: 0px 20px 30px 20px !important;
-    -moz-box-shadow: inset 0 0 6px #666; -webkit-box-shadow: inset 0 0 6px #666;  box-shadow:inset 0 0 6px #666; position: relative;}
-.bg2:after{left: -30px; top:48%; position: absolute; content:""; 
-transform: translate(-50%, -50%); 
-height: 150px; 
-width: 80px; 
-border-radius: 150px 0px 0px 150px; 
-background-color: #0070c0; }
-
+-moz-box-shadow: inset 0 0 6px #666; -webkit-box-shadow: inset 0 0 6px #666;  box-shadow:inset 0 0 6px #666; position: relative;}
+.bg2:after{left: -30px; top:48%; position: absolute; content:""; transform: translate(-50%, -50%); height: 150px; width: 80px; 
+border-radius: 150px 0px 0px 150px; background-color: #0070c0; }
 .title{ font-size:20px; width:100% ;}
 
 .font .MuiInput-underline::before{ border-bottom: solid 1px #fff !important; color: #fff !important;}
@@ -98,5 +87,29 @@ background-color: #0070c0; }
 .shadow-box{ box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048),
 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
 0 100px 80px rgba(0, 0, 0, 0.12); min-height: 200px; width: 50vw; margin: 100px auto; background: white; border-radius: 5px;}
+.bottomColor{ padding: 10px; }
+.MuiPagination-root{ margin-top:20px;}
+
+/*student card start*/
+
+.card_bg{ position: relative; background: #fff; box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20);
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20); border-radius: 15px;}
+.card_bg::before{ right:0px; bottom:0px; position: absolute; content:"";  height: 192px; width: 362px; 
+background-image: url("./shade1.png"); display: inline-block;}
+
+.card_bg h4{ background: #1a71b8; color: #fff; position: absolute; right: 17px; top: 0px; padding: 10px 30px; font-size: 14px;
+ -webkit-border-bottom-right-radius: 6px; -webkit-border-bottom-left-radius: 6px; -moz-border-radius-bottomright: 6px;
+-moz-border-radius-bottomleft: 6px; border-bottom-right-radius: 6px;  border-bottom-left-radius: 6px;
+-moz-box-shadow: inset 0 0 4px #666; -webkit-box-shadow: inset 0 0 4px #666;  box-shadow:inset 0 0 4px #666; }
+
+.card_bg .MuiTypography-body1{ font-size: 15px; margin-bottom: 10px; font-weight: normal;}
+.card_bg .card_body{ font-size: 13px !important; font-weight: normal; line-height: 24px !important; color: #999;}
+.card_bg .MuiButton-root{ border-radius:25px; border:solid 1px #1a71b8; padding: 3px 20px; text-transform: lowercase;}
+.card_bg .card_date{ font-size:12px; margin-bottom: 10px;}
+.card_bg .flot_card{ float: right; text-align:right;}
+
+/* student card end */
 
 
+.chat147 .chats .chat{ max-width:95% !important; flex-wrap:wrap !important;}

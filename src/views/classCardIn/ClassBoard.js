@@ -99,7 +99,7 @@ const ClassBoard = ()=>{
 
   const username = "Mohak";
   return(
-          <div className="chatroom">
+          <div className="chatroom chat147">
             <h3>Class Chat</h3>
             <ul className="chats" >
               {
