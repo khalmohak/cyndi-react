@@ -10,6 +10,7 @@ import axios from "axios";
 import {current_class_id} from '../product/ClassListView/classCard';
 import AddPandA from "./AddPandA";
 import AddQandA from "./AddQandA";
+import Pagination from '@material-ui/lab/Pagination';
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -57,7 +58,7 @@ let pandaData = undefined;
 
 const PandAAPI = () => {
   const dataAPI = {
-    class_id: current_class_id,
+    class_id: sessionStorage.getItem('current_class_id'),
     limit: 10,
     offset: 0
   };
@@ -70,6 +71,7 @@ const PandAAPI = () => {
   }).then(
     res => {
       pandaData = res.data;
+      console.log(pandaData);
     }
   )
 };
@@ -78,7 +80,7 @@ let qesData = undefined;
 
 const QESAPI = () => {
   let dataAPI = {
-    'class_id': current_class_id,
+    'class_id': sessionStorage.getItem('current_class_id'),
     'limit': 10,
     'offset': 0
   };
@@ -138,31 +140,31 @@ const ClassCardInContent = ({className, card, ...rest}) => {
               container
               spacing={3}
             >
-              {/*{products.map((product) => (*/}
-              {/*  <Grid*/}
-              {/*    item*/}
-              {/*    key={product.id}*/}
-              {/*    lg={4}*/}
-              {/*    md={6}*/}
-              {/*    xs={12}*/}
-              {/*  >*/}
-              {/*    <PandAClassCard/>*/}
-              {/*  </Grid>*/}
-              {/*))}*/}
-              <PandAClassCard/>
+              {pandaData ? pandaData.map((panda) => (
+                <Grid
+                  item
+                  key={panda.activity_id}
+                  lg={4}
+                  md={6}
+                  xs={12}
+                >
+                  <PandAClassCard data={panda}/>
+                </Grid>
+              )) : <div>Loading...</div>}
+
             </Grid>
           </Box>
-          {/*<Box*/}
-          {/*  mt={3}*/}
-          {/*  display="flex"*/}
-          {/*  justifyContent="center"*/}
-          {/*>*/}
-          {/*  <Pagination*/}
-          {/*    color="primary"*/}
-          {/*    count={3}*/}
-          {/*    size="small"*/}
-          {/*  />*/}
-          {/*</Box>*/}
+          <Box
+            mt={3}
+            display="flex"
+            justifyContent="center"
+          >
+            <Pagination
+              color="primary"
+              count={3}
+              size="small"
+            />
+          </Box>
         </Container>
       </TabPanel>
       <TabPanel value={value} index={2}>
@@ -174,31 +176,31 @@ const ClassCardInContent = ({className, card, ...rest}) => {
               container
               spacing={3}
             >
-              {/*{products.map((product) => (*/}
-              {/*  <Grid*/}
-              {/*    item*/}
-              {/*    key={product.id}*/}
-              {/*    lg={4}*/}
-              {/*    md={6}*/}
-              {/*    xs={12}*/}
-              {/*  >*/}
-              {/*    <PandAClassCard/>*/}
-              {/*  </Grid>*/}
-              {/*))}*/}
-              <QESClassCard/>
+              {qesData?qesData.map((qes) => (
+                <Grid
+                  item
+                  key={qes.activity_id}
+                  lg={4}
+                  md={6}
+                  xs={12}
+                >
+                  <QESClassCard/>
+                </Grid>
+              )):<div>Loading...</div>}
+
             </Grid>
           </Box>
-          {/*<Box*/}
-          {/*  mt={3}*/}
-          {/*  display="flex"*/}
-          {/*  justifyContent="center"*/}
-          {/*>*/}
-          {/*  <Pagination*/}
-          {/*    color="primary"*/}
-          {/*    count={3}*/}
-          {/*    size="small"*/}
-          {/*  />*/}
-          {/*</Box>*/}
+          <Box
+            mt={3}
+            display="flex"
+            justifyContent="center"
+          >
+            <Pagination
+              color="primary"
+              count={3}
+              size="small"
+            />
+          </Box>
         </Container>
       </TabPanel>
     </div>

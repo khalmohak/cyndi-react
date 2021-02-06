@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {useNavigate} from 'react-router-dom';
+
 import clsx from 'clsx';
 import {
   Avatar,
@@ -29,23 +31,29 @@ const useStyles = makeStyles((theme) => ({
  
 }));
 
-const PandAClassCard = ({ className, product, ...rest }) => {
-  const classes = useStyles();
 
+
+const PandAClassCard = ({ className, data, ...rest }) => {
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const handleCardClick = ()=>{
+      navigate('/app/activity_detail',{replace:true})
+  };
   return (
 
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      onClick={handleCardClick}
+    >
         <Grid item xs={12} sm={4} className='card_bg'>
-        <h4>Pending</h4>
+        <h4>{data.activity_type}</h4>
         <Typography className={classes.cardTitle}>
-              Lorem Ipsum
+          {data.title}
           </Typography>
           <Typography className='card_body'>
-            Lorem Ipsum is simply dummy text of the printing
-            and typeset ting industry. Lorem Ipsum has been the
-            industry's standard dummy
+            {data.description}
           </Typography>
-
 
           <Box>
             <Grid container spacing={3}>
@@ -69,8 +77,6 @@ const PandAClassCard = ({ className, product, ...rest }) => {
           </Box>
       </Grid>
     </Grid>
-   
-
 
   );
 };

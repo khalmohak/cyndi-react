@@ -131,6 +131,7 @@ const ClassesCard = ({className, card, ...rest}) => {
 
   const handleClassCard = (event) => {
     current_class_id = card.class_id;
+    sessionStorage.setItem('current_class_id',current_class_id);
     navigate('/app/student', {replace: true});
   }
 

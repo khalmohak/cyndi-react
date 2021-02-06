@@ -119,5 +119,8 @@ p {
     background: #025fa1;
     color: #FFF;
 }
+.card_bg .MuiButton-root{
+    text-transform:Uppercase;
+}
 
 .MuiTypography-body1{ width: 100% !important;}

@@ -42,11 +42,11 @@ const items = [
     icon: ShoppingBagIcon,
     title: 'Class'
   },
-  {
-    href: '/app/resources',
-    icon: UserPlusIcon,
-    title: 'Resources'
-  },
+  // {
+  //   href: '/app/resources',
+  //   icon: UserPlusIcon,
+  //   title: 'Resources'
+  // },
   {
     href: '/app/settings',
     icon: SettingsIcon,
