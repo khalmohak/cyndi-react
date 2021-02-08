@@ -97,8 +97,10 @@ const ClassBoard = ()=>{
   //   });
   // }
 
+
+  
   const username = "Mohak";
-  return(
+    return(
           <div className="chatroom chat147">
             <h3>Class Chat</h3>
             <ul className="chats" >
@@ -115,5 +117,6 @@ const ClassBoard = ()=>{
           </div>
   );
 };
+
 
 export default ClassBoard;

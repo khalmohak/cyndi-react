@@ -270,12 +270,10 @@ const ClassesCard = ({className, card, ...rest}) => {
           <Box display="flex" p={1} bgcolor="background.paper" className={'assignment2'}>
             <Box p={1} className={'inner3'}>Courses </Box>
             <Box p={1} flexGrow={1} className={'inner2'}>
-              <MultiSlider
-                width='100%'
-                height='40px'>
-                <Progress color="#a1d9cc" progress={25}/>
-                <Progress color="#95c7bc" progress={50}/>
-                <Progress color="#88b7ad" progress={75}/>
+              <MultiSlider width='100%' height='20px'>
+                <Progress className={'curve'} color="#a1d9cc" progress={25}/>
+                <Progress className={'curve'} color="#95c7bc" progress={50}/>
+                <Progress  className={'curve'} color="#88b7ad" progress={75}/>
                 <Progress className={'curve'} color="#7ca79d" progress={100}/>
               </MultiSlider>
             </Box>
