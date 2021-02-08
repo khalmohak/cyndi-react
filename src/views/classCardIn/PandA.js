@@ -17,13 +17,7 @@ import {
 import examSVG from "../../components/exam.svg";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: '6px',
-    width: "100%"
-  },
-    
+      
   cardImage:{
     width:"40px",
     height:"40px"
@@ -41,12 +35,8 @@ const PandAClassCard = ({ className, data, ...rest }) => {
   };
   return (
 
-    <Grid
-      container
-      spacing={3}
-      onClick={handleCardClick}
-    >
-        <Grid item xs={12} sm={4} className='card_bg'>
+    
+        <Box item className='card_bg'>
         <h4>{data.activity_type}</h4>
         <Typography className={classes.cardTitle}>
           {data.title}
@@ -75,8 +65,8 @@ const PandAClassCard = ({ className, data, ...rest }) => {
 
             </Grid>
           </Box>
-      </Grid>
-    </Grid>
+      </Box>
+  
 
   );
 };

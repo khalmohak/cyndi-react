@@ -92,7 +92,7 @@ border-radius: 150px 0px 0px 150px; background-color: #0070c0; }
 
 /*student card start*/
 
-.card_bg{ position: relative; background: #fff; box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20);
+.card_bg{ position: relative; padding: 15px; background: #fff; box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20);
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.20); border-radius: 15px;}
 .card_bg::before{ right:0px; bottom:0px; position: absolute; content:"";  height: 192px; width: 362px; 
@@ -107,9 +107,26 @@ background-image: url("./shade1.png"); display: inline-block;}
 .card_bg .card_body{ font-size: 13px !important; font-weight: normal; line-height: 24px !important; color: #999;}
 .card_bg .MuiButton-root{ border-radius:25px; border:solid 1px #1a71b8; padding: 3px 20px; text-transform: lowercase;}
 .card_bg .card_date{ font-size:12px; margin-bottom: 10px;}
-.card_bg .flot_card{ float: right; text-align:right;}
+.card_bg .flot_card{padding-top:50px !important; float: right; text-align:right;}
 
 /* student card end */
 
 
 .chat147 .chats .chat{ max-width:95% !important; flex-wrap:wrap !important;}
+
+.button_c{ width:100%; margin-top: 10px;}
+.button_c button{ width: 50% !important;}
+
+
+.shadow-box{ width:100%;}
+@media only screen and (max-width: 1280px) and (min-width: 320px)
+{
+.m-a{ margin:auto 15px;}
+.bg, .shadow-box, .bg2::after{ display:none;}
+.font .MuiGrid-grid-lg-1{ padding: 8px !important;}
+.shadow-box{ margin:0 auto !important;}
+.font .MuiGrid-grid-lg-11{ width: 88%; padding-right:0px !important; }
+
+}
+
+

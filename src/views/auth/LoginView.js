@@ -144,7 +144,7 @@ const LoginView = () => {
                       display="flex"
                       flexDirection="column"
                       height="100%"
-                      justifyContent="center"
+                      justifyContent="center" className='m-a'
                     >
         <Container maxWidth="xs" className={classes.mainlogin}>
 
@@ -204,17 +204,8 @@ const LoginView = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                
-                <Grid
-                  container
-                  spacing={3}
-                >
-                </Grid>
-                <Box
-                  mt={3}
-                  mb={1}
-                >
-                  
-                </Box>
+                
+                
                 <TextField
                   fullWidth
                   label="Email Address"
@@ -236,7 +227,7 @@ const LoginView = () => {
                   value={userPassword}
                 />
 
-                <ToggleButtonGroup
+                <ToggleButtonGroup  className='button_c'
                 exclusive
                 value={role}
                 aria-label="text alignment"

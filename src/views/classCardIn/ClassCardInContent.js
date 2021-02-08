@@ -66,7 +66,7 @@ const PandAAPI = () => {
     'x-access-token': sessionStorage.getItem('token'),
     'user_id': sessionStorage.getItem('userId')
   }
-  axios.post(`http://localhost:4000/get/panda`, dataAPI, {
+  axios.post(`${apiEndPoint}/get/panda`, dataAPI, {
     headers: headers
   }).then(
     res => {
