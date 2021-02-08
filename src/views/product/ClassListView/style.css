@@ -4,11 +4,10 @@ border-bottom-left-radius:6px; position: absolute; content:"";
 .box-shadow: -0px 1px 2px 1px rgba(0,0,0,0.31) inset; -webkit-box-shadow: -5px 0px 5px 0px rgba(0,0,0,0.31) inset;
 -moz-box-shadow: -7px 1px 7px 1px rgba(0,0,0,0.31) inset;}
  
-.topheader span {padding:10px 12px; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002; 
-border-radius:50%; float:left;}
+
+.topheader span {color: #fff; margin-left: 20px; display: inline-block;  border-radius:50%; float:left;}
 .topheader i{float:left; display: inline-block; margin-left: 10px;}
-.topheader span {padding:5px 8px; color: #fff; margin-left: 20px; display: inline-block; background:#ff0002;
-border-radius:50%; float:left;}
+
 
 .hadding{ font-size: 13px; font-style:normal;}
 
