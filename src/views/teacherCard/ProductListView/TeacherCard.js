@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
-  Box,
+  Box, Button,
   Card,
   CardContent,
   Divider,
@@ -24,6 +24,8 @@ import MultiSlider, {Progress} from "react-multi-bar-slider";
 import '../../product/ClassListView/style.css';
 import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
+import {ZoomMtg} from "@zoomus/websdk";
+import {zoomInitiater} from "../../zoom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -152,8 +154,8 @@ const TeachersCard = ({className, card, ...rest}) => {
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
     const teacherId = card.user_id;
-    for (let i = 0; i < teachersList.teachers.length; i++) {
-      const teacherDetails = JSON.parse(teachersList.teachers[i]);
+    for (let i = 0; i < teachersList.users.length; i++) {
+      const teacherDetails = JSON.parse(teachersList.users[i]);
       if (teacherDetails.user_id === teacherId) {
         //setTeacherName(teacherDetails.name);
         teacherNameTemp = teacherDetails.name;
@@ -165,16 +167,26 @@ const TeachersCard = ({className, card, ...rest}) => {
   getTeacherName();
   //setTeacherName(teacherNameTemp);
   const user = {
-    avatar:`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
   }
 
-  const avatarName = ()=>{
-    if(teacherPictureTemp === 'null'){
-      return <Avatar >{teacherNameTemp[0]}</Avatar>
-    }else{
+  const avatarName = () => {
+    if (teacherPictureTemp === 'null') {
+      return <Avatar>{teacherNameTemp[0]}</Avatar>
+    } else {
       return <Avatar src={user.avatar}/>
     }
   }
+  const zoomMeetingStart = ()=>{
+    zoomInitiater(function (zoomConfig){
+      console.log(zoomConfig);
+      ZoomMtg.generateSignature(zoomConfig);
+    })
+
+  }
+
+
+
 
 
 
@@ -195,6 +207,9 @@ const TeachersCard = ({className, card, ...rest}) => {
             <i>
 
               <Box className={'dkpal'}>
+                <Button
+                  onClick={zoomMeetingStart}
+                >Join Class</Button>
                 <Box className={'dkpal2'}>
                   <NotifyMe
                     data={data}

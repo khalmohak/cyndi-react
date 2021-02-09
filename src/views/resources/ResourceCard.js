@@ -24,6 +24,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import './App.css';
 import {current_class_id} from "../product/ClassListView/classCard";
+import {apiEndPoint} from "../../constants";
 
 const Dropzone = require('react-dropzone');
 const upload = require('superagent')
@@ -317,7 +318,7 @@ const ResourceCard = ({className, ...rest}) => {
       'user_id': sessionStorage.getItem('userId'),
       'x-access-token': sessionStorage.getItem('token')
     }
-    axios.post('http://localhost:4000/add/activity', dataToBeSent, {
+    axios.post(`${apiEndPoint}/add/activity`, dataToBeSent, {
         headers: header
       }
     ).then(res => {

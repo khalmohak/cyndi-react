@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, {Progress} from 'react-multi-bar-slider';
 import {useNavigate} from 'react-router-dom';
-import {Avatar, Box, Card, CardContent, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
+import {Avatar, Box, Card, CardContent,Button, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
 import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
 import './style.css';
@@ -161,6 +161,12 @@ const ClassesCard = ({className, card, ...rest}) => {
     }
   }
 
+  const zoomMeetingStart = {
+
+
+
+  };
+
 
   return (
     <Card
@@ -179,6 +185,9 @@ const ClassesCard = ({className, card, ...rest}) => {
             <i>
 
               <Box className={'dkpal'}>
+                <Button
+                onClick={zoomMeetingStart}
+                >Join Class</Button>
                 <Box className={'dkpal2'}>
                   <NotifyMe
                     data={data}

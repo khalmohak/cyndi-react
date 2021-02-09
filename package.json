@@ -31,7 +31,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/styles": "^4.11.2",
     "@react-firebase/database": "^0.3.11",
-    "@zoomus/websdk": "^1.8.6",
+    "@zoomus/websdk": "^1.7.10",
     "aws-sdk": "^2.813.0",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",

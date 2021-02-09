@@ -89,7 +89,7 @@ const QESAPI = () => {
     'user_id': sessionStorage.getItem('userId')
   }
 
-  axios.post(`http://localhost:4000/get/qes`, dataAPI, {
+  axios.post(`${apiEndPoint}/get/qes`, dataAPI, {
     headers: headers
   }).then(
     res => {
