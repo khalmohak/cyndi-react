@@ -24,7 +24,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={1}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -132,14 +132,11 @@ const ClassCardInContent = ({className, card, ...rest}) => {
       </TabPanel>
       <TabPanel value={value} index={1}>
 
-        <Container maxWidth={false}>
+        <Container maxWidth={false} className={'np'}>
 
           <AddPandA/>
-          <Box mt={3}>
-            <Grid
-              container
-              spacing={3}
-            >
+          <Box mt={1}>
+            <Grid container spacing={3}>
               {pandaData ? pandaData.map((panda) => (
                 <Grid
                   item
@@ -167,11 +164,12 @@ const ClassCardInContent = ({className, card, ...rest}) => {
           </Box>
         </Container>
       </TabPanel>
+
       <TabPanel value={value} index={2}>
-        <Container maxWidth={false}>
+        <Container maxWidth={false} className={'np'}>
 
           <AddQandA/>
-          <Box mt={3}>
+          <Box>
             <Grid
               container
               spacing={3}
@@ -182,7 +180,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
                   key={qes.activity_id}
                   lg={4}
                   md={6}
-                  xs={12}
+                  xs={12} 
                 >
                   <QESClassCard/>
                 </Grid>
@@ -191,7 +189,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
             </Grid>
           </Box>
           <Box
-            mt={3}
+            mt={6}
             display="flex"
             justifyContent="center"
           >
