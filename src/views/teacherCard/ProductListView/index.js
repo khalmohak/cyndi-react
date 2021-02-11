@@ -46,9 +46,10 @@ const TeacherCard = () => {
       headers: headers
     }).then(response => {
       const classArray = response.data;
+
       setTeacherData(classArray);
-      console.log("TeacherCard")
-      console.log(classArray);
+      sessionStorage.setItem('classData',JSON.stringify(response));
+
     })
       .catch(err => {
         console.log(err)

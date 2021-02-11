@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Container, Grid, makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
-import ActivityCard from "./ActivityCard";
-import PropTypes from "prop-types";
-import ClassCardInContent from "../classCardIn/ClassCardInContent";
+import ClassCardInContent from "./ClassCardInContent";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,12 +14,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ActivityDetail = () => {
+const TeacherClassCardIn = () => {
   const classes = useStyles();
-  let data = {
-    class_name : "OPERATING SYSTEM"
-  }
-
 
   return (
 
@@ -35,18 +30,13 @@ const ActivityDetail = () => {
             container
             spacing={3}
           >
-            <ActivityCard activity={data}/>
+          <ClassCardInContent></ClassCardInContent>
           </Grid>
         </Box>
-
       </Container>
     </Page>
 
-
   );
 };
-ActivityDetail.propTypes = {
-  className: PropTypes.string
-};
 
-export default ActivityDetail;
+export default TeacherClassCardIn;

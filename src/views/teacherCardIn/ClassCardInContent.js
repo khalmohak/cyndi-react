@@ -1,14 +1,38 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import ClassBoard from './ClassBoard';
 import './Style.css'
-import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Typography} from '@material-ui/core';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  makeStyles,
+  useTheme,
+  Tab,
+  Tabs,
+  Typography,
+  Toolbar,
+  Drawer,
+  CssBaseline,
+  List,
+  Divider
+} from '@material-ui/core';
 import PandAClassCard from "./PandA";
 import QESClassCard from "./QES";
 import {apiEndPoint} from '../../constants';
 import axios from "axios";
 import {current_class_id} from '../product/ClassListView/classCard';
+import AddPandA from "./AddPandA";
+import AddQandA from "./AddQandA";
 import Pagination from '@material-ui/lab/Pagination';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import clsx from 'clsx';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {SideMenu} from './SideMenu';
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -30,6 +54,14 @@ function TabPanel(props) {
   );
 }
 
+
+
+
+
+
+
+const drawerWidth = 300;
+
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
@@ -49,7 +81,58 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: '6px',
     width: "100%"
-  }
+  },
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: drawerWidth,
+  },
+  title: {
+    flexGrow: 1,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-start',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginRight: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: 0,
+  },
 
 }));
 let pandaData = undefined;
@@ -69,7 +152,7 @@ const PandAAPI = () => {
   }).then(
     res => {
       pandaData = res.data;
-      console.log(pandaData);
+
     }
   )
 };
@@ -100,30 +183,95 @@ const QESAPI = () => {
 
 const ClassCardInContent = ({className, card, ...rest}) => {
   const classes = useStyles();
+  const theme = useTheme();
+  //const [teacherData, setTeacherData] = useState({});
+
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const headers = {
+    'user_id': sessionStorage.getItem('userId'),
+    'x-access-token': sessionStorage.getItem('token')
+  };
+  const ApiData = {
+    university_name: sessionStorage.getItem('universityName'),
+    college_name: sessionStorage.getItem('collegeName')
+  };
+  let teacherData=JSON.parse(sessionStorage.getItem('classData')).data;
+  for(let i=0;i<teacherData.length;i++){
+    if(teacherData[i].class_id == sessionStorage.getItem('current_class_id')){
+      teacherData=teacherData[i];
+      break;
+    }
+  }
 
 
   useEffect(() => {
     PandAAPI();
     QESAPI();
+
     if (qesData && pandaData) {
       console.log(qesData);
       console.log(pandaData);
+
     }
   }, [qesData, pandaData])
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static"
+
+              className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+              })}>
+        <Toolbar>
+          <Typography variant="h6" noWrap className={classes.title}>
+            Class Board
+          </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerOpen}
+            className={clsx(open && classes.hide)}
+          >
+            <MenuIcon/>
+          </IconButton>
+        </Toolbar>
+
+
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Class Board" {...a11yProps(0)} />
           <Tab label="P&A" {...a11yProps(1)} />
           <Tab label="Q.E.S" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="right"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+          </IconButton>
+        </div>
+
+        {teacherData ? <SideMenu data={teacherData}/>:<div>Loading</div>}
+
+      </Drawer>
       <TabPanel value={value} index={0}>
         <ClassBoard/>
       </TabPanel>
@@ -131,7 +279,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
 
         <Container maxWidth={false} className={'np'}>
 
-
+          <AddPandA/>
           <Box mt={1}>
             <Grid container spacing={3}>
               {pandaData ? pandaData.map((panda) => (
@@ -165,7 +313,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
       <TabPanel value={value} index={2}>
         <Container maxWidth={false} className={'np'}>
 
-
+          <AddQandA/>
           <Box>
             <Grid
               container
@@ -198,6 +346,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
           </Box>
         </Container>
       </TabPanel>
+
     </div>
   );
 };

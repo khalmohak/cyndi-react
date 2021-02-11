@@ -14,6 +14,7 @@ import {Register} from 'src/views/auth/Register';
 import Zoom from 'src/views/zoom/index';
 import ClassCardIn from "./views/classCardIn/index";
 import ActivityDetail from "./views/activityDetail";
+import TeacherClassCardIn from "./views/teacherCardIn";
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -63,9 +64,9 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
               {path: 'customers', element: <CustomerListView/>},
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <TeacherCard/>},
+              {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResoucresList/>},
-              {path: 'student', element: <ClassCardIn/>},
 
               {path: '*', element: <Navigate to="/404"/>}
             ]
@@ -77,7 +78,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
               {path: 'login', element: <LoginView/>},
               {path: 'register', element: <Register/>},
               {path: '404', element: <NotFoundView/>},
-              {path: 'student', element: <ClassCardIn/>},
+              {path: 'teacher', element: <TeacherClassCardIn/>},
 
               {path: '/', element: <Navigate to="/login"/>},
               {path: '*', element: <Navigate to="/404"/>}
@@ -95,8 +96,8 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
         children: [
 
           {path: 'student', element: <ClassCardIn/>},
-
-
+          {path: 'teacher', element: <TeacherClassCardIn/>},
+          {path: 'activity_detail', element: <ActivityDetail/>},
         ]
       },
       {

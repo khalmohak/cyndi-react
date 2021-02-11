@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import {useNavigate} from 'react-router-dom';
+
 import {
   Avatar,
   Box,
@@ -27,6 +29,7 @@ import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
 import {ZoomMtg} from "@zoomus/websdk";
 import {zoomInitiater} from "../../zoom";
+import {current_class_id} from "../../product/ClassListView/classCard";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -158,6 +161,7 @@ const TeachersCard = ({className, card, ...rest}) => {
   const s3Bucket = `cyndi.primary.bucket`;
   let teacherNameTemp = '';
   let teacherPictureTemp = '';
+  const navigate = useNavigate();
 
   /**
    * Function to get the teachers name for a specific class
@@ -207,11 +211,17 @@ const TeachersCard = ({className, card, ...rest}) => {
 
   }
 
+  const handleClassCard = (event) => {
+    const current_class_id = card.class_id;
+    sessionStorage.setItem('current_class_id', current_class_id);
+    navigate('/app/teacher', {replace: true});
+  }
 
   return (
     <Card
 
       className={clsx(classes.root, className)}
+      onClick={handleClassCard}
       {...rest}
 
     >
