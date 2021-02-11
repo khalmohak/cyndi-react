@@ -2,21 +2,44 @@ import {ZoomMtg} from "@zoomus/websdk";
 import axios from 'axios';
 import {apiEndPoint} from "../../constants";
 import moment from "moment";
+import crypto from 'crypto';
+
+function generateSignature(apiKey, apiSecret, meetingNumber, role) {
+
+  // Prevent time sync issue between client signature generation and zoom
+  const timestamp = new Date().getTime() - 30000
+  const msg = Buffer.from(apiKey + meetingNumber + timestamp + role).toString('base64')
+  const hash = crypto.createHmac('sha256', apiSecret).update(msg).digest('base64')
+  const signature = Buffer.from(`${apiKey}.${meetingNumber}.${timestamp}.${role}.${hash}`).toString('base64')
+  console.log(signature);
+  return signature
+}
+
+
 
 let date = moment().format('L');
 let time = moment().format('LT');
+/**
+ * @apiData is the data to post api in the body
+ * @header is the data to post api in the headers
+ * @type {{start_time: string, class_id: (number|string)}}
+ */
 
 let apiData = {
-  class_id: sessionStorage.getItem('current_class_id'),
+  class_id: 37 || sessionStorage.getItem('current_class_id'),
   start_time: `${date} ${time}`
 }
 
-
 let header = {
-  'user_id': sessionStorage.getItem('userId'),
+  'user_id': sessionStorage.getItem( 'userId'),
   'x-access-token': sessionStorage.getItem('token')
 }
 
+/**
+ * Pings initialize/zoom api to get the zoom details - meeting number, token, if user is authrized
+ *
+ * @param callback
+ */
 export function zoomInitiater(callback) {
   axios.post(`${apiEndPoint}/initialize/zoom`, apiData, {
       headers: header
@@ -46,23 +69,24 @@ export function zoomInitiater(callback) {
 
           setTimeout(() => {
 
-            joinMeeting(res.result, meetConfig);
+            joinMeeting(generateSignature(meetConfig.apiKey,apiKeys.apiSecret,meetConfig.meetingNumber,meetConfig.role), meetConfig);
 
           }, 1000);
         },
       }
       callback(zoomMeetConfig);
-
-
     }
   )
     .catch(err => {
 
     })
-
-
 }
 
+/**
+ *
+ * @param signature function that starts and joins the zoom meeting
+ * @param meetConfig is the essential data to join a meeting
+ */
 
 function joinMeeting(signature, meetConfig) {
   console.log(apiData)

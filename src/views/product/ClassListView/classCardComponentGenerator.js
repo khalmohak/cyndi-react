@@ -4,7 +4,6 @@ import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
 import {ClassesCard} from './classCard';
-import data from './data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,9 +20,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+
 const ClassListGenerator = (props) => {
   const classes = useStyles();
-  const [products] = useState(data);
+
   if (props.classArrayData) {
 
       return (

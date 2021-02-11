@@ -9,7 +9,6 @@ import { Pagination } from '@material-ui/lab';
 import Page from 'src/components/Page';
 import Toolbar from './Toolbar';
 import ResourceCard from './ResourceCard';
-import data from './data';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ResoucresListView = () => {
   const classes = useStyles();
-  const [products] = useState(data);
 
   return (
     <Page

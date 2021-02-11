@@ -22,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
 const TeacherCard = () => {
   const classes = useStyles();
   const [teacherData, setTeacherData] = useState();
+
+  /**
+   * @headers data to post to api in the header
+   * @ApiData data to post to the api in the body
+   * @type {{user_id: string, "x-access-token": string}}
+   */
+
   const headers = {
     'user_id': sessionStorage.getItem('userId'),
     'x-access-token': sessionStorage.getItem('token')
@@ -31,7 +38,9 @@ const TeacherCard = () => {
     college_name: sessionStorage.getItem('collegeName')
   };
 
-
+  /**
+   * Pings the get/class/teacher api for class data
+   */
   const getClassData = () => {
     axios.post(`${apiEndPoint}/get/class/teacher`, ApiData, {
       headers: headers

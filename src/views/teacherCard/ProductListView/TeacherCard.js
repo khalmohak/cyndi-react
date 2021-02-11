@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
-  Box, Button,
+  Box,
+  Button,
   Card,
   CardContent,
   Divider,
@@ -121,9 +122,16 @@ const rows = [
 
 ];
 
+/**
+ * dummy attendance percent
+ * @type {string}
+ */
 var attendancePercent = '40%';
 
-
+/**
+ * dummy data for notifications
+ * @type {({update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number})[]}
+ */
 var data = [
   {
     "update": "70 new employees are shifted",
@@ -151,6 +159,10 @@ const TeachersCard = ({className, card, ...rest}) => {
   let teacherNameTemp = '';
   let teacherPictureTemp = '';
 
+  /**
+   * Function to get the teachers name for a specific class
+   */
+
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
     const teacherId = card.user_id;
@@ -164,11 +176,17 @@ const TeachersCard = ({className, card, ...rest}) => {
       }
     }
   };
+
   getTeacherName();
   //setTeacherName(teacherNameTemp);
   const user = {
     avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
   }
+
+  /**
+   * Function that returns avatar on the basis if user has already uploaded picture or not
+   * @returns {JSX.Element}
+   */
 
   const avatarName = () => {
     if (teacherPictureTemp === 'null') {
@@ -177,17 +195,17 @@ const TeachersCard = ({className, card, ...rest}) => {
       return <Avatar src={user.avatar}/>
     }
   }
-  const zoomMeetingStart = ()=>{
-    zoomInitiater(function (zoomConfig){
+
+  /**
+   * Zoom meeting join function gets called when Join/Create class button is clicked
+   */
+  const zoomMeetingStart = () => {
+    zoomInitiater(function (zoomConfig) {
       console.log(zoomConfig);
       ZoomMtg.generateSignature(zoomConfig);
     })
 
   }
-
-
-
-
 
 
   return (
