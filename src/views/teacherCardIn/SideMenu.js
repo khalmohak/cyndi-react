@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
     width:'100px',
     height:'100px',
   }
-
 }));
 
 export const SideMenu = ({data, ...rest}) => {
