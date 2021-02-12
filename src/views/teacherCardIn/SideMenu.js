@@ -1,4 +1,15 @@
-import {Avatar, Divider, Drawer, makeStyles, Box, List, Typography, Card, CardHeader, CardContent} from "@material-ui/core";
+import {
+  Avatar,
+  Divider,
+  Drawer,
+  makeStyles,
+  Box,
+  List,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent
+} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -7,17 +18,15 @@ import {Resources} from '../classDescriptionViewsTeacher/Resources.js';
 
 
 const useStyles = makeStyles((theme) => ({
-  card:{
-    display:'block',
-    width:'100px',
-    height:'100px',
+  card: {
+    display: 'block',
+    width: '100px',
+    height: '100px',
   }
 }));
 
 export const SideMenu = ({data, ...rest}) => {
   const classes = useStyles();
-
-
   let teachersData = [];
   let studentsData = [];
 
@@ -52,7 +61,8 @@ export const SideMenu = ({data, ...rest}) => {
       return <Avatar src={user.avatar}/>
     }
   };
-  function handleResources(){
+
+  function handleResources() {
 
   }
 
@@ -63,8 +73,8 @@ export const SideMenu = ({data, ...rest}) => {
         <ListItem>
           <Box m={1}>
             <Card
-            className={classes.card}
-            onClick={handleResources}
+              className={classes.card}
+              onClick={handleResources}
             >
               <CardHeader>
                 <Typography>Resources</Typography>

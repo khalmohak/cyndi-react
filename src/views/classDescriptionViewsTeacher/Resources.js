@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppBar, Box, Container, Grid, makeStyles, Tab, Tabs, Typography} from "@material-ui/core";
 import Page from "../../components/Page";
 import PropTypes from "prop-types";
-import ClassBoard from "../classCardIn/ClassBoard";
-import PandAClassCard from "../classCardIn/PandA";
 import Pagination from "@material-ui/lab/Pagination";
-import QESClassCard from "../classCardIn/QES";
 import ResourcesDocuments from "./ResourcesDocuments";
+import axios from "axios";
+import {apiEndPoint} from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
 
+
   return (
     <div
       role="tabpanel"
@@ -28,6 +28,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
+
       {value === index && (
         <Box p={1}>
           <Typography>{children}</Typography>
@@ -58,6 +59,42 @@ export const Resources = () => {
     setValue(newValue);
   };
 
+
+  let apiData = undefined;
+  let counter = 0;
+
+  function GetResourcesAPI() {
+    counter++;
+    let apiBody = {
+      class_id: sessionStorage.getItem('current_class_id'),
+      university_name: sessionStorage.getItem('universityName'),
+      college_name: sessionStorage.getItem('collegeName'),
+      limit: 10,
+      offset: 0
+    }
+    let headers = {
+      'user_id': sessionStorage.getItem('userId'),
+      'x-access-token': sessionStorage.getItem('token')
+    }
+
+    axios.post(`http://localhost:4000/get/resource/class`, apiBody, {
+      headers: headers
+    }).then(
+      res => {
+        console.log(res)
+        apiData = res.data;
+      }
+    )
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    //GetResourcesAPI();
+    counter++;
+    console.log('mounted');
+  }, [counter])
+
+
   return (
     <Page
       className={classes.root}
@@ -86,11 +123,18 @@ export const Resources = () => {
                     container
                     spacing={3}
                   >
-
-                    <ResourcesDocuments/>
-                    <ResourcesDocuments/>
-                    <ResourcesDocuments/>
-                    <ResourcesDocuments/>
+                    {apiData ? apiData.map((data) => (
+                        <Grid
+                          item
+                          key={data.resource_id}
+                          lg={4}
+                          md={6}
+                          xs={12}
+                        >
+                          <ResourcesDocuments/>
+                        </Grid>
+                      ))
+                      : <div>Loading...</div>}
                   </Grid>
                 </Box>
                 <Box
