@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const AddDocuments = ({className, ...rest}) => {
+const AddMedia = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -90,10 +90,10 @@ const AddDocuments = ({className, ...rest}) => {
         'assigned_to': formDetails.classes
       }),
       'attached_files': JSON.stringify({
-        'files': formDetails.location
+        'images': formDetails.location
       }),
       'datetime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
-      'type': 'Documents'
+      'type': 'Media'
     }
     console.log(apiData)
     let apiHeader = {
@@ -268,6 +268,6 @@ const AddDocuments = ({className, ...rest}) => {
 
 };
 
-export default AddDocuments;
+export default AddMedia;
 
 

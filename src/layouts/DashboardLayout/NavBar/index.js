@@ -63,8 +63,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NavBar = ({onMobileClose, openMobile}) => {
-  console.log(openMobile);
   const classes = useStyles();
+
   const location = useLocation();
   const s3Region = `ap-south-1`;
   const s3Bucket = `cyndi.primary.bucket`;
@@ -178,7 +178,7 @@ const NavBar = ({onMobileClose, openMobile}) => {
         <Drawer
           anchor="left"
           classes={{paper: classes.desktopDrawer}}
-          open
+          open={onMobileClose}
           variant="persistent"
         >
           {content}

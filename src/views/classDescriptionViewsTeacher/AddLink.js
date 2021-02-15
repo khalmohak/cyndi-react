@@ -46,11 +46,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const AddDocuments = ({className, ...rest}) => {
+const AddMedia = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  //const [pandaType, setPandaType] = useState();
   const navigate = useNavigate();
   const fileInput = React.useRef();
   const [formDetails, setFormDetails] = useState({
@@ -69,17 +68,11 @@ const AddDocuments = ({className, ...rest}) => {
     secretAccessKey: 'bYYFK1eiqIj8l+htjO9KxrSdRiX0ShEq8ligEeoj',
   };
 
-  function fileUpload() {
 
-    let newArr = fileInput.current.files;
-
-    for (let i = 0; i < newArr.length; i++) {
-      handleUpload(newArr[i]);
-    }
-  }
 
   const handleClick = (event) => {
     event.preventDefault();
+    console.log(formDetails);
 
     let apiData = {
       'university_name': sessionStorage.getItem('universityName'),
@@ -90,10 +83,10 @@ const AddDocuments = ({className, ...rest}) => {
         'assigned_to': formDetails.classes
       }),
       'attached_files': JSON.stringify({
-        'files': formDetails.location
+        'link': formDetails.location
       }),
       'datetime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
-      'type': 'Documents'
+      'type': 'Media'
     }
     console.log(apiData)
     let apiHeader = {
@@ -109,29 +102,7 @@ const AddDocuments = ({className, ...rest}) => {
 
   };
 
-  const handleUpload = (file) => {
-    let newFileName = file.name.replace(/\..+$/, "");
-    const ReactS3Client = new S3(config);
-    ReactS3Client.uploadFile(file, newFileName).then((data) => {
 
-      if (data.status === 204) {
-        console.log("success");
-        successUploadCount++;
-        let form = formDetails;
-
-        let res = data.location.split("/");
-        const last = res.length;
-        res = res.slice(3, last);
-        res = res.join("/");
-
-        form.location.push({'file_name': newFileName, 'file_url': res});
-        setFormDetails(form)
-
-      } else {
-        console.log("fail");
-      }
-    });
-  };
 
 
   const ITEM_HEIGHT = 48;
@@ -165,6 +136,11 @@ const AddDocuments = ({className, ...rest}) => {
     let form = formDetails;
     form.formDescription = title;
   };
+  const handleFormLink = (e)=>{
+    const link = e.target.value;
+    let form = formDetails;
+    form.location = link;
+  }
 
   function back() {
     navigate('/app/teacher/resources')
@@ -214,29 +190,18 @@ const AddDocuments = ({className, ...rest}) => {
                 onChange={handleFormDescription}
               />
               <br/>
-              <br/>
-              <Typography>Choose Files</Typography>
-              <input
-                type='file'
-                onChange={fileUpload}
-                multiple ref={fileInput}/>
-
+              <TextField
+                label="Add Link"
+                id="formDescription"
+                onChange={handleFormLink}
+              />
               <br/>
 
-              {/*<Grid container>*/}
-              {/*  {classData ? classData.map(data => {*/}
 
-              {/*    return <Grid row>*/}
-              {/*      <Typography>{data.class_name}</Typography>*/}
-              {/*      <CheckBox*/}
-              {/*        checked={formDetails.classes}*/}
-              {/*        onChange={handleCheckboxChange}*/}
-              {/*        color="primary"*/}
-              {/*      />*/}
-              {/*    </Grid>*/}
-              {/*  }) : <div>Wait..</div>}*/}
 
-              {/*</Grid>*/}
+
+
+
               <Typography>Assigned To-</Typography>
               <Select
                 labelId="demo-mutiple-name-label"
@@ -268,6 +233,6 @@ const AddDocuments = ({className, ...rest}) => {
 
 };
 
-export default AddDocuments;
+export default AddMedia;
 
 
