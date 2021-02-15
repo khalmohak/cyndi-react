@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ResoucresListView = () => {
+const ResourcesListView = () => {
   const classes = useStyles();
 
   return (
@@ -53,7 +53,7 @@ const ResoucresListView = () => {
                 />
               </Grid>
             ))} */}
-            <ResourceCard></ResourceCard>
+            <ResourceCard/>
           </Box>
         </Box>
         <Box
@@ -72,4 +72,4 @@ const ResoucresListView = () => {
   );
 };
 
-export default ResoucresListView;
+export default ResourcesListView;

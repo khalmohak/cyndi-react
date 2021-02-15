@@ -1,25 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Link as RouterLink, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import {
-  Avatar,
-  Box,
-
-  Divider,
-  Drawer,
-  Hidden,
-  List,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import {Avatar, Box, Divider, Drawer, Hidden, List, makeStyles, Typography} from '@material-ui/core';
 import {
   BarChart as BarChartIcon,
+  LogOut as LogOutIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
-  LogOut as LogOutIcon
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -29,16 +16,20 @@ const removeLoggedInStatus = () => {
 
 const items = [
   {
-    href: '/app/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
+    href: '/app/profile',
+    icon: ShoppingBagIcon,
+    title: 'Profile'
   },
   {
     href: '/app/class',
     icon: ShoppingBagIcon,
     title: 'Class'
   },
-
+  {
+    href: '/app/dashboard',
+    icon: BarChartIcon,
+    title: 'Dashboard'
+  },
   {
     href: '/app/settings',
     icon: SettingsIcon,
@@ -52,7 +43,6 @@ const items = [
   }
 ]
 
-
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
     width: 256
@@ -65,7 +55,10 @@ const useStyles = makeStyles(() => ({
   avatar: {
     cursor: 'pointer',
     width: 64,
-    height: 64
+    height: 64,
+    borderRadius: 64 / 2,
+    borderWidth: 5,
+    borderColor: "#ff0"
   }
 }));
 
@@ -82,11 +75,11 @@ const NavBar = ({onMobileClose, openMobile}) => {
     name: sessionStorage.getItem('userName')
   });
 
-  const avatarName = () => {
-    if (user.avatar == 'null') {
-      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
-    } else {
+  const returnsProfilePic = () => {
+    if (user.avatar) {
       return <Avatar className={classes.avatar} src={user.avatar}/>
+    } else {
+      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
     }
   };
 
@@ -104,26 +97,33 @@ const NavBar = ({onMobileClose, openMobile}) => {
       flexDirection="column"
     >
       <Box
-        alignItems="center"
+        alignItems="start"
         display="flex"
-        flexDirection="column"
+        flexDirection="row"
         p={2}
       >
-        {avatarName()}
-        <Typography
-          className={classes.name}
-          color="textPrimary"
-          variant="h5"
+        {returnsProfilePic()}
+        <Box
+          alignItems="start"
+          display="block"
+          flexDirection="column"
+          p={1}
+          paddingLeft={2}
         >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-
-          variant="body2"
-        >
-          {user.jobTitle}
-        </Typography>
+          <Typography
+            className={classes.name}
+            color="textPrimary"
+            variant="h5"
+          >
+            {user.name}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body2"
+          >
+            {user.jobTitle}
+          </Typography>
+        </Box>
       </Box>
       <Divider/>
       <Box p={2}>
@@ -144,10 +144,21 @@ const NavBar = ({onMobileClose, openMobile}) => {
         m={2}
         bgcolor="background.dark"
       >
-
-
       </Box>
+      {/*<BottomNavigation
+        //value={value}
+        onChange={(event, newValue) => {
+          //setValue(newValue);
+        }}
+        showLabels
+        className={classes.root}
+      >
+        <BottomNavigationAction label="Recents" icon={<RestoreIcon/>}/>
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}/>
+        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon/>}/>
+      </BottomNavigation>*/}
     </Box>
+
   );
 
   return (

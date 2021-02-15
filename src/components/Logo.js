@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = (props) => {
+const LogoLarge = (props) => {
   return (
     <img
       width='100'
@@ -13,4 +13,17 @@ const Logo = (props) => {
   );
 };
 
-export default Logo;
+const LogoSmall = (props) => {
+  return (
+    <img
+      width='70'
+      height='28'
+      alt="Logo"
+      src="/static/cyndi_white.png"
+
+      {...props}
+    />
+  );
+};
+
+export {LogoLarge, LogoSmall};
