@@ -30,9 +30,8 @@ const ClassListGenerator = (props) => {
         title="Class"
       >
         <Container maxWidth={false}>
-          <Toolbar/>
+          {/*<Toolbar/>*/}
           <Box mt={3}>
-
           </Box>
           <Box
             mt={3}
@@ -58,7 +57,6 @@ const ClassListGenerator = (props) => {
                 </Grid>
               ))}
             </Grid>
-
           </Box>
           <Pagination
             color="primary"
