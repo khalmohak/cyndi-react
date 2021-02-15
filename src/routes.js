@@ -19,6 +19,9 @@ import {ChapterPlan} from './views/classDescriptionViewsTeacher/ChapterPlan';
 import {Classes} from './views/classDescriptionViewsTeacher/Classes';
 import {Resources} from './views/classDescriptionViewsTeacher/Resources';
 import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
+import AddMedia from "./views/classDescriptionViewsTeacher/AddMedia";
+import AddLink from "./views/classDescriptionViewsTeacher/AddLink";
+import {Add} from "@material-ui/icons";
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -74,6 +77,8 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
               {path: 'teacher/chapterplan', element: <ChapterPlan/>},
               {path: 'teacher/syllabus', element: <Syllabus/>},
               {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
+              {path: 'teacher/resources/addmedia', element: <AddMedia/>},
+              {path: 'teacher/resources/addlink', element: <AddLink/>},
               {path: '*', element: <Navigate to="/404"/>}
             ]
           },
@@ -108,6 +113,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
           {path: 'teacher/chapterplan', element: <ChapterPlan/>},
           {path: 'teacher/syllabus', element: <Syllabus/>},
           {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
+
           {path: 'activity_detail', element: <ActivityDetail/>},
         ]
       },

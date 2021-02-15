@@ -113,7 +113,7 @@ const LoginView = () => {
 
   const navigateDashboard = ()=>{
     if(auth===1){
-      navigate('/app/dashboard', { replace: true });
+      navigate('/app/class', { replace: true });
     }
   }
   const handleSubmit = async e => {

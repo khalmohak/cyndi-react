@@ -1,11 +1,11 @@
-import React, { useEffect , useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link as RouterLink, useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import {
   Avatar,
   Box,
-  
+
   Divider,
   Drawer,
   Hidden,
@@ -22,7 +22,8 @@ import {
   LogOut as LogOutIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-const removeLoggedInStatus = ()=>{
+
+const removeLoggedInStatus = () => {
   sessionStorage.removeItem('loggedIn');
 }
 
@@ -32,21 +33,12 @@ const items = [
     icon: BarChartIcon,
     title: 'Dashboard'
   },
-  // {
-  //   href: '/app/customers',
-  //   icon: UsersIcon,
-  //   title: 'Students'
-  // },
   {
     href: '/app/class',
     icon: ShoppingBagIcon,
     title: 'Class'
   },
-  // {
-  //   href: '/app/resources',
-  //   icon: UserPlusIcon,
-  //   title: 'Resources'
-  // },
+
   {
     href: '/app/settings',
     icon: SettingsIcon,
@@ -56,9 +48,9 @@ const items = [
     href: '/login',
     icon: LogOutIcon,
     title: 'Log Out',
-    onClick:removeLoggedInStatus()
+    onClick: removeLoggedInStatus
   }
-  ]
+]
 
 
 const useStyles = makeStyles(() => ({
@@ -77,22 +69,23 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const NavBar = ({ onMobileClose, openMobile }) => {
+const NavBar = ({onMobileClose, openMobile}) => {
   const classes = useStyles();
+
   const location = useLocation();
   const s3Region = `ap-south-1`;
   const s3Bucket = `cyndi.primary.bucket`;
   const [user, setValues] = useState({
-    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}` ,
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}`,
     email: sessionStorage.getItem('userEmail'),
     jobTitle: sessionStorage.getItem('userRole'),
     name: sessionStorage.getItem('userName')
   });
 
-  const avatarName = ()=>{
-    if(user.avatar == 'null'){
+  const avatarName = () => {
+    if (user.avatar == 'null') {
       return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
-    }else{
+    } else {
       return <Avatar className={classes.avatar} src={user.avatar}/>
     }
   };
@@ -126,12 +119,13 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         </Typography>
         <Typography
           color="textSecondary"
+
           variant="body2"
         >
           {user.jobTitle}
         </Typography>
       </Box>
-      <Divider />
+      <Divider/>
       <Box p={2}>
         <List>
           {items.map((item) => (
@@ -144,15 +138,14 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      <Box flexGrow={1} />
+      <Box flexGrow={1}/>
       <Box
         p={2}
         m={2}
         bgcolor="background.dark"
       >
-        
-          
-        
+
+
       </Box>
     </Box>
   );
@@ -162,7 +155,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Hidden lgUp>
         <Drawer
           anchor="left"
-          classes={{ paper: classes.mobileDrawer }}
+          classes={{paper: classes.mobileDrawer}}
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
@@ -173,8 +166,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Hidden mdDown>
         <Drawer
           anchor="left"
-          classes={{ paper: classes.desktopDrawer }}
-          open
+          classes={{paper: classes.desktopDrawer}}
+          open={onMobileClose}
           variant="persistent"
         >
           {content}
@@ -190,7 +183,8 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => {
+  },
   openMobile: false
 };
 

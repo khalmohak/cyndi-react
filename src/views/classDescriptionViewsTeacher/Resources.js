@@ -19,12 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   pandaAddButton: {
-  backgroundColor: '#025fa1',
-  color: '#ffffff',
-  '&:hover': {
-    color: '#025fa1',
-    borderColor: "#025fa1"
-  }}
+    backgroundColor: '#025fa1',
+    color: '#ffffff',
+    '&:hover': {
+      color: '#025fa1',
+      borderColor: "#025fa1"
+    }
+  }
 }));
 
 function TabPanel(props) {
@@ -150,8 +151,17 @@ export const Resources = () => {
   }
 
   sortingMedia()
-  function handleAddDocs(){
+
+  function handleAddDocs() {
     navigate('/app/teacher/resources/adddocuments')
+  }
+
+  function handleAddMedia() {
+    navigate('/app/teacher/resources/addmedia')
+  }
+
+  function handleAddLink() {
+    navigate('/app/teacher/resources/addLink')
   }
 
   return (
@@ -216,7 +226,11 @@ export const Resources = () => {
             <TabPanel value={value} index={1}>
 
               <Container maxWidth={false} className={'np'}>
-
+                <Button
+                  onClick={handleAddMedia}
+                  className={classes.pandaAddButton}>
+                  Add
+                </Button>
 
                 <Box mt={1}>
                   <Grid
@@ -254,7 +268,11 @@ export const Resources = () => {
 
             <TabPanel value={value} index={2}>
               <Container maxWidth={false} className={'np'}>
-
+                <Button
+                  onClick={handleAddLink}
+                  className={classes.pandaAddButton}>
+                  Add
+                </Button>
 
                 <Box>
                   <Grid
