@@ -1,14 +1,13 @@
 import React from 'react';
-import { Navigate, Route, Redirect } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
-import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
-import {LoginView,isLoggedIn} from 'src/views/auth/LoginView';
+import {LoginView} from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
 import ClassListView from 'src/views/product/ClassListView/index.js';
 import SettingsView from 'src/views/settings/SettingsView';
-import ResoucresList from 'src/views/resources/index';
+import ResourcesList from 'src/views/resources/index';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
 import {Register} from 'src/views/auth/Register';
 import ClassCardIn from "./views/classCardIn/index";
@@ -20,22 +19,22 @@ import {Classes} from './views/classDescriptionViewsTeacher/Classes';
 import {Resources} from './views/classDescriptionViewsTeacher/Resources';
 import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
 
-let route = (isAuthenticated)=>{
-const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
-  if(isAuthenticated || isAlreadyLoggedIn === 'true'){
-    if(sessionStorage.getItem('userRole')==='Student') {
+let route = (/*isAuthenticated*/) => {
+  const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
+  // if(isAuthenticated || isAlreadyLoggedIn){
+  if (isAlreadyLoggedIn) {
+    if (sessionStorage.getItem('userRole') === 'Student') {
       return (
         [
           {
             path: 'app',
             element: <DashboardLayout/>,
             children: [
-              {path: 'customers', element: <CustomerListView/>},
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <ClassListView/>},
               {path: 'student', element: <ClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
-              {path: 'resources', element: <ResoucresList/>},
+              {path: 'resources', element: <ResourcesList/>},
               {path: 'activity_detail', element: <ActivityDetail/>},
               // { path: 'zoom', element: <Zoom /> },
               {path: '*', element: <Navigate to="/404"/>}
@@ -55,20 +54,18 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
           }
         ]
       )
-    }
-    else if(sessionStorage.getItem('userRole')==='Teacher'){
+    } else if (sessionStorage.getItem('userRole') === 'Teacher') {
       return (
         [
           {
             path: 'app',
             element: <DashboardLayout/>,
             children: [
-              {path: 'customers', element: <CustomerListView/>},
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <TeacherCard/>},
               {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
-              {path: 'resources', element: <ResoucresList/>},
+              {path: 'resources', element: <ResourcesList/>},
               {path: 'teacher/classes', element: <Classes/>},
               {path: 'teacher/resources', element: <Resources/>},
               {path: 'teacher/chapterplan', element: <ChapterPlan/>},
@@ -93,9 +90,8 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
         ]
       )
     }
-    }
-  else{
-    return([
+  } else {
+    return ([
       {
         path: 'app',
         element: <DashboardLayout/>,
@@ -113,13 +109,12 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
       },
       {
         path: '/',
-        element: <MainLayout />,
+        element: <MainLayout/>,
         children: [
-          { path: 'login', element: <LoginView /> },
-
-          { path: 'register', element: <Register /> },
-          { path: '/', element: <Navigate to="/login" /> },
-          { path: '*', element: <Navigate to="/login" /> }
+          {path: 'login', element: <LoginView/>},
+          {path: 'register', element: <Register/>},
+          {path: '/', element: <Navigate to="/login"/>},
+          {path: '*', element: <Navigate to="/login"/>}
         ]
       }
     ])

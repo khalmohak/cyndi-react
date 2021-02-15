@@ -1,52 +1,35 @@
-import React, { useEffect , useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import {
-  Avatar,
-  Box,
-  
-  Divider,
-  Drawer,
-  Hidden,
-  List,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import {Avatar, Box, Divider, Drawer, Hidden, List, makeStyles, Typography} from '@material-ui/core';
 import {
   BarChart as BarChartIcon,
+  LogOut as LogOutIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
-  LogOut as LogOutIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-const removeLoggedInStatus = ()=>{
+
+const removeLoggedInStatus = () => {
   sessionStorage.removeItem('loggedIn');
 }
 
 const items = [
   {
-    href: '/app/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
+    href: '/app/profile',
+    icon: ShoppingBagIcon,
+    title: 'Profile'
   },
-  // {
-  //   href: '/app/customers',
-  //   icon: UsersIcon,
-  //   title: 'Students'
-  // },
   {
     href: '/app/class',
     icon: ShoppingBagIcon,
     title: 'Class'
   },
-  // {
-  //   href: '/app/resources',
-  //   icon: UserPlusIcon,
-  //   title: 'Resources'
-  // },
+  {
+    href: '/app/dashboard',
+    icon: BarChartIcon,
+    title: 'Dashboard'
+  },
   {
     href: '/app/settings',
     icon: SettingsIcon,
@@ -56,10 +39,9 @@ const items = [
     href: '/login',
     icon: LogOutIcon,
     title: 'Log Out',
-    onClick:removeLoggedInStatus()
+    onClick: removeLoggedInStatus
   }
-  ]
-
+]
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -73,27 +55,31 @@ const useStyles = makeStyles(() => ({
   avatar: {
     cursor: 'pointer',
     width: 64,
-    height: 64
+    height: 64,
+    borderRadius: 64 / 2,
+    borderWidth: 5,
+    borderColor: "#ff0"
   }
 }));
 
-const NavBar = ({ onMobileClose, openMobile }) => {
+const NavBar = ({onMobileClose, openMobile}) => {
+  console.log(openMobile);
   const classes = useStyles();
   const location = useLocation();
   const s3Region = `ap-south-1`;
   const s3Bucket = `cyndi.primary.bucket`;
   const [user, setValues] = useState({
-    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}` ,
+    avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${sessionStorage.getItem('userPhoto')}`,
     email: sessionStorage.getItem('userEmail'),
     jobTitle: sessionStorage.getItem('userRole'),
     name: sessionStorage.getItem('userName')
   });
 
-  const avatarName = ()=>{
-    if(user.avatar == 'null'){
-      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
-    }else{
+  const returnsProfilePic = () => {
+    if (user.avatar) {
       return <Avatar className={classes.avatar} src={user.avatar}/>
+    } else {
+      return <Avatar className={classes.avatar}>{user.name[0]}</Avatar>
     }
   };
 
@@ -111,27 +97,35 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       flexDirection="column"
     >
       <Box
-        alignItems="center"
+        alignItems="start"
         display="flex"
-        flexDirection="column"
+        flexDirection="row"
         p={2}
       >
-        {avatarName()}
-        <Typography
-          className={classes.name}
-          color="textPrimary"
-          variant="h5"
+        {returnsProfilePic()}
+        <Box
+          alignItems="start"
+          display="block"
+          flexDirection="column"
+          p={1}
+          paddingLeft={2}
         >
-          {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {user.jobTitle}
-        </Typography>
+          <Typography
+            className={classes.name}
+            color="textPrimary"
+            variant="h5"
+          >
+            {user.name}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body2"
+          >
+            {user.jobTitle}
+          </Typography>
+        </Box>
       </Box>
-      <Divider />
+      <Divider/>
       <Box p={2}>
         <List>
           {items.map((item) => (
@@ -144,17 +138,27 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      <Box flexGrow={1} />
+      <Box flexGrow={1}/>
       <Box
         p={2}
         m={2}
         bgcolor="background.dark"
       >
-        
-          
-        
       </Box>
+      {/*<BottomNavigation
+        //value={value}
+        onChange={(event, newValue) => {
+          //setValue(newValue);
+        }}
+        showLabels
+        className={classes.root}
+      >
+        <BottomNavigationAction label="Recents" icon={<RestoreIcon/>}/>
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}/>
+        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon/>}/>
+      </BottomNavigation>*/}
     </Box>
+
   );
 
   return (
@@ -162,7 +166,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Hidden lgUp>
         <Drawer
           anchor="left"
-          classes={{ paper: classes.mobileDrawer }}
+          classes={{paper: classes.mobileDrawer}}
           onClose={onMobileClose}
           open={openMobile}
           variant="temporary"
@@ -173,7 +177,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Hidden mdDown>
         <Drawer
           anchor="left"
-          classes={{ paper: classes.desktopDrawer }}
+          classes={{paper: classes.desktopDrawer}}
           open
           variant="persistent"
         >
@@ -190,7 +194,8 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => {
+  },
   openMobile: false
 };
 

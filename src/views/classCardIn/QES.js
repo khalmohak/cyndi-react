@@ -1,49 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Typography,
-  makeStyles,
-  Button
-} from '@material-ui/core';
-import examSVG from "../../components/exam.svg";
+import {Box, Button, Card, CardContent, Grid, makeStyles, Typography} from '@material-ui/core';
+import staticSVG from "../../components/GetStaticSvg";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    borderRadius:'10px',
-    width:'40%'
+    borderRadius: '10px',
+    width: '40%'
   },
-  cardTitle:{
-    fontWeight:'700',
-    fontSize:'25px'
+  cardTitle: {
+    fontWeight: '700',
+    fontSize: '25px'
   },
-  cardDescription:{
-    fontWeight:'400',
+  cardDescription: {
+    fontWeight: '400',
   },
-  cardImage:{
-    width:"40px",
-    height:"40px"
+  cardImage: {
+    width: "40px",
+    height: "40px"
   },
-  cardButton:{
-    borderRadius:'20px',
-    border:"1px solid green",
-    paddingLeft:"20px",
-    paddingRight:"20px"
+  cardButton: {
+    borderRadius: '20px',
+    border: "1px solid green",
+    paddingLeft: "20px",
+    paddingRight: "20px"
   }
 
 }));
 
-const QESClassCard = ({ className, product, ...rest })=>{
+const QESClassCard = ({className, product, ...rest}) => {
   const classes = useStyles();
 
-  return(
+  return (
 
     <Card
       className={clsx(classes.root, className)}
@@ -66,7 +56,7 @@ const QESClassCard = ({ className, product, ...rest })=>{
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Box>
-                {examSVG}
+                {staticSVG("Exam")}
               </Box>
             </Grid>
             <Grid item xs={6}>
