@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {current_class_id} from '../product/ClassListView/classCard';
 import {Button} from '@material-ui/core';
 import Firebase from 'firebase';
-import firebaseConfig from '../../utils/firebaseConfig';
 import './App.css';
 import Message from './Message.js';
-import ReactDOM from 'react-dom';
 
 //Firebase.initializeApp(firebaseConfig);
 
-if(sessionStorage.getItem('firebaseToken')) {
+if (sessionStorage.getItem('firebaseToken')) {
   Firebase.auth().signInWithCustomToken(sessionStorage.getItem('firebaseToken'))
     // .then((userCredential) => {
     //   // Signed in
@@ -22,8 +19,8 @@ if(sessionStorage.getItem('firebaseToken')) {
     });
 }
 
-const ClassBoard = ()=>{
-  let [chat,setChat] = useState();
+const ClassBoard = () => {
+  let [chat, setChat] = useState();
   // const [chats,setChat] = useState( [{
   //   username: "Kevin Hsu",
   //   content: <p>Hello World!</p>,
@@ -58,29 +55,28 @@ const ClassBoard = ()=>{
   //   img: "http://i.imgur.com/Tj5DGiO.jpg",
   // }])
   //let messages=[];
-  const getUserData =  () => {
-    let ref =  Firebase.database().ref('/ClassBoard');
+  const getUserData = () => {
+    let ref = Firebase.database().ref('/ClassBoard');
     ref.on('value', snapshot => {
       //console.log(snapshot.val());
-        //messages=snapshot.val();
-        setChat(snapshot.val());
+      //messages=snapshot.val();
+      setChat(snapshot.val());
 
     });
 
   };
-  let messages=[];
-  if(chat){
-    for(let i in chat['15']){
+  let messages = [];
+  if (chat) {
+    for (let i in chat['15']) {
       messages.push(chat['15'][i]['message']);
     }
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserData();
 
-  },[])
-
+  }, [])
 
 
   // function submitMessage(e) {
@@ -98,23 +94,22 @@ const ClassBoard = ()=>{
   // }
 
 
-  
   const username = "Mohak";
-    return(
-          <div className="chatroom chat147">
-            <h3>Class Chat</h3>
-            <ul className="chats" >
-              {
-                messages.map((chat) =>
-                  <Message chat={chat} user={username} />
-                )
-              }
-            </ul>
-            <form className="input" >
-              <input type="text"  />
-              <Button type="submit" value="Submit">Send</Button>
-            </form>
-          </div>
+  return (
+    <div className="chatroom chat147">
+      <h3>Class Chat</h3>
+      <ul className="chats">
+        {
+          messages.map((chat) =>
+            <Message chat={chat} user={username}/>
+          )
+        }
+      </ul>
+      <form className="input">
+        <input type="text"/>
+        <Button type="submit" value="Submit">Send</Button>
+      </form>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button, Card, CardContent, makeStyles, TextField, Typography} from '@material-ui/core';
+import {Button, Card, CardContent, makeStyles, Typography} from '@material-ui/core';
 import S3 from 'react-aws-s3';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -21,7 +22,7 @@ const UploadWork = () => {
     console.log(fileInput.current);
     let file = fileInput.current.files[0];
     let newFileName = fileInput.current.files[0].name;
-    console.log(file,newFileName);
+    console.log(file, newFileName);
     const config = {
       bucketName: 'cyndi.primary.bucket',
       dirName: 'Activity/',
@@ -30,10 +31,10 @@ const UploadWork = () => {
       secretAccessKey: 'bYYFK1eiqIj8l+htjO9KxrSdRiX0ShEq8ligEeoj',
     };
     const ReactS3Client = new S3(config);
-    ReactS3Client.uploadFile(file,newFileName).then(data=>{
+    ReactS3Client.uploadFile(file, newFileName).then(data => {
       console.log(data);
     })
-      .catch(err=>console.log(err))
+      .catch(err => console.log(err))
   }
 
   return (

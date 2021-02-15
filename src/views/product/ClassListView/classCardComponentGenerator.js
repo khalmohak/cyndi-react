@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
@@ -15,11 +15,8 @@ const useStyles = makeStyles((theme) => ({
   classCard: {
     height: '100%'
   },
-  loading:{
-
-  }
+  loading: {}
 }));
-
 
 
 const ClassListGenerator = (props) => {
@@ -27,56 +24,54 @@ const ClassListGenerator = (props) => {
 
   if (props.classArrayData) {
 
-      return (
-        <Page
-          className={classes.root}
-          title="Class"
-        >
-          <Container maxWidth={false}>
-            <Toolbar/>
-            <Box mt={3}>
+    return (
+      <Page
+        className={classes.root}
+        title="Class"
+      >
+        <Container maxWidth={false}>
+          <Toolbar/>
+          <Box mt={3}>
 
-            </Box>
-            <Box
-              mt={3}
-              display="flex"
-              justifyContent="center"
+          </Box>
+          <Box
+            mt={3}
+            display="flex"
+            justifyContent="center"
+          >
+            <Grid
+              container
+              spacing={3}
             >
-              <Grid
-                container
-                spacing={3}
-              >
-                {props.classArrayData.map((card) => (
-                  <Grid
-                    item
-                    key={card.class_id}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                  >
-                    <ClassesCard
-                      className={classes.classCard}
-                      card={card}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+              {props.classArrayData.map((card) => (
+                <Grid
+                  item
+                  key={card.class_id}
+                  lg={4}
+                  md={6}
+                  xs={12}
+                >
+                  <ClassesCard
+                    className={classes.classCard}
+                    card={card}
+                  />
+                </Grid>
+              ))}
+            </Grid>
 
-            </Box>
-            <Pagination
-              color="primary"
-              count={3}
-              size="small"
-            />
-          </Container>
-        </Page>
-      );
+          </Box>
+          <Pagination
+            color="primary"
+            count={3}
+            size="small"
+          />
+        </Container>
+      </Page>
+    );
 
 
-
-  }
-  else{
-    return(
+  } else {
+    return (
       <CircularProgress className={classes.loading}/>
     )
   }

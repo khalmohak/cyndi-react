@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 const ClassList = () => {
   const classes = useStyles();
   const [classData, setClassData] = useState();

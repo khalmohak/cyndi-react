@@ -5,15 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _core = require("@material-ui/core");
+const _core = require("@material-ui/core");
+const _shadows = _interopRequireDefault(require("./shadows"));
+const _typography = _interopRequireDefault(require("./typography"));
 
-var _shadows = _interopRequireDefault(require("./shadows"));
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {"default": obj};
+}
 
-var _typography = _interopRequireDefault(require("./typography"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var theme = (0, _core.createMuiTheme)({
+const theme = (0, _core.createMuiTheme)({
   palette: {
     background: {
       dark: '#F4F6F8',
@@ -36,5 +36,4 @@ var theme = (0, _core.createMuiTheme)({
   shadows: _shadows["default"],
   typography: _typography["default"]
 });
-var _default = theme;
-exports["default"] = _default;
+exports["default"] = theme;

@@ -1,21 +1,9 @@
-import {
-  Avatar,
-  Divider,
-  Drawer,
-  makeStyles,
-  Box,
-  List,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent
-} from "@material-ui/core";
+import {Avatar, Box, Card, CardContent, Divider, List, makeStyles, Typography} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
 import {useNavigate} from "react-router";
-import {Resources} from '../classDescriptionViewsTeacher/Resources.js';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +61,7 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
-              onClick={()=>{
+              onClick={() => {
                 navigate('/app/teacher/resources')
               }}
             >
@@ -86,7 +74,7 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
-              onClick={()=>{
+              onClick={() => {
                 navigate('/app/teacher/classes')
               }}
             >
@@ -101,7 +89,7 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
-              onClick={()=>{
+              onClick={() => {
                 navigate('/app/teacher/syllabus')
               }}
             >
@@ -114,7 +102,7 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
-              onClick={()=>{
+              onClick={() => {
                 navigate('/app/teacher/chapterplan')
               }}
             >

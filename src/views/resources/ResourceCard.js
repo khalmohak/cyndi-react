@@ -1,24 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import AWS from 'aws-sdk';
 import axios from "axios";
 import {
+  Backdrop,
   Box,
   Button,
   Card,
   CardActions,
   CardContent,
+  Fade,
   Grid,
   Input,
   makeStyles,
   Menu,
   MenuItem,
+  Modal,
   Switch,
   TextField,
-  Typography,
-  Modal,
-  Backdrop,
-  Fade
+  Typography
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -323,7 +323,7 @@ const ResourceCard = ({className, ...rest}) => {
       }
     ).then(res => {
       console.log(res.data);
-      if(res.data == 'Activity Added'){
+      if (res.data == 'Activity Added') {
         setOpen(true);
         setForm([]);
         sessionStorage.delete('formDetails');
@@ -334,10 +334,10 @@ const ResourceCard = ({className, ...rest}) => {
   };
 
 
-  const ActivityAddedSuccess = ()=>{
+  const ActivityAddedSuccess = () => {
 
 
-    return(
+    return (
       <div>
         {/*<button type="button" onClick={handleOpenModal}>*/}
         {/*  react-transition-group*/}
@@ -364,8 +364,6 @@ const ResourceCard = ({className, ...rest}) => {
       </div>
     )
   }
-
-
 
 
   return (

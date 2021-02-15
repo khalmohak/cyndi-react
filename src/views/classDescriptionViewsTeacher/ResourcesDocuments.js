@@ -1,8 +1,6 @@
 import React from 'react';
-import {CardContent, makeStyles, Card, Typography, Grid, Button, Divider, Box} from "@material-ui/core";
-import {s3Bucket, s3Region, s3URL} from "../../constants";
-import fileDownload from 'js-file-download';
-import axios from "axios";
+import {Box, Button, Card, CardContent, Divider, Grid, makeStyles, Typography} from "@material-ui/core";
+import {s3Bucket, s3Region} from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,15 +27,14 @@ const ResourcesDocuments = ({data, ...rest}) => {
   let attachedFiles = JSON.parse(data.attached_files)["files"];
 
 
-
   return (
     <Card className={classes.root}
-    m={2}>
+          m={2}>
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
             {attachedFiles ? <Box><Button className={classes.downloadBtn}
-                                     href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${attachedFiles[0].file_url}?force=true`}
+                                          href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${attachedFiles[0].file_url}?force=true`}
               >Download</Button><Typography>File Name
                 - {attachedFiles[0].file_name}</Typography></Box>
               :

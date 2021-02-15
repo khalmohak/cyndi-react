@@ -1,18 +1,8 @@
-import React,{ useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import {Avatar, Box, Button, Card, CardActions, CardContent, Divider, makeStyles, Typography} from '@material-ui/core';
 
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +14,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Profile = ({ className, ...rest }) => {
+const Profile = ({className, ...rest}) => {
   const classes = useStyles();
 
   const [user] = useState({
@@ -38,7 +28,7 @@ const Profile = ({ className, ...rest }) => {
 
 
   return (
-    
+
     <Card
       className={clsx(classes.root, className)}
       {...rest}
@@ -75,7 +65,7 @@ const Profile = ({ className, ...rest }) => {
           </Typography>
         </Box>
       </CardContent>
-      <Divider />
+      <Divider/>
       <CardActions>
         <Button
           color="primary"

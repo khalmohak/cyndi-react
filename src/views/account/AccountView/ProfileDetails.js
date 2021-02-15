@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  TextField,
-  makeStyles
-} from '@material-ui/core';
+import {Box, Button, Card, CardContent, CardHeader, Divider, Grid, makeStyles, TextField} from '@material-ui/core';
 
 const states = [
   {
@@ -33,34 +23,31 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const ProfileDetails = ({ className, ...rest }) => {
+const ProfileDetails = ({className, ...rest}) => {
   const classes = useStyles();
 
   const details = [];
 
 
- 
   axios.get(`http://localhost:5000/profile_data`)
-  .then(res => {
-    // details={
-    //   firstName: res.data.details.firstName,
-    //   lastName: res.data.details.lastName,
-    //   email: res.data.details.email,
-    //   phone: res.data.details.phone,
-    //   state: res.data.details.state,
-    //   country: res.data.details.country
-    // }
-    details.push(res.data.details);
-    // details.push(res.data.details.lastName);
-    // details.push(res.data.details.email);
-    // details.push(res.data.details.phone);
-    // details.push(res.data.details.state);
-    // details.push(res.data.details.country);
-    
+    .then(res => {
+      // details={
+      //   firstName: res.data.details.firstName,
+      //   lastName: res.data.details.lastName,
+      //   email: res.data.details.email,
+      //   phone: res.data.details.phone,
+      //   state: res.data.details.state,
+      //   country: res.data.details.country
+      // }
+      details.push(res.data.details);
+      // details.push(res.data.details.lastName);
+      // details.push(res.data.details.email);
+      // details.push(res.data.details.phone);
+      // details.push(res.data.details.state);
+      // details.push(res.data.details.country);
 
 
-    
-  })
+    })
   console.log(details.length);
 
 
@@ -92,7 +79,7 @@ const ProfileDetails = ({ className, ...rest }) => {
           subheader="The information can be edited"
           title="Profile"
         />
-        <Divider />
+        <Divider/>
         <CardContent>
           <Grid
             container
@@ -186,7 +173,7 @@ const ProfileDetails = ({ className, ...rest }) => {
                 onChange={handleChange}
                 required
                 select
-                SelectProps={{ native: true }}
+                SelectProps={{native: true}}
                 value={values.state}
                 variant="outlined"
               >
@@ -202,7 +189,7 @@ const ProfileDetails = ({ className, ...rest }) => {
             </Grid>
           </Grid>
         </CardContent>
-        <Divider />
+        <Divider/>
         <Box
           display="flex"
           justifyContent="flex-end"

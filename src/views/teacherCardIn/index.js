@@ -30,7 +30,7 @@ const TeacherClassCardIn = () => {
             container
             spacing={3}
           >
-          <ClassCardInContent></ClassCardInContent>
+            <ClassCardInContent></ClassCardInContent>
           </Grid>
         </Box>
       </Container>

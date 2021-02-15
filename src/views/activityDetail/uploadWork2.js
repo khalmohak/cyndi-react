@@ -1,12 +1,10 @@
 import React from 'react';
 import {Button, Card, CardContent, Typography} from "@material-ui/core";
-import AWS from 'aws-sdk';
 
 
-
-class UploadWork2 extends React.Component{
-  render(){
-    return(
+class UploadWork2 extends React.Component {
+  render() {
+    return (
       <Card>
         <Typography
           variant={"h3"}

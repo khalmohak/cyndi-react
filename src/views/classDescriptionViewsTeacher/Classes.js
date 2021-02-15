@@ -1,8 +1,7 @@
 import React from 'react';
 
-
-export const Classes = ()=>{
-  return(
+export const Classes = () => {
+  return (
     <div>Oh ok</div>
   )
 }

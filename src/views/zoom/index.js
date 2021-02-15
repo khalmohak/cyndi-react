@@ -16,7 +16,6 @@ function generateSignature(apiKey, apiSecret, meetingNumber, role) {
 }
 
 
-
 let date = moment().format('L');
 let time = moment().format('LT');
 /**
@@ -31,7 +30,7 @@ let apiData = {
 }
 
 let header = {
-  'user_id': sessionStorage.getItem( 'userId'),
+  'user_id': sessionStorage.getItem('userId'),
   'x-access-token': sessionStorage.getItem('token')
 }
 
@@ -69,7 +68,7 @@ export function zoomInitiater(callback) {
 
           setTimeout(() => {
 
-            joinMeeting(generateSignature(meetConfig.apiKey,apiKeys.apiSecret,meetConfig.meetingNumber,meetConfig.role), meetConfig);
+            joinMeeting(generateSignature(meetConfig.apiKey, apiKeys.apiSecret, meetConfig.meetingNumber, meetConfig.role), meetConfig);
 
           }, 1000);
         },

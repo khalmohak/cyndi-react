@@ -1,18 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {
-  AppBar,
-  Backdrop,
-  Box,
-  Button, Container,
-  Fade, FormControlLabel, FormGroup, Grid, Input,
-  Menu,
-  MenuItem,
-  Modal, Select,
-  TextField,
-  Toolbar,
-  Typography
-} from '@material-ui/core';
+import {AppBar, Box, Button, Container, Grid, Input, Select, TextField, Toolbar, Typography} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
 import S3 from "react-aws-s3";
 import Page from "../../components/Page";
@@ -20,7 +8,6 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import moment from 'moment';
 import {apiEndPoint} from "../../constants";
 import axios from "axios";
-import {func} from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
