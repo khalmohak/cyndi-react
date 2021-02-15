@@ -18,6 +18,7 @@ import {Syllabus} from './views/classDescriptionViewsTeacher/Syllabus';
 import {ChapterPlan} from './views/classDescriptionViewsTeacher/ChapterPlan';
 import {Classes} from './views/classDescriptionViewsTeacher/Classes';
 import {Resources} from './views/classDescriptionViewsTeacher/Resources';
+import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -68,7 +69,11 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
               {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResoucresList/>},
-
+              {path: 'teacher/classes', element: <Classes/>},
+              {path: 'teacher/resources', element: <Resources/>},
+              {path: 'teacher/chapterplan', element: <ChapterPlan/>},
+              {path: 'teacher/syllabus', element: <Syllabus/>},
+              {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
               {path: '*', element: <Navigate to="/404"/>}
             ]
           },
@@ -102,7 +107,7 @@ const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
           {path: 'teacher/resources', element: <Resources/>},
           {path: 'teacher/chapterplan', element: <ChapterPlan/>},
           {path: 'teacher/syllabus', element: <Syllabus/>},
-
+          {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
           {path: 'activity_detail', element: <ActivityDetail/>},
         ]
       },

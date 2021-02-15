@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {AppBar, Box, Container, Grid, makeStyles, Tab, Tabs, Typography} from "@material-ui/core";
+import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Typography} from "@material-ui/core";
 import Page from "../../components/Page";
 import PropTypes from "prop-types";
 import Pagination from "@material-ui/lab/Pagination";
 import ResourcesDocuments from "./ResourcesDocuments";
 import axios from "axios";
 import {apiEndPoint} from "../../constants";
+import ResourceMedia from "./ResourceMedia";
+import ResourcesLink from "./ResourcesLink";
+import {useNavigate} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +16,15 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
-  }
+  },
+
+  pandaAddButton: {
+  backgroundColor: '#025fa1',
+  color: '#ffffff',
+  '&:hover': {
+    color: '#025fa1',
+    borderColor: "#025fa1"
+  }}
 }));
 
 function TabPanel(props) {
@@ -55,45 +66,93 @@ function a11yProps(index) {
 export const Resources = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [state, setState] = React.useState();
+  // const [documents, setDocuments] = React.useState([]);
+  // const [media, setMedia] = React.useState([]);
+  // const [links, setLinks] = React.useState([]);
+  const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
 
   let apiData = undefined;
-  let counter = 0;
 
   function GetResourcesAPI() {
-    counter++;
+
     let apiBody = {
       class_id: sessionStorage.getItem('current_class_id'),
       university_name: sessionStorage.getItem('universityName'),
       college_name: sessionStorage.getItem('collegeName'),
       limit: 10,
-      offset: 0
+      offset: 1
     }
     let headers = {
       'user_id': sessionStorage.getItem('userId'),
       'x-access-token': sessionStorage.getItem('token')
     }
 
-    axios.post(`http://localhost:4000/get/resource/class`, apiBody, {
+
+    axios.post(`${apiEndPoint}/get/resource/class`, apiBody, {
       headers: headers
     }).then(
       res => {
-        console.log(res)
+        //console.log(res.data)
         apiData = res.data;
+        setState(res.data);
+        //console.log(state)
+
       }
     )
       .catch(err => console.log(err))
   }
 
   useEffect(() => {
-    //GetResourcesAPI();
-    counter++;
-    console.log('mounted');
-  }, [counter])
+    GetResourcesAPI();
 
+  }, [state])
+  let documents = undefined;
+  let media = undefined;
+  let links = undefined;
+
+  function sortingMedia() {
+    if (state) {
+      state.map(data => {
+        let attachedFiles = JSON.parse(data.attached_files);
+        if (attachedFiles.files) {
+          if (documents) {
+            documents.push(data)
+          } else {
+            documents = [data]
+          }
+
+        }
+
+        if (attachedFiles.link) {
+          if (links) {
+            links.push(data)
+          } else {
+            links = [data]
+          }
+        }
+        if (attachedFiles.images) {
+          if (media) {
+            media.push(data)
+          } else {
+            media = [data]
+          }
+        }
+
+      })
+
+
+    }
+  }
+
+  sortingMedia()
+  function handleAddDocs(){
+    navigate('/app/teacher/resources/adddocuments')
+  }
 
   return (
     <Page
@@ -116,22 +175,26 @@ export const Resources = () => {
             </AppBar>
             <TabPanel value={value} index={0}>
               <Container maxWidth={false} className={'np'}>
-
+                <Button
+                  onClick={handleAddDocs}
+                  className={classes.pandaAddButton}>
+                  Add
+                </Button>
 
                 <Box>
                   <Grid
                     container
                     spacing={3}
                   >
-                    {apiData ? apiData.map((data) => (
+                    {documents ? documents.map((data) => (
                         <Grid
                           item
                           key={data.resource_id}
-                          lg={4}
+                          lg={6}
                           md={6}
                           xs={12}
                         >
-                          <ResourcesDocuments/>
+                          <ResourcesDocuments data={data}/>
                         </Grid>
                       ))
                       : <div>Loading...</div>}
@@ -156,10 +219,25 @@ export const Resources = () => {
 
 
                 <Box mt={1}>
-                  <Grid container spacing={3}>
-
+                  <Grid
+                    container
+                    spacing={3}
+                  >
+                    {media ? media.map((data) => (
+                        <Grid
+                          item
+                          key={data.resource_id}
+                          lg={4}
+                          md={6}
+                          xs={12}
+                        >
+                          <ResourceMedia data={data}/>
+                        </Grid>
+                      ))
+                      : <div>Loading...</div>}
                   </Grid>
                 </Box>
+
                 <Box
                   mt={3}
                   display="flex"
@@ -183,7 +261,18 @@ export const Resources = () => {
                     container
                     spacing={3}
                   >
-
+                    {links ? links.map((data) => (
+                        <Grid
+                          item
+                          key={data.resource_id}
+                          lg={4}
+                          md={6}
+                          xs={12}
+                        >
+                          <ResourcesLink data={data}/>
+                        </Grid>
+                      ))
+                      : <div>Loading...</div>}
 
                   </Grid>
                 </Box>

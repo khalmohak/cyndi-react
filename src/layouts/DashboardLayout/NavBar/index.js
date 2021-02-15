@@ -32,11 +32,11 @@ const items = [
     icon: BarChartIcon,
     title: 'Dashboard'
   },
-  {
-    href: '/app/customers',
-    icon: UsersIcon,
-    title: 'Students'
-  },
+  // {
+  //   href: '/app/customers',
+  //   icon: UsersIcon,
+  //   title: 'Students'
+  // },
   {
     href: '/app/class',
     icon: ShoppingBagIcon,

@@ -23,32 +23,29 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const ResourcesDocuments = ({data, ...rest}) => {
+const ResourcesLink = ({data, ...rest}) => {
   const classes = useStyles();
   let assignData = JSON.parse(data.assigned_to)["assigned_to"];
-  let attachedFiles = JSON.parse(data.attached_files)["files"];
+  let attachedFiles = JSON.parse(data.attached_files)["link"];
 
 
 
   return (
-    <Card className={classes.root}
-    m={2}>
+    <Card className={classes.root}>
       <CardContent>
         <Grid container>
-          <Grid item xs={6}>
-            {attachedFiles ? <Box><Button className={classes.downloadBtn}
-                                     href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${attachedFiles[0].file_url}?force=true`}
-              >Download</Button><Typography>File Name
-                - {attachedFiles[0].file_name}</Typography></Box>
+          <Grid item xs={4}>
+            {attachedFiles ? <Box></Box>
               :
               <div><Button className={classes.downloadBtn}>Download</Button><Typography>Not Available</Typography></div>
 
             }
 
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <Typography>{data.title}</Typography>
             <Typography>{data.type}</Typography>
+            <a href={attachedFiles}>Link</a>
             <Typography>{data.description}</Typography>
             <Typography>{data.datetime}</Typography>
           </Grid>
@@ -75,4 +72,4 @@ const ResourcesDocuments = ({data, ...rest}) => {
 
 
 };
-export default ResourcesDocuments;
+export default ResourcesLink;

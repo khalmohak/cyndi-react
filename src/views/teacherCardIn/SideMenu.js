@@ -14,6 +14,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
+import {useNavigate} from "react-router";
 import {Resources} from '../classDescriptionViewsTeacher/Resources.js';
 
 
@@ -29,6 +30,7 @@ export const SideMenu = ({data, ...rest}) => {
   const classes = useStyles();
   let teachersData = [];
   let studentsData = [];
+  let navigate = useNavigate();
 
   function teachersGather() {
     let teachers = JSON.parse(data.teachers_list).users;
@@ -62,9 +64,6 @@ export const SideMenu = ({data, ...rest}) => {
     }
   };
 
-  function handleResources() {
-
-  }
 
   return (
     <>
@@ -74,11 +73,11 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
-              onClick={handleResources}
+              onClick={()=>{
+                navigate('/app/teacher/resources')
+              }}
             >
-              <CardHeader>
-                <Typography>Resources</Typography>
-              </CardHeader>
+
               <CardContent>
                 <Typography>Resources</Typography>
               </CardContent>
@@ -87,10 +86,11 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
+              onClick={()=>{
+                navigate('/app/teacher/classes')
+              }}
             >
-              <CardHeader>
-                <Typography>Resources</Typography>
-              </CardHeader>
+
               <CardContent>
                 <Typography>Classes</Typography>
               </CardContent>
@@ -101,10 +101,11 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
+              onClick={()=>{
+                navigate('/app/teacher/syllabus')
+              }}
             >
-              <CardHeader>
-                <Typography>Resources</Typography>
-              </CardHeader>
+
               <CardContent>
                 <Typography>Syllabus</Typography>
               </CardContent>
@@ -113,10 +114,11 @@ export const SideMenu = ({data, ...rest}) => {
           <Box m={1}>
             <Card
               className={classes.card}
+              onClick={()=>{
+                navigate('/app/teacher/chapterplan')
+              }}
             >
-              <CardHeader>
-                <Typography>Resources</Typography>
-              </CardHeader>
+
               <CardContent>
                 <Typography>Chapter Plan</Typography>
               </CardContent>

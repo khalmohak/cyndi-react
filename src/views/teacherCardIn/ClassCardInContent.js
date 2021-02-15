@@ -55,11 +55,6 @@ function TabPanel(props) {
 }
 
 
-
-
-
-
-
 const drawerWidth = 300;
 
 TabPanel.propTypes = {
@@ -205,10 +200,10 @@ const ClassCardInContent = ({className, card, ...rest}) => {
     university_name: sessionStorage.getItem('universityName'),
     college_name: sessionStorage.getItem('collegeName')
   };
-  let teacherData=JSON.parse(sessionStorage.getItem('classData')).data;
-  for(let i=0;i<teacherData.length;i++){
-    if(teacherData[i].class_id == sessionStorage.getItem('current_class_id')){
-      teacherData=teacherData[i];
+  let teacherData = JSON.parse(sessionStorage.getItem('classData')).data;
+  for (let i = 0; i < teacherData.length; i++) {
+    if (teacherData[i].class_id == sessionStorage.getItem('current_class_id')) {
+      teacherData = teacherData[i];
       break;
     }
   }
@@ -269,7 +264,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
           </IconButton>
         </div>
 
-        {teacherData ? <SideMenu data={teacherData}/>:<div>Loading</div>}
+        {teacherData ? <SideMenu data={teacherData}/> : <div>Loading</div>}
 
       </Drawer>
       <TabPanel value={value} index={0}>
