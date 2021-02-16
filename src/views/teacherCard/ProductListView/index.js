@@ -10,8 +10,8 @@ import {apiEndPoint} from "../../../constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
-    minHeight: '100%',
-    paddingBottom: theme.spacing(3),
+    minHeight: '80%',
+    paddingBottom: 0,
     paddingTop: theme.spacing(3)
   },
   classCard: {
@@ -68,7 +68,6 @@ const TeacherCard = () => {
         title="Class"
       >
         <Container maxWidth={false}>
-          <Toolbar/>
           <Box mt={3}>
             <Grid
               container
@@ -91,7 +90,7 @@ const TeacherCard = () => {
             </Grid>
           </Box>
           <Box
-            mt={3}
+            mt={1}
             display="flex"
             justifyContent="center"
           >

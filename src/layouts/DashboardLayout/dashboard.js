@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Outlet} from 'react-router-dom';
-import {AppBar, Box, Button, createMuiTheme, makeStyles, Toolbar, Typography, withStyles} from '@material-ui/core';
-import NavBar from './NavBar';
+import {BottomNavigation, BottomNavigationAction, Box, Button, makeStyles, withStyles} from '@material-ui/core';
+import NavBar from './NavBar/navbar';
 import TopBar from './TopBar';
-import AddIcon from "@material-ui/icons/Add";
-import { green, purple } from '@material-ui/core/colors';
+import {purple} from '@material-ui/core/colors';
+import {Favorite, LocationOn, Restore} from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: '1 1 auto',
     overflow: 'hidden',
-    paddingTop: 64,
+    paddingTop: 0,
     [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256
+      paddingLeft: 0
     }
   },
   contentContainer: {
@@ -51,7 +51,7 @@ const DashboardLayout = () => {
 
   return (
     <div className={classes.root}>
-      <TopBar onMobileNavOpen={() => setMobileNavOpen(true)}/>
+
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
@@ -59,26 +59,23 @@ const DashboardLayout = () => {
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
-            <AppBar position="static">
-              <Toolbar>
-                <Typography variant="h5" className={classes.title}>
-                  Classes
-                </Typography>
-                <Box flex={1}/>
-                <ColorButton
-                  className={classes.button}
-                  startIcon={<AddIcon/>}
-                >
-                  Class
-                </ColorButton>
-              </Toolbar>
-            </AppBar>
+            <TopBar onMobileNavOpen={() => setMobileNavOpen(true)}/>
             <Outlet/>
+            <Box
+              flexDirection="column"
+              flex={1}/>
+            <BottomNavigation
+              showLabels
+            >
+              <BottomNavigationAction label="Recents" icon={<Restore/>}/>
+              <BottomNavigationAction label="Favorites" icon={<Favorite/>}/>
+              <BottomNavigationAction label="Nearby" icon={<LocationOn/>}/>
+            </BottomNavigation>
           </div>
         </div>
       </div>
     </div>
-);
+  );
 };
 
 export default DashboardLayout;

@@ -1,20 +1,27 @@
 import React, {useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {AppBar, Box, Hidden, IconButton, makeStyles, Toolbar} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import {LogoLarge, LogoSmall} from 'src/components/Logo';
 import {ExitToApp} from '@material-ui/icons'
+import {getRoleColor} from "../../utils/GetRoleColor";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   avatar: {
     width: 60,
     height: 60
+  },
+  appBar: {
+    backgroundColor: theme.palette.colorPrimaryTeacher.main
   }
 }));
+
+
+
+
 
 const TopBar = ({
                   className,
@@ -26,15 +33,17 @@ const TopBar = ({
   const removeLoggedInStatus = () => {
     sessionStorage.removeItem('loggedIn');
   }
+
   return (
     <React.Fragment>
       <AppBar
-        className={clsx(classes.root, className)}
+        className={getRoleColor()}
+        position="sticky"
         elevation={4}
         {...rest}
       >
         <Toolbar>
-          <Hidden lgUp>
+          {/*<Hidden lgUp>*/}
             <IconButton
               edge="start"
               color="inherit"
@@ -42,9 +51,10 @@ const TopBar = ({
             >
               <MenuIcon/>
             </IconButton>
-          </Hidden>
+          {/*</Hidden>*/}
 
           <Box flexGrow={1}/>
+
           <Hidden mdDown>
             <RouterLink to="/app/dashboard">
               <LogoLarge/>
@@ -57,9 +67,8 @@ const TopBar = ({
           </Hidden>
 
           <Box flexGrow={1}/>
+
           <Hidden mdDown>
-
-
             <IconButton color="inherit" className={'button_notifi'}>
               <RouterLink to='/'>
                 <NotificationsIcon className={'button_notifi'}/></RouterLink>
@@ -70,8 +79,6 @@ const TopBar = ({
                 <ExitToApp onClick={removeLoggedInStatus} className={'button_notifi'}/>
               </RouterLink>
             </IconButton>
-
-
           </Hidden>
 
         </Toolbar>
