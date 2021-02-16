@@ -49,8 +49,8 @@ const useStyles = makeStyles(() => ({
   },
   desktopDrawer: {
     width: 256,
-    top: 64,
-    height: 'calc(100% - 64px)'
+    top: 0,
+    height: '100%'
   },
   avatar: {
     cursor: 'pointer',
@@ -163,7 +163,7 @@ const NavBar = ({onMobileClose, openMobile}) => {
 
   return (
     <>
-      <Hidden lgUp>
+      {/*<Hidden lgUp>*/}
         <Drawer
           anchor="left"
           classes={{paper: classes.mobileDrawer}}
@@ -173,8 +173,8 @@ const NavBar = ({onMobileClose, openMobile}) => {
         >
           {content}
         </Drawer>
-      </Hidden>
-      <Hidden mdDown>
+      {/*</Hidden>*/}
+      {/*<Hidden mdDown>
         <Drawer
           anchor="left"
           classes={{paper: classes.desktopDrawer}}
@@ -183,7 +183,7 @@ const NavBar = ({onMobileClose, openMobile}) => {
         >
           {content}
         </Drawer>
-      </Hidden>
+      </Hidden>*/}
     </>
   );
 };
