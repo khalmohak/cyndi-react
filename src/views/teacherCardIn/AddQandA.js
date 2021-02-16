@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Backdrop, Box, Button, Fade, Menu, MenuItem, Modal, TextField} from '@material-ui/core';
+import {Backdrop, Box, Button, Fade, Grid, Menu, MenuItem, Modal, TextField} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -104,9 +104,11 @@ const AddQandA = ({className, ...rest}) => {
 
   return (
     <div>
-      <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} className={classes.pandaAddButton}>
-        Add
-      </Button>
+      <Grid xs={1} sm={1} md={1} lg={1}>
+        <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick} className={classes.pandaAddButton}>
+          Add
+        </Button>
+      </Grid>
       <Menu
         id="fade-menu"
         anchorEl={anchorEl}

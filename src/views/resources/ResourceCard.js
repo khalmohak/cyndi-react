@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import './App.css';
+//import './App.css';
 import {current_class_id} from "../product/ClassListView/classCard";
 import {apiEndPoint} from "../../constants";
 

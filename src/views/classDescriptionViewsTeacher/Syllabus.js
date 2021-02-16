@@ -1,12 +1,38 @@
 import React, {useEffect} from 'react';
-import {Typography} from "@material-ui/core";
-import {apiEndPoint} from "../../constants";
+import {Button, Card, CardContent, Grid, makeStyles, Typography} from "@material-ui/core";
+import {apiEndPoint, s3Bucket, s3Region} from "../../constants";
 import axios from "axios";
+import {useNavigate} from "react-router";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    borderRadius: '20px',
+    width: "100%",
+    margin: "10px",
+  },
+  cardTitle: {
+    fontSize: '25px'
+  },
+  pandaAddButton: {
+    backgroundColor: '#025fa1',
+    color: '#ffffff',
+    margin: '5px',
+    '&:hover': {
+      color: '#025fa1',
+      borderColor: "#025fa1"
+    }
+  }
+
+}));
 
 export const Syllabus = () => {
+  const classes = useStyles();
   const [syllabusD, setSyllabus] = React.useState(0)
-  let syllabus = undefined;
+  const navigate = useNavigate();
+
+  function handleAddSyllabus() {
+    navigate('/app/teacher/syllabus/addsyllabus')
+  }
 
   function getSyllabus() {
     let data = {
@@ -20,7 +46,6 @@ export const Syllabus = () => {
       headers: header
     }).then(res => {
       //console.log(res.data);
-      syllabus = res.data;
       setSyllabus(res.data)
     })
       .catch(err => console.log(err))
@@ -28,32 +53,45 @@ export const Syllabus = () => {
 
   useEffect(() => {
     getSyllabus()
-    console.log(syllabusD[0])
+    // if (syllabusD) {
+    //   console.log(JSON.parse(syllabusD[0].attached_files).files)
+    // }
   }, [syllabusD])
 
-  // attached_files: "{"files":[{"fileurl":"Class\/Syllabus\/01EXRTPF0H000G00R40M300209-0.pdf","filename":"kv moral values notes-1.pdf"},{"fileurl":"Class\/Syllabus\/01EXRTPF0V000G00R40M300209-1.pdf","filename":"Students DLMS Help Book.pdf"},{"fileurl":"Class\/Syllabus\/01EXRTPF10000G00R40M300209-2.docx","filename":"Cyndi Technologies Pvt GSTN.docx"},{"fileurl":"Class\/Syllabus\/01EXRTPF14000G00R40M300209-3.docx","filename":"Ajeet Jaiswal-IOS Developer.docx"},{"fileurl":"Class\/Syllabus\/01EXRTPF18000G00R40M300209-4.pptx","filename":"Cyndi Technologies.pptx"}]}"
-  // attached_url: ""
-  // class_id: "37"
-  // created_at: "2021-02-05T10:10:03.681Z"
-  // datetime: "05-02-2021 03:40 PM"
-  // description: "Attached documents. "
-  // syllabus_id: "54"
-  // title: "Docs"
-  // updated_at: "2021-02-05T10:10:03.681Z"
-  // user_id: "65"
   return (
     <>
-
-      <Typography>
-        Attachments
-      </Typography>
-      {/*{syllabusD?syllabusD.map(data=>{*/}
-      {/*  return<div>*/}
-      {/*    <a href={}>{data.title}</a>*/}
-
-
-      {/*  </div>*/}
-      {/*}):<div>Loading..</div>}*/}
+      <Grid xs={1} sm={1} md={1} lg={1}>
+        <Button
+          onClick={handleAddSyllabus}
+          className={classes.pandaAddButton}>
+          Add
+        </Button>
+      </Grid>
+      {syllabusD ? syllabusD.map(data => {
+        return (
+          <Grid xs={6} sm={6} md={4} lg={3}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography className={classes.cardTitle}>{data.title}</Typography>
+                {JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(
+                  data => {
+                    return (
+                      <div>
+                        <a
+                          href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}
+                        >
+                          {data.filename}
+                        </a>
+                        <divider/>
+                      </div>
+                    )
+                  }
+                ) : <div>Waiting..</div>}
+              </CardContent>
+            </Card>
+          </Grid>
+        )
+      }) : <div>Loading..</div>}
 
     </>
   )

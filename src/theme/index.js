@@ -52,9 +52,7 @@ const theme = createMuiTheme({
       main: '#B89125'
     },
     primary: {
-      // main: colors.indigo[500]
       main: '#025fa1'
-      //4768b1
     },
     secondary: {
       main: '#025fa1'

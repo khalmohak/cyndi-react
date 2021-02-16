@@ -209,11 +209,11 @@ const ClassCardInContent = ({className, card, ...rest}) => {
     PandAAPI();
     QESAPI();
 
-    if (qesData && pandaData) {
-      console.log(qesData);
-      console.log(pandaData);
-
-    }
+    // if (qesData && pandaData) {
+    //   console.log(qesData);
+    //   console.log(pandaData);
+    //
+    // }
   }, [qesData, pandaData])
 
   return (

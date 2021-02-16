@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
-import Toolbar from './Toolbar';
 import TeachersCard from './TeacherCard';
 import axios from "axios";
 import {apiEndPoint} from "../../../constants";

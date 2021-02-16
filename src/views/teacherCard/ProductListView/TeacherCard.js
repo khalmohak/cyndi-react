@@ -27,8 +27,8 @@ import MultiSlider, {Progress} from "react-multi-bar-slider";
 import '../../product/ClassListView/style.css';
 import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
-import {ZoomMtg} from "@zoomus/websdk";
-import {zoomInitiater} from "../../zoom";
+// import {ZoomMtg} from "@zoomus/websdk";
+// import {zoomInitiater} from "../../zoom";
 import {current_class_id} from "../../product/ClassListView/classCard";
 
 
@@ -203,13 +203,13 @@ const TeachersCard = ({className, card, ...rest}) => {
   /**
    * Zoom meeting join function gets called when Join/Create class button is clicked
    */
-  const zoomMeetingStart = () => {
-    zoomInitiater(function (zoomConfig) {
-      console.log(zoomConfig);
-      ZoomMtg.generateSignature(zoomConfig);
-    })
-
-  }
+  // const zoomMeetingStart = () => {
+  //   zoomInitiater(function (zoomConfig) {
+  //     console.log(zoomConfig);
+  //     ZoomMtg.generateSignature(zoomConfig);
+  //   })
+  //
+  // }
 
   const handleClassCard = (event) => {
     const current_class_id = card.class_id;
@@ -236,7 +236,7 @@ const TeachersCard = ({className, card, ...rest}) => {
 
               <Box className={'dkpal'}>
                 <Button
-                  onClick={zoomMeetingStart}
+                  //onClick={zoomMeetingStart}
                 >Join Class</Button>
                 <Box className={'dkpal2'}>
                   <NotifyMe

@@ -102,7 +102,6 @@ const AddDocuments = ({className, ...rest}) => {
     ReactS3Client.uploadFile(file, newFileName).then((data) => {
 
       if (data.status === 204) {
-        console.log("success");
         successUploadCount++;
         let form = formDetails;
 
