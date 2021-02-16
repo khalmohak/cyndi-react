@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Outlet} from 'react-router-dom';
 import {BottomNavigation, BottomNavigationAction, Box, Button, makeStyles, withStyles} from '@material-ui/core';
 import NavBar from './NavBar/navbar';
 import TopBar from './TopBar';
 import {purple} from '@material-ui/core/colors';
 import {Favorite, LocationOn, Restore} from '@material-ui/icons'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,7 @@ const ColorButton = withStyles((theme) => ({
 
 const DashboardLayout = () => {
   const classes = useStyles();
+  const classes2 = useStyles;
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
@@ -61,9 +63,7 @@ const DashboardLayout = () => {
           <div className={classes.content}>
             <TopBar onMobileNavOpen={() => setMobileNavOpen(true)}/>
             <Outlet/>
-            <Box
-              flexDirection="column"
-              flex={1}/>
+            <Box flexGrow={1}/>
             <BottomNavigation
               showLabels
             >

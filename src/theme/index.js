@@ -2,6 +2,75 @@ import {colors, createMuiTheme} from '@material-ui/core';
 import shadows from './shadows';
 import typography from './typography';
 
+
+export const getRoleColorPrimary = () => {
+  const role = sessionStorage.getItem('userRole');
+  console.log(role);
+  let color;
+  switch (role) {
+    case "Student":
+      color = '#0070c0';
+      break;
+    case "Teacher":
+      color = '#203a43';
+      break;
+    case "Expert":
+      color = '#44546A';
+      break;
+    case "Guest":
+      color = '#FF8B00';
+      break;
+    case "Alumnus":
+      color = '#56CBBE'
+      break;
+    case "CompanyHR":
+      color = '#7F7D83';
+      break;
+    case "Employee":
+      color = '#F8C842'
+      break;
+    default:
+      color = '#0070c0';
+      break;
+  }
+  console.log(color);
+  return color;
+};
+
+export const getRoleColorSecondary = () => {
+  const role = sessionStorage.getItem('userRole');
+  console.log(role);
+  let color;
+  switch (role) {
+    case "Student":
+      color = '#015696';
+      break;
+    case "Teacher":
+      color = '#152D35';
+      break;
+    case "Expert":
+      color = '#243245';
+      break;
+    case "Guest":
+      color = '#D28A29';
+      break;
+    case "Alumnus":
+      color = '#078A80'
+      break;
+    case "CompanyHR":
+      color = '#434147';
+      break;
+    case "Employee":
+      color = '#B89125'
+      break;
+    default:
+      color = '#015696';
+      break;
+  }
+  console.log(color);
+  return color;
+};
+
 const theme = createMuiTheme({
   palette: {
     background: {
@@ -52,10 +121,10 @@ const theme = createMuiTheme({
       main: '#B89125'
     },
     primary: {
-      main: '#025fa1'
+      main: '#0070c0'
     },
     secondary: {
-      main: '#025fa1'
+      main: '#0070c0'
     },
     text: {
       primary: colors.blueGrey[900],
