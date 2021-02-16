@@ -1,26 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {
-  AppBar,
-  Backdrop,
-  Box,
-  Button, Container,
-  Fade, FormControlLabel, FormGroup, Grid, Input,
-  Menu,
-  MenuItem,
-  Modal, Select,
-  TextField,
-  Toolbar,
-  Typography
-} from '@material-ui/core';
+import {AppBar, Box, Button, Container, Grid, Input, Select, TextField, Toolbar, Typography} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
-import S3 from "react-aws-s3";
 import Page from "../../components/Page";
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import moment from 'moment';
 import {apiEndPoint} from "../../constants";
 import axios from "axios";
-import {func} from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -69,7 +55,6 @@ const AddMedia = ({className, ...rest}) => {
   };
 
 
-
   const handleClick = (event) => {
     event.preventDefault();
     console.log(formDetails);
@@ -103,8 +88,6 @@ const AddMedia = ({className, ...rest}) => {
   };
 
 
-
-
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -136,7 +119,7 @@ const AddMedia = ({className, ...rest}) => {
     let form = formDetails;
     form.formDescription = title;
   };
-  const handleFormLink = (e)=>{
+  const handleFormLink = (e) => {
     const link = e.target.value;
     let form = formDetails;
     form.location = link;
@@ -196,10 +179,6 @@ const AddMedia = ({className, ...rest}) => {
                 onChange={handleFormLink}
               />
               <br/>
-
-
-
-
 
 
               <Typography>Assigned To-</Typography>

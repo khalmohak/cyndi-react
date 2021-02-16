@@ -11,8 +11,8 @@ import {
   Divider,
   FormControlLabel,
   Grid,
-  Typography,
-  makeStyles
+  makeStyles,
+  Typography
 } from '@material-ui/core';
 
 const useStyles = makeStyles(({
@@ -23,7 +23,7 @@ const useStyles = makeStyles(({
   }
 }));
 
-const Notifications = ({ className, ...rest }) => {
+const Notifications = ({className, ...rest}) => {
   const classes = useStyles();
 
   return (
@@ -36,7 +36,7 @@ const Notifications = ({ className, ...rest }) => {
           subheader="Manage the notifications"
           title="Notifications"
         />
-        <Divider />
+        <Divider/>
         <CardContent>
           <Grid
             container
@@ -59,23 +59,23 @@ const Notifications = ({ className, ...rest }) => {
               </Typography>
               <FormControlLabel
                 control={(
-                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked/>
                 )}
                 label="Email"
               />
               <FormControlLabel
                 control={(
-                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked/>
                 )}
                 label="Push Notifications"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={<Checkbox/>}
                 label="Text Messages"
               />
               <FormControlLabel
                 control={(
-                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked/>
                 )}
                 label="Phone calls"
               />
@@ -96,24 +96,24 @@ const Notifications = ({ className, ...rest }) => {
               </Typography>
               <FormControlLabel
                 control={(
-                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked/>
                 )}
                 label="Email"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={<Checkbox/>}
                 label="Push Notifications"
               />
               <FormControlLabel
                 control={(
-                  <Checkbox defaultChecked />
+                  <Checkbox defaultChecked/>
                 )}
                 label="Phone calls"
               />
             </Grid>
           </Grid>
         </CardContent>
-        <Divider />
+        <Divider/>
         <Box
           display="flex"
           justifyContent="flex-end"

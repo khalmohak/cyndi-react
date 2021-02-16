@@ -1,6 +1,6 @@
 import React from 'react';
-import {CardContent, makeStyles, Card, Typography, Grid, Button, Divider, Box} from "@material-ui/core";
-import {s3Bucket, s3Region, s3URL} from "../../constants";
+import {Box, Card, CardContent, Divider, Grid, makeStyles, Typography} from "@material-ui/core";
+import {s3URL} from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     backgroundColor: "#87ceeb"
   },
-  mediaImg:{
-    height:"200px",
+  mediaImg: {
+    height: "200px",
     width: "350px",
   }
 
@@ -28,9 +28,10 @@ const ResourceMedia = ({data, ...rest}) => {
     <Card className={classes.root}>
       <CardContent>
         <Grid container>
-            {s3URL(attachedFiles[0].file_url) ? <img className={classes.mediaImg} src={s3URL(attachedFiles[0].file_url)}/> :
-              <img className={classes.mediaImg}/>
-            }
+          {s3URL(attachedFiles[0].file_url) ?
+            <img className={classes.mediaImg} src={s3URL(attachedFiles[0].file_url)}/> :
+            <img className={classes.mediaImg}/>
+          }
 
         </Grid>
         <Typography>{data.title}</Typography>

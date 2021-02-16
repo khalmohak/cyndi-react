@@ -1,8 +1,5 @@
 import React from "react";
-import {
-    Input,
-    Button
-  } from '@material-ui/core';
+import {Input} from '@material-ui/core';
 
 function FileUpload() {
 
@@ -13,6 +10,7 @@ function FileUpload() {
 
 
   }
+
   function handleUploadRemove() {
     setFile(null);
 
@@ -21,11 +19,11 @@ function FileUpload() {
 
   return (
     <div id="upload-box">
-      <Input type="file" onChange={handleUpload} />
+      <Input type="file" onChange={handleUpload}/>
       <p>Filename: {file.name}</p>
       <p>File type: {file.type}</p>
       <p>File size: {file.size} bytes</p>
-      
+
       {/* {file && <ImageThumb image={file} />} */}
       {/* <Button onClick={handleUploadRemove}>Remove</Button> */}
     </div>
@@ -39,5 +37,5 @@ function FileUpload() {
 
 
 export default function App() {
-  return <FileUpload />;
+  return <FileUpload/>;
 }

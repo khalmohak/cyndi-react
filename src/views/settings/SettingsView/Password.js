@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField,
-  makeStyles
-} from '@material-ui/core';
+import {Box, Button, Card, CardContent, CardHeader, Divider, makeStyles, TextField} from '@material-ui/core';
 
 const useStyles = makeStyles(({
   root: {}
 }));
 
-const Password = ({ className, ...rest }) => {
+const Password = ({className, ...rest}) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     password: '',
@@ -40,7 +31,7 @@ const Password = ({ className, ...rest }) => {
           subheader="Update password"
           title="Password"
         />
-        <Divider />
+        <Divider/>
         <CardContent>
           <TextField
             fullWidth
@@ -63,7 +54,7 @@ const Password = ({ className, ...rest }) => {
             variant="outlined"
           />
         </CardContent>
-        <Divider />
+        <Divider/>
         <Box
           display="flex"
           justifyContent="flex-end"

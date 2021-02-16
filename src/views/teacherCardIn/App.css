@@ -21,10 +21,10 @@ p {
 .chatroom {
     width: 100%;
     height: 600px;
-    background-color: rgba(0,0,0, .7);
+    background-color: rgba(0, 0, 0, .7);
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 0 8px 0 rgba(0,0,0, 0.3);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
 }
 
 .chatroom h3 {
@@ -76,7 +76,7 @@ p {
 
 .chatroom .chats .chat a {
     text-decoration: none;
-    color:#3498DB;
+    color: #3498DB;
 }
 
 .chatroom .input {
@@ -119,8 +119,11 @@ p {
     background: #025fa1;
     color: #FFF;
 }
-.card_bg .MuiButton-root{
-    text-transform:Uppercase;
+
+.card_bg .MuiButton-root {
+    text-transform: Uppercase;
 }
 
-.MuiTypography-body1{ width: 100% !important;}
+.MuiTypography-body1 {
+    width: 100% !important;
+}

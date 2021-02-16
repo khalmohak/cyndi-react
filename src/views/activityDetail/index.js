@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Box, Container, Grid, makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
 import ActivityCard from "./ActivityCard";
 import PropTypes from "prop-types";
-import ClassCardInContent from "../classCardIn/ClassCardInContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const ActivityDetail = () => {
   const classes = useStyles();
   let data = {
-    class_name : "OPERATING SYSTEM"
+    class_name: "OPERATING SYSTEM"
   }
 
 

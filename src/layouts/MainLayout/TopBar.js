@@ -1,12 +1,8 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {
-  AppBar,
-  Toolbar,
-  makeStyles
-} from '@material-ui/core';
+import {AppBar, makeStyles, Toolbar} from '@material-ui/core';
 import {LogoLarge} from 'src/components/Logo';
 
 const useStyles = makeStyles(({
@@ -16,7 +12,7 @@ const useStyles = makeStyles(({
   }
 }));
 
-const TopBar = ({ className, ...rest }) => {
+const TopBar = ({className, ...rest}) => {
   const classes = useStyles();
 
   return (
@@ -27,7 +23,7 @@ const TopBar = ({ className, ...rest }) => {
     >
       <Toolbar className={classes.toolbar}>
         <RouterLink to="/app/dashboard">
-          <LogoLarge />
+          <LogoLarge/>
         </RouterLink>
       </Toolbar>
     </AppBar>

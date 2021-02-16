@@ -1,8 +1,5 @@
 import React from 'react';
-import {CardContent, makeStyles, Card, Typography, Grid, Button, Divider, Box} from "@material-ui/core";
-import {s3Bucket, s3Region, s3URL} from "../../constants";
-import fileDownload from 'js-file-download';
-import axios from "axios";
+import {Box, Button, Card, CardContent, Divider, Grid, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +24,6 @@ const ResourcesLink = ({data, ...rest}) => {
   const classes = useStyles();
   let assignData = JSON.parse(data.assigned_to)["assigned_to"];
   let attachedFiles = JSON.parse(data.attached_files)["link"];
-
 
 
   return (

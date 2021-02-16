@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const staticSVG = (type) => {
   switch (type) {
     case "Exam":

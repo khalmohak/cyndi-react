@@ -48,7 +48,7 @@ const TeacherCard = () => {
       const classArray = response.data;
 
       setTeacherData(classArray);
-      sessionStorage.setItem('classData',JSON.stringify(response));
+      sessionStorage.setItem('classData', JSON.stringify(response));
 
     })
       .catch(err => {

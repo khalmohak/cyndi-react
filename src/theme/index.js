@@ -1,4 +1,4 @@
-import { createMuiTheme, colors } from '@material-ui/core';
+import {colors, createMuiTheme} from '@material-ui/core';
 import shadows from './shadows';
 import typography from './typography';
 
@@ -15,7 +15,7 @@ const theme = createMuiTheme({
       //4768b1
     },
     secondary: {
-      main:'#025fa1'
+      main: '#025fa1'
     },
     text: {
       primary: colors.blueGrey[900],

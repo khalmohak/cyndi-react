@@ -3,7 +3,19 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import MultiSlider, {Progress} from 'react-multi-bar-slider';
 import {useNavigate} from 'react-router-dom';
-import {Avatar, Box, Card, CardContent,Button, Divider, Grid, Link, makeStyles, Tooltip, Typography} from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  Link,
+  makeStyles,
+  Tooltip,
+  Typography
+} from '@material-ui/core';
 import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
 import './style.css';
@@ -131,7 +143,7 @@ const ClassesCard = ({className, card, ...rest}) => {
 
   const handleClassCard = (event) => {
     current_class_id = card.class_id;
-    sessionStorage.setItem('current_class_id',current_class_id);
+    sessionStorage.setItem('current_class_id', current_class_id);
     navigate('/app/student', {replace: true});
   }
 
@@ -161,11 +173,7 @@ const ClassesCard = ({className, card, ...rest}) => {
     }
   }
 
-  const zoomMeetingStart = {
-
-
-
-  };
+  const zoomMeetingStart = {};
 
 
   return (
@@ -186,7 +194,7 @@ const ClassesCard = ({className, card, ...rest}) => {
 
               <Box className={'dkpal'}>
                 <Button
-                onClick={zoomMeetingStart}
+                  onClick={zoomMeetingStart}
                 >Join Class</Button>
                 <Box className={'dkpal2'}>
                   <NotifyMe
@@ -282,7 +290,7 @@ const ClassesCard = ({className, card, ...rest}) => {
               <MultiSlider width='100%' height='20px'>
                 <Progress className={'curve'} color="#a1d9cc" progress={25}/>
                 <Progress className={'curve'} color="#95c7bc" progress={50}/>
-                <Progress  className={'curve'} color="#88b7ad" progress={75}/>
+                <Progress className={'curve'} color="#88b7ad" progress={75}/>
                 <Progress className={'curve'} color="#7ca79d" progress={100}/>
               </MultiSlider>
             </Box>

@@ -20,7 +20,6 @@ import {Resources} from './views/classDescriptionViewsTeacher/Resources';
 import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
 import AddMedia from "./views/classDescriptionViewsTeacher/AddMedia";
 import AddLink from "./views/classDescriptionViewsTeacher/AddLink";
-import {Add} from "@material-ui/icons";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');

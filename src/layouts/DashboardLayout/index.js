@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Outlet} from 'react-router-dom';
-import {AppBar, Button, IconButton, makeStyles, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Box, Button, createMuiTheme, makeStyles, Toolbar, Typography, withStyles} from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
-import MenuIcon from "@material-ui/icons/Menu";
+import AddIcon from "@material-ui/icons/Add";
+import { green, purple } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(purple[500]),
+    // backgroundColor: purple[500],
+    '&:hover': {
+      // backgroundColor: purple[700],
+    },
+  },
+}))(Button);
+
 const DashboardLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
@@ -50,13 +61,16 @@ const DashboardLayout = () => {
           <div className={classes.content}>
             <AppBar position="static">
               <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                  News
+                <Typography variant="h5" className={classes.title}>
+                  Classes
                 </Typography>
-                <Button color="inherit">Login</Button>
+                <Box flex={1}/>
+                <ColorButton
+                  className={classes.button}
+                  startIcon={<AddIcon/>}
+                >
+                  Class
+                </ColorButton>
               </Toolbar>
             </AppBar>
             <Outlet/>
@@ -64,7 +78,7 @@ const DashboardLayout = () => {
         </div>
       </div>
     </div>
-  );
+);
 };
 
 export default DashboardLayout;

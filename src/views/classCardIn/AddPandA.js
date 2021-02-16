@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Backdrop, Box, Button, Fade, Menu, MenuItem, Modal, TextField} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
@@ -46,7 +46,7 @@ const AddPandA = ({className, ...rest}) => {
 
 
   const handleOpenModal = (e) => {
-    sessionStorage.setItem('pandaType',e);
+    sessionStorage.setItem('pandaType', e);
     setAnchorEl(null);
     setOpen(true);
   };
@@ -96,7 +96,7 @@ const AddPandA = ({className, ...rest}) => {
 
   const nextButton = () => {
     let form = formDetails;
-    form.pandaType =sessionStorage.getItem('pandaType');
+    form.pandaType = sessionStorage.getItem('pandaType');
     setFormDetails(form);
     sessionStorage.setItem('formDetails', JSON.stringify(formDetails));
     navigate('/app/resources', {replace: true});

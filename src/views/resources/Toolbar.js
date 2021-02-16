@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -6,14 +6,14 @@ import {
   Button,
   Card,
   CardContent,
-  TextField,
   InputAdornment,
-  SvgIcon,
   makeStyles,
   Menu,
-  MenuItem
+  MenuItem,
+  SvgIcon,
+  TextField
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+import {Search as SearchIcon} from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -23,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
   exportButton: {
     marginRight: theme.spacing(1)
   },
-  menuButton:{
-    backgroundColor:"#025fa1",
-    color:"#fff"
+  menuButton: {
+    backgroundColor: "#025fa1",
+    color: "#fff"
   }
 }));
 
-const Toolbar = ({ className, ...rest }) => {
+const Toolbar = ({className, ...rest}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -62,7 +62,7 @@ const Toolbar = ({ className, ...rest }) => {
           Add Class
         </Button> */}
         <Button className={classes.menuButton} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Add Resource
+          Add Resource
         </Button>
         <Menu
           id="simple-menu"
@@ -89,7 +89,7 @@ const Toolbar = ({ className, ...rest }) => {
                         fontSize="small"
                         color="action"
                       >
-                        <SearchIcon />
+                        <SearchIcon/>
                       </SvgIcon>
                     </InputAdornment>
                   )

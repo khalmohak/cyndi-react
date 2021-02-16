@@ -7,7 +7,7 @@ const LogoLarge = (props) => {
       height='40'
       alt="Logo"
       src="/static/cyndi_white.png"
-    
+
       {...props}
     />
   );
