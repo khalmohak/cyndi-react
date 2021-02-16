@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {AppBar, Box, Button, Container, Grid, Input, Select, TextField, Toolbar, Typography} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
+import S3 from "react-aws-s3";
 import Page from "../../components/Page";
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import moment from 'moment';
@@ -32,16 +33,17 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const AddMedia = ({className, ...rest}) => {
+const AddSyllabus = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  //const [pandaType, setPandaType] = useState();
   const navigate = useNavigate();
   const fileInput = React.useRef();
   const [formDetails, setFormDetails] = useState({
     formTitle: "",
     formDescription: "",
-    classes: [],
+    link: "",
     location: []
 
   });
@@ -54,23 +56,31 @@ const AddMedia = ({className, ...rest}) => {
     secretAccessKey: 'bYYFK1eiqIj8l+htjO9KxrSdRiX0ShEq8ligEeoj',
   };
 
+  function fileUpload() {
+    let newArr = fileInput.current.files;
+    for (let i = 0; i < newArr.length; i++) {
+      let extension = fileInput.current.files[i].name;
+      extension = extension.split(".");
+
+      extension = extension[extension.length - 1];
+      let size = fileInput.current.files[i].size;
+      handleUpload(newArr[i], extension, size);
+    }
+  }
 
   const handleClick = (event) => {
     event.preventDefault();
 
     let apiData = {
-      'university_name': sessionStorage.getItem('universityName'),
-      'college_name': sessionStorage.getItem('collegeName'),
+      'class_id': sessionStorage.getItem('current_class_id'),
       'title': formDetails.formTitle,
       'description': formDetails.formDescription,
-      'assigned_to': JSON.stringify({
-        'assigned_to': formDetails.classes
-      }),
+      'attached_url': formDetails.link,
       'attached_files': JSON.stringify({
-        'link': formDetails.location
+        'files': formDetails.location
       }),
-      'datetime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
-      'type': 'Link'
+      'dateTime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
+
     }
 
     let apiHeader = {
@@ -78,7 +88,7 @@ const AddMedia = ({className, ...rest}) => {
       'x-access-token': sessionStorage.getItem('token')
     }
 
-    axios.post(`${apiEndPoint}/add/resource`, apiData, {
+    axios.post(`${apiEndPoint}/add/syllabus`, apiData, {
       headers: apiHeader
     }).then(response => console.log(response))
       .catch(err => console.log(err))
@@ -86,25 +96,28 @@ const AddMedia = ({className, ...rest}) => {
 
   };
 
+  const handleUpload = (file, extension, size) => {
+    let newFileName = file.name.replace(/\..+$/, "");
+    const ReactS3Client = new S3(config);
+    ReactS3Client.uploadFile(file, newFileName).then((data) => {
+      console.log(data)
+      if (data.status === 204) {
+        console.log("success");
+        successUploadCount++;
+        let form = formDetails;
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
+        let res = data.location.split("/");
+        const last = res.length;
+        res = res.slice(3, last);
+        res = res.join("/");
 
-  const handleOpenModal = (e) => {
-    setAnchorEl(null);
-    setOpen(true);
-  };
+        form.location.push({'filename': `${newFileName}.${extension}`, 'fileurl': res});
+        setFormDetails(form)
 
-  const handleCloseModal = () => {
-    setOpen(false);
+      } else {
+        console.log("fail");
+      }
+    });
   };
 
 
@@ -119,24 +132,14 @@ const AddMedia = ({className, ...rest}) => {
     form.formDescription = title;
   };
   const handleFormLink = (e) => {
-    const link = e.target.value;
+    const title = e.target.value;
     let form = formDetails;
-    form.location = link;
-  }
+    form.link = title;
+  };
 
   function back() {
-    navigate('/app/teacher/resources')
+    navigate('/app/teacher/syllabus')
   }
-
-  function handleChangeClasses(event) {
-    const class_id = event.target.value;
-    let form = formDetails;
-    form.classes = [...form.classes, {'class_name': class_id[0].class_name, 'class_id': class_id[0].class_id}];
-    setFormDetails(form);
-
-  }
-
-  const classData = JSON.parse(sessionStorage.getItem('classData')).data;
 
 
   return (
@@ -159,7 +162,7 @@ const AddMedia = ({className, ...rest}) => {
               </Toolbar>
             </AppBar>
 
-            <form lassName='upload-steps' onSubmit={handleClick}>
+            <form className='upload-steps' onSubmit={handleClick}>
               <TextField
                 label="Title"
                 id="formTitle"
@@ -174,30 +177,20 @@ const AddMedia = ({className, ...rest}) => {
               <br/>
               <TextField
                 label="Add Link"
-                id="formDescription"
+                id="formLink"
                 onChange={handleFormLink}
               />
               <br/>
+              <br/>
+              <Typography>Choose Files</Typography>
+              <input
+                type='file'
+                onChange={fileUpload}
+                multiple ref={fileInput}/>
+
+              <br/>
 
 
-              <Typography>Assigned To-</Typography>
-              <Select
-                labelId="demo-mutiple-name-label"
-                id="demo-mutiple-name"
-                multiple
-                value={formDetails.classes}
-                onChange={handleChangeClasses}
-                input={<Input/>}
-                MenuProps={MenuProps}
-              >
-                {classData.map((data) => (
-                  <option key={data.class_id} value={data}>
-                    {data.class_name}
-                  </option>
-                ))}
-              </Select>
-              <br/>
-              <br/>
               <Button className={classes.pandaAddButton} type='submit'>Upload</Button>
             </form>
 
@@ -211,6 +204,6 @@ const AddMedia = ({className, ...rest}) => {
 
 };
 
-export default AddMedia;
+export default AddSyllabus;
 
 

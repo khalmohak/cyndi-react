@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ClassBoard from './ClassBoard';
-import './Style.css'
+//import './Style.css'
 import {AppBar, Box, Container, Grid, makeStyles, Tab, Tabs, Typography} from '@material-ui/core';
 import PandAClassCard from "./PandA";
 import QESClassCard from "./QES";

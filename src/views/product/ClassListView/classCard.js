@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import NotifyMe from '../../NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
-import './style.css';
+//import './style.css';
 
 
 const useStyles = makeStyles((theme) => ({

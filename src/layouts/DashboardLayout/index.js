@@ -4,7 +4,7 @@ import {AppBar, Box, Button, createMuiTheme, makeStyles, Toolbar, Typography, wi
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import AddIcon from "@material-ui/icons/Add";
-import { green, purple } from '@material-ui/core/colors';
+import {green, purple} from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +78,7 @@ const DashboardLayout = () => {
         </div>
       </div>
     </div>
-);
+  );
 };
 
 export default DashboardLayout;

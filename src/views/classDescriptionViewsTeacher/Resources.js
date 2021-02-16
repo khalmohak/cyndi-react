@@ -185,11 +185,13 @@ export const Resources = () => {
             </AppBar>
             <TabPanel value={value} index={0}>
               <Container maxWidth={false} className={'np'}>
-                <Button
-                  onClick={handleAddDocs}
-                  className={classes.pandaAddButton}>
-                  Add
-                </Button>
+                <Grid xs={1} sm={1} md={1} lg={1}>
+                  <Button
+                    onClick={handleAddDocs}
+                    className={classes.pandaAddButton}>
+                    Add
+                  </Button>
+                </Grid>
 
                 <Box>
                   <Grid
@@ -226,11 +228,13 @@ export const Resources = () => {
             <TabPanel value={value} index={1}>
 
               <Container maxWidth={false} className={'np'}>
-                <Button
-                  onClick={handleAddMedia}
-                  className={classes.pandaAddButton}>
-                  Add
-                </Button>
+                <Grid xs={1} sm={1} md={1} lg={1}>
+                  <Button
+                    onClick={handleAddMedia}
+                    className={classes.pandaAddButton}>
+                    Add
+                  </Button>
+                </Grid>
 
                 <Box mt={1}>
                   <Grid
@@ -268,11 +272,13 @@ export const Resources = () => {
 
             <TabPanel value={value} index={2}>
               <Container maxWidth={false} className={'np'}>
-                <Button
-                  onClick={handleAddLink}
-                  className={classes.pandaAddButton}>
-                  Add
-                </Button>
+                <Grid xs={1} sm={1} md={1} lg={1}>
+                  <Button
+                    onClick={handleAddLink}
+                    className={classes.pandaAddButton}>
+                    Add
+                  </Button>
+                </Grid>
 
                 <Box>
                   <Grid
