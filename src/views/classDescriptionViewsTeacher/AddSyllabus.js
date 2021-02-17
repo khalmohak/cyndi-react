@@ -61,9 +61,9 @@ const AddSyllabus = ({className, ...rest}) => {
     for (let i = 0; i < newArr.length; i++) {
       let extension = fileInput.current.files[i].name;
       extension = extension.split(".");
-
       extension = extension[extension.length - 1];
       let size = fileInput.current.files[i].size;
+      console.log(size / (1024 * 1024));
       handleUpload(newArr[i], extension, size);
     }
   }
@@ -101,6 +101,8 @@ const AddSyllabus = ({className, ...rest}) => {
     const ReactS3Client = new S3(config);
     ReactS3Client.uploadFile(file, newFileName).then((data) => {
       console.log(data)
+
+      console.log(data.progress);
       if (data.status === 204) {
         console.log("success");
         successUploadCount++;
@@ -112,6 +114,11 @@ const AddSyllabus = ({className, ...rest}) => {
         res = res.join("/");
 
         form.location.push({'filename': `${newFileName}.${extension}`, 'fileurl': res});
+        let h1 = document.createElement('h5');
+        let t = document.createTextNode(`File ${newFileName} Uploaded`);
+
+        h1.appendChild(t);
+        document.getElementById('checker').appendChild(h1);
         setFormDetails(form)
 
       } else {
@@ -138,7 +145,7 @@ const AddSyllabus = ({className, ...rest}) => {
   };
 
   function back() {
-    navigate('/app/teacher/syllabus')
+    navigate('/app/teacher/')
   }
 
 
@@ -149,7 +156,6 @@ const AddSyllabus = ({className, ...rest}) => {
       title="Class"
     >
       <Container maxWidth={false}>
-
         <Box mt={3}>
           <Grid
             container
@@ -186,11 +192,10 @@ const AddSyllabus = ({className, ...rest}) => {
               <input
                 type='file'
                 onChange={fileUpload}
-                multiple ref={fileInput}/>
-
+                multiple ref={fileInput}
+              />
+              <div id="checker"></div>
               <br/>
-
-
               <Button className={classes.pandaAddButton} type='submit'>Upload</Button>
             </form>
 

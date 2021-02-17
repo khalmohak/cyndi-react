@@ -4,7 +4,7 @@ import ClassBoard from './ClassBoard';
 import './Style.css'
 import {
   AppBar,
-  Box,
+  Box, Button,
   Container,
   Drawer,
   Grid,
@@ -29,6 +29,9 @@ import clsx from 'clsx';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {SideMenu} from './SideMenu';
+import {getRoleColor} from "../../utils/GetRoleColor";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import {useNavigate} from "react-router-dom";
 
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -124,6 +127,9 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginRight: 0,
   },
+  backButton:{
+    color:'#ffffff'
+  }
 
 }));
 let pandaData = undefined;
@@ -175,6 +181,8 @@ const QESAPI = () => {
 const ClassCardInContent = ({className, card, ...rest}) => {
   const classes = useStyles();
   const theme = useTheme();
+  const appBarColor = getRoleColor();
+  const navigate = useNavigate();
   //const [teacherData, setTeacherData] = useState({});
 
   const [value, setValue] = React.useState(0);
@@ -204,7 +212,11 @@ const ClassCardInContent = ({className, card, ...rest}) => {
     }
   }
 
+  function back() {
+    navigate('/app/class/')
+  }
 
+console.log(window.location.href);
   useEffect(() => {
     PandAAPI();
     QESAPI();
@@ -222,8 +234,9 @@ const ClassCardInContent = ({className, card, ...rest}) => {
 
               className={clsx(classes.appBar, {
                 [classes.appBarShift]: open,
-              })}>
+              }, appBarColor)}>
         <Toolbar>
+          <Button onClick={back}><KeyboardBackspaceIcon className={classes.backButton}/></Button>
           <Typography variant="h6" noWrap className={classes.title}>
             Class Board
           </Typography>

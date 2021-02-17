@@ -60,53 +60,47 @@ const TeacherCard = () => {
   }, []);
 
 
-  if (teacherData) {
-    return (
-      <Page
-        className={classes.root}
-        title="Class"
-      >
-        <Container maxWidth={false}>
-          <Box mt={3}>
-            <Grid
-              container
-              spacing={3}
-            >
-              {teacherData.map((card) => (
-                <Grid
-                  item
-                  key={card.class_id}
-                  lg={4}
-                  md={6}
-                  xs={12}
-                >
-                  <TeachersCard
-                    className={classes.classCard}
-                    card={card}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-          <Box
-            mt={1}
-            display="flex"
-            justifyContent="center"
+  return (
+    <Page
+      className={classes.root}
+      title="Class"
+    >
+      <Container maxWidth={false}>
+        <Box mt={3}>
+          <Grid
+            container
+            spacing={3}
           >
-            <Pagination
-              color="primary"
-              count={3}
-              size="small"
-            />
-          </Box>
-        </Container>
-      </Page>
-    );
-  } else {
-    return (
-      <CircularProgress className={classes.loading}/>
-    )
-  }
+            {teacherData ? teacherData.map((card) => (
+              <Grid
+                item
+                key={card.class_id}
+                lg={4}
+                md={6}
+                xs={12}
+              >
+                <TeachersCard
+                  className={classes.classCard}
+                  card={card}
+                />
+              </Grid>
+            )) : <CircularProgress className={classes.loading}/>}
+          </Grid>
+        </Box>
+        <Box
+          mt={1}
+          display="flex"
+          justifyContent="center"
+        >
+          <Pagination
+            color="primary"
+            count={3}
+            size="small"
+          />
+        </Box>
+      </Container>
+    </Page>
+  );
 };
 
 export default TeacherCard;
