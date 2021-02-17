@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {Avatar, Box, Divider, Drawer, Hidden, List, makeStyles, Typography} from '@material-ui/core';
+import {Avatar, Box, Divider, List, makeStyles, SwipeableDrawer, Typography} from '@material-ui/core';
 import {
   BarChart as BarChartIcon,
   LogOut as LogOutIcon,
@@ -62,7 +62,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const NavBar = ({onMobileClose, openMobile}) => {
+const NavBar = ({onMobileClose, onMobileNavOpen, openMobile}) => {
   const classes = useStyles();
 
   const location = useLocation();
@@ -161,29 +161,32 @@ const NavBar = ({onMobileClose, openMobile}) => {
 
   );
 
+  const [state, setState] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setState({...state, [anchor]: open});
+  };
+
   return (
     <>
-      {/*<Hidden lgUp>*/}
-        <Drawer
-          anchor="left"
-          classes={{paper: classes.mobileDrawer}}
-          onClose={onMobileClose}
-          open={openMobile}
-          variant="temporary"
-        >
-          {content}
-        </Drawer>
-      {/*</Hidden>*/}
-      {/*<Hidden mdDown>
-        <Drawer
-          anchor="left"
-          classes={{paper: classes.desktopDrawer}}
-          open={onMobileClose}
-          variant="persistent"
-        >
-          {content}
-        </Drawer>
-      </Hidden>*/}
+      <SwipeableDrawer
+        anchor="left"
+        classes={{paper: classes.mobileDrawer}}
+        onClose={onMobileClose}
+        onOpen={onMobileNavOpen}
+        open={openMobile}
+        variant="temporary"
+      >
+        {content}
+      </SwipeableDrawer>
     </>
   );
 };
