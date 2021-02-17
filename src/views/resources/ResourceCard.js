@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: '10px',
     margin: "10px",
-
     textAlign: "center",
     padding: "10px",
     borderTop: '7px solid #025fa1',

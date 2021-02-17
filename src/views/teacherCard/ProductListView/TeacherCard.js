@@ -203,19 +203,19 @@ const TeachersCard = ({className, card, ...rest}) => {
   /**
    * Zoom meeting join function gets called when Join/Create class button is clicked
    */
-  // const zoomMeetingStart = () => {
-  //   zoomInitiater(function (zoomConfig) {
-  //     console.log(zoomConfig);
-  //     ZoomMtg.generateSignature(zoomConfig);
-  //   })
-  //
-  // }
+    // const zoomMeetingStart = () => {
+    //   zoomInitiater(function (zoomConfig) {
+    //     console.log(zoomConfig);
+    //     ZoomMtg.generateSignature(zoomConfig);
+    //   })
+    //
+    // }
 
   const handleClassCard = (event) => {
-    const current_class_id = card.class_id;
-    sessionStorage.setItem('current_class_id', current_class_id);
-    navigate('/app/teacher', {replace: true});
-  }
+      const current_class_id = card.class_id;
+      sessionStorage.setItem('current_class_id', current_class_id);
+      navigate('/app/teacher', {replace: true});
+    }
 
   return (
     <Card

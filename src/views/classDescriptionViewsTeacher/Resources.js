@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Typography} from "@material-ui/core";
+import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Toolbar, Typography} from "@material-ui/core";
 import Page from "../../components/Page";
 import PropTypes from "prop-types";
 import Pagination from "@material-ui/lab/Pagination";
@@ -9,6 +9,7 @@ import {apiEndPoint} from "../../constants";
 import ResourceMedia from "./ResourceMedia";
 import ResourcesLink from "./ResourcesLink";
 import {useNavigate} from "react-router";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,6 +165,10 @@ export const Resources = () => {
     navigate('/app/teacher/resources/addLink')
   }
 
+  function back() {
+    navigate('/app/teacher/')
+  }
+
   return (
     <Page
       className={classes.root}
@@ -177,6 +182,9 @@ export const Resources = () => {
             spacing={3}
           >
             <AppBar position="static">
+              <Toolbar>
+                <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+              </Toolbar>
               <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                 <Tab label="Documents" {...a11yProps(0)} />
                 <Tab label="Media" {...a11yProps(1)} />

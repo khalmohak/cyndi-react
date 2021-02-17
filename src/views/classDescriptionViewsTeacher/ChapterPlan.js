@@ -45,18 +45,16 @@ export const ChapterPlan = () => {
     axios.post(`${apiEndPoint}/get/chapter/plan`, data, {
       headers: header
     }).then(res => {
-      //console.log(res.data);
-      setSyllabus(res.data)
+      console.log(res.data);
+
     })
       .catch(err => console.log(err))
   }
 
   useEffect(() => {
     getSyllabus()
-    if (syllabusD) {
-      console.log(JSON.parse(syllabusD[0].attached_files).files)
-    }
-  }, [syllabusD])
+
+  }, )
 
   return (
     <>
@@ -70,20 +68,20 @@ export const ChapterPlan = () => {
           <Card className={classes.root}>
             <CardContent>
               <Typography className={classes.cardTitle}>{data.title}</Typography>
-              {JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(
-                data => {
-                  return (
-                    <div>
-                      <a
-                        href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}
-                      >
-                        {data.filename}
-                      </a>
-                      <divider/>
-                    </div>
-                  )
-                }
-              ) : <div>Waiting..</div>}
+              {/*{JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(*/}
+              {/*  data => {*/}
+              {/*    return (*/}
+              {/*      <div>*/}
+              {/*        <a*/}
+              {/*          href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}*/}
+              {/*        >*/}
+              {/*          {data.filename}*/}
+              {/*        </a>*/}
+              {/*        <divider/>*/}
+              {/*      </div>*/}
+              {/*    )*/}
+              {/*  }*/}
+              {/*) : <div>Waiting..</div>}*/}
             </CardContent>
           </Card>
         )
