@@ -4,7 +4,7 @@ import {BottomNavigation, BottomNavigationAction, Box, Button, Fab, makeStyles, 
 import NavBar from './NavBar/navbar';
 import TopBar from './TopBar';
 import {purple} from '@material-ui/core/colors';
-import {Home, Message, Notifications, Person, Description} from '@material-ui/icons'
+import {Description, Home, Message, Notifications, Person} from '@material-ui/icons'
 import {getRoleColor} from "../../utils/GetRoleColor";
 import {useNavigate} from "react-router";
 
@@ -107,11 +107,13 @@ const DashboardLayout = () => {
                                         label="Resources" icon={<Description/>}
                                         onClick={() => {
                                           setSelection(0);
+                                          navigate('/app/resources')
                                         }}/>
                 <BottomNavigationAction style={{color: selection === 1 ? '#ffffff' : '#bfbfbf', outline: 'none'}}
                                         label="Messaging" icon={<Message/>}
                                         onClick={() => {
                                           setSelection(1);
+                                          navigate('/app/messaging')
                                         }}/>
                 <BottomNavigationAction style={{color: selection === 2 ? '#ffffff' : '#bfbfbf', outline: 'none'}}
                                         label="Class" icon={<Home/>}
@@ -123,6 +125,7 @@ const DashboardLayout = () => {
                                         label="Notifications" icon={<Notifications/>}
                                         onClick={() => {
                                           setSelection(3);
+                                          navigate('/app/notifications')
                                         }}/>
                 <BottomNavigationAction style={{color: selection === 4 ? '#ffffff' : '#bfbfbf', outline: 'none'}}
                                         label="Profile" icon={<Person/>}
