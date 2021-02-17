@@ -8,6 +8,8 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import ClassListView from 'src/views/product/ClassListView/index.js';
 import SettingsView from 'src/views/settings/SettingsView';
 import ResourcesList from 'src/views/resources/index';
+import Messaging from 'src/views/messaging/index';
+import Notifications from 'src/views/notifications/index';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
 import {Register} from 'src/views/auth/Register';
 import ClassCardIn from "./views/classCardIn/index";
@@ -36,6 +38,8 @@ let route = (/*isAuthenticated*/) => {
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <ClassListView/>},
               {path: 'student', element: <ClassCardIn/>},
+              {path: 'messaging', element: <Messaging/>},
+              {path: 'notifications', element: <Notifications/>},
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResourcesList/>},
               {path: 'activity_detail', element: <ActivityDetail/>},
@@ -69,6 +73,8 @@ let route = (/*isAuthenticated*/) => {
               {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResourcesList/>},
+              {path: 'messaging', element: <Messaging/>},
+              {path: 'notifications', element: <Notifications/>},
               {path: 'teacher/classes', element: <Classes/>},
               {path: 'teacher/resources', element: <Resources/>},
               {path: 'teacher/chapterplan', element: <ChapterPlan/>},
