@@ -15,9 +15,7 @@ import {apiEndPoint, s3Bucket, s3Region} from "../../constants";
 import axios from "axios";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import LinkPreview from 'react-native-link-preview';
-
-
+import SyllabusHeader from "../../components/syllabus";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '5px',
     fontSize: '20px'
   },
-
   pandaAddButton: {
     backgroundColor: '#025fa1',
     color: '#ffffff',
@@ -68,6 +65,7 @@ export const Syllabus = () => {
     navigate('/app/teacher/syllabus/addsyllabus')
   }
 
+
   function getSyllabus() {
     let data = {
       class_id: sessionStorage.getItem('current_class_id')
@@ -79,15 +77,18 @@ export const Syllabus = () => {
     axios.post(`${apiEndPoint}/get/syllabus`, data, {
       headers: header
     }).then(res => {
+
+
+      if (res.data.length === 0) {
+        console.log("ys")
+        navigate('/app/teacher/syllabus/addsyllabus')
+      }
       setSyllabus(res.data)
+
     })
       .catch(err => console.log(err))
   }
 
-  function getTitle() {
-    LinkPreview.getPreview('https://www.youtube.com/')
-      .then(data => console.log(data));
-  }
 
   function back() {
     navigate('/app/teacher/')
@@ -95,7 +96,7 @@ export const Syllabus = () => {
 
   useEffect(() => {
     getSyllabus();
-    getTitle();
+
     // if (syllabusD) {
     //   console.log(JSON.parse(syllabusD[0].attached_files).files)
     // }
@@ -113,9 +114,10 @@ export const Syllabus = () => {
         <Button
           onClick={handleAddSyllabus}
           className={classes.pandaAddButton}>
-          Add
+          Edit
         </Button>
       </Grid>
+
       {syllabusD ? syllabusD.map(data => {
         return (
           <Box
@@ -124,7 +126,10 @@ export const Syllabus = () => {
             display="flex"
             justifyContent="center"
           >
+
+
             <Grid xs={6} sm={6} md={4} lg={3}>
+              <SyllabusHeader/>
               <Card className={classes.root}>
                 <CardContent>
                   <Typography className={classes.cardTitle}>{data.title}</Typography>
