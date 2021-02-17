@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
-
 const TopBar = ({
                   className,
                   onMobileNavOpen,
@@ -44,13 +41,16 @@ const TopBar = ({
       >
         <Toolbar>
           {/*<Hidden lgUp>*/}
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={onMobileNavOpen}
-            >
-              <MenuIcon/>
-            </IconButton>
+          <IconButton
+            edge="start"
+            color="inherit"
+            style={{
+              outline: 'none'
+            }}
+            onClick={onMobileNavOpen}
+          >
+            <MenuIcon/>
+          </IconButton>
           {/*</Hidden>*/}
 
           <Box flexGrow={1}/>
