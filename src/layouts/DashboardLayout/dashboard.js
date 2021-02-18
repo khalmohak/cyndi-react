@@ -67,6 +67,7 @@ const DashboardLayout = () => {
         <div className={classes.contentContainer}>
           <div className={classes.content}>
             <TopBar onMobileNavOpen={() => setMobileNavOpen(true)}/>
+
             <Outlet/>
             <Box
               display={'flex'}
@@ -75,8 +76,8 @@ const DashboardLayout = () => {
 
               <Fab style={{
                 position: 'absolute',
-                bottom: 33,
-                zIndex: 2,
+                bottom: 28,
+                zIndex: 1,
                 backgroundColor: '#ff5354',
                 color: selection === 2 ? '#ffffff' : '#bfbfbf',
                 outline: 'none'
@@ -91,16 +92,15 @@ const DashboardLayout = () => {
                 showLabels
                 className={getRoleColor()}
                 style={{
-                  borderRadius: '10px',
-                  borderTopLeftRadius: '10px',
-                  borderTopRightRadius: '10px',
-                  position: 'absolute',
-                  bottom: 5,
-                  zIndex: 1,
+                  borderTopLeftRadius: '30px',
+                  borderTopRightRadius: '30px',
+                  position: 'fixed',
+                  bottom: 0,
+                  flex: '1 1 auto',
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
+                  justifyContent: 'center',
+                  paddingHorizontal: 0,
+                  paddingVertical: 0,
                   color: '#fff'
                 }}
               >

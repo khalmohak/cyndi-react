@@ -5,7 +5,6 @@ import typography from './typography';
 
 export const getRoleColorPrimary = () => {
   const role = sessionStorage.getItem('userRole');
-  console.log(role);
   let color;
   switch (role) {
     case "Student":
@@ -33,13 +32,11 @@ export const getRoleColorPrimary = () => {
       color = '#0070c0';
       break;
   }
-  console.log(color);
   return color;
 };
 
 export const getRoleColorSecondary = () => {
   const role = sessionStorage.getItem('userRole');
-  console.log(role);
   let color;
   switch (role) {
     case "Student":
@@ -67,7 +64,6 @@ export const getRoleColorSecondary = () => {
       color = '#015696';
       break;
   }
-  console.log(color);
   return color;
 };
 
@@ -85,7 +81,7 @@ const theme = createMuiTheme({
       main: '#015696'
     },
     colorPrimaryTeacher: {
-        main: '#203a43'
+      main: '#203a43'
     },
     colorSecondaryTeacher: {
       main: '#152D35'
@@ -138,8 +134,6 @@ const theme = createMuiTheme({
   shadows,
   typography
 });
-
-
 
 
 export default theme;
