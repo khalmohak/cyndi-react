@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const AddDocuments = ({className, ...rest}) => {
+const AddChapterPlan = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -43,7 +43,7 @@ const AddDocuments = ({className, ...rest}) => {
   const [formDetails, setFormDetails] = useState({
     formTitle: "",
     formDescription: "",
-    classes: [],
+    link: "",
     location: []
 
   });
@@ -57,11 +57,14 @@ const AddDocuments = ({className, ...rest}) => {
   };
 
   function fileUpload() {
-
     let newArr = fileInput.current.files;
-
     for (let i = 0; i < newArr.length; i++) {
-      handleUpload(newArr[i]);
+      let extension = fileInput.current.files[i].name;
+      extension = extension.split(".");
+      extension = extension[extension.length - 1];
+      let size = fileInput.current.files[i].size;
+      console.log(size / (1024 * 1024));
+      handleUpload(newArr[i], extension, size);
     }
   }
 
@@ -69,26 +72,23 @@ const AddDocuments = ({className, ...rest}) => {
     event.preventDefault();
 
     let apiData = {
-      'university_name': sessionStorage.getItem('universityName'),
-      'college_name': sessionStorage.getItem('collegeName'),
+      'class_id': sessionStorage.getItem('current_class_id'),
       'title': formDetails.formTitle,
       'description': formDetails.formDescription,
-      'assigned_to': JSON.stringify({
-        'assigned_to': formDetails.classes
-      }),
+      'attached_url': formDetails.link,
       'attached_files': JSON.stringify({
         'files': formDetails.location
       }),
-      'datetime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
-      'type': 'Documents'
+      'dateTime': `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
+
     }
-    console.log(apiData)
+
     let apiHeader = {
       'user_id': sessionStorage.getItem('userId'),
       'x-access-token': sessionStorage.getItem('token')
     }
 
-    axios.post(`${apiEndPoint}/add/resource`, apiData, {
+    axios.post(`${apiEndPoint}/add/chapter/plan`, apiData, {
       headers: apiHeader
     }).then(response => console.log(response))
       .catch(err => console.log(err))
@@ -96,12 +96,15 @@ const AddDocuments = ({className, ...rest}) => {
 
   };
 
-  const handleUpload = (file) => {
+  const handleUpload = (file, extension, size) => {
     let newFileName = file.name.replace(/\..+$/, "");
     const ReactS3Client = new S3(config);
     ReactS3Client.uploadFile(file, newFileName).then((data) => {
+      console.log(data)
 
+      console.log(data.progress);
       if (data.status === 204) {
+        console.log("success");
         successUploadCount++;
         let form = formDetails;
 
@@ -110,34 +113,18 @@ const AddDocuments = ({className, ...rest}) => {
         res = res.slice(3, last);
         res = res.join("/");
 
-        form.location.push({'file_name': newFileName, 'file_url': res});
+        form.location.push({'filename': `${newFileName}.${extension}`, 'fileurl': res});
+        let h1 = document.createElement('h5');
+        let t = document.createTextNode(`File ${newFileName} Uploaded`);
+
+        h1.appendChild(t);
+        document.getElementById('checker').appendChild(h1);
         setFormDetails(form)
 
       } else {
         console.log("fail");
       }
     });
-  };
-
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-  const handleOpenModal = (e) => {
-    setAnchorEl(null);
-    setOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpen(false);
   };
 
 
@@ -151,20 +138,15 @@ const AddDocuments = ({className, ...rest}) => {
     let form = formDetails;
     form.formDescription = title;
   };
+  const handleFormLink = (e) => {
+    const title = e.target.value;
+    let form = formDetails;
+    form.link = title;
+  };
 
   function back() {
-    navigate('/app/teacher/resources')
+    navigate('/app/teacher/')
   }
-
-  function handleChangeClasses(event) {
-    const class_id = event.target.value;
-    let form = formDetails;
-    form.classes = [...form.classes, {'class_name': class_id[0].class_name, 'class_id': class_id[0].class_id}];
-    setFormDetails(form);
-
-  }
-
-  const classData = JSON.parse(sessionStorage.getItem('classData')).data;
 
 
   return (
@@ -174,7 +156,6 @@ const AddDocuments = ({className, ...rest}) => {
       title="Class"
     >
       <Container maxWidth={false}>
-
         <Box mt={3}>
           <Grid
             container
@@ -186,7 +167,7 @@ const AddDocuments = ({className, ...rest}) => {
               </Toolbar>
             </AppBar>
 
-            <form lassName='upload-steps' onSubmit={handleClick}>
+            <form className='upload-steps' onSubmit={handleClick}>
               <TextField
                 label="Title"
                 id="formTitle"
@@ -199,46 +180,20 @@ const AddDocuments = ({className, ...rest}) => {
                 onChange={handleFormDescription}
               />
               <br/>
+              <TextField
+                label="Add Link"
+                id="formLink"
+                onChange={handleFormLink}
+              />
+              <br/>
               <br/>
               <Typography>Choose Files</Typography>
               <input
                 type='file'
                 onChange={fileUpload}
-                multiple ref={fileInput}/>
-
-              <br/>
-
-              {/*<Grid container>*/}
-              {/*  {classData ? classData.map(data => {*/}
-
-              {/*    return <Grid row>*/}
-              {/*      <Typography>{data.class_name}</Typography>*/}
-              {/*      <CheckBox*/}
-              {/*        checked={formDetails.classes}*/}
-              {/*        onChange={handleCheckboxChange}*/}
-              {/*        color="primary"*/}
-              {/*      />*/}
-              {/*    </Grid>*/}
-              {/*  }) : <div>Wait..</div>}*/}
-
-              {/*</Grid>*/}
-              <Typography>Assigned To-</Typography>
-              <Select
-                labelId="demo-mutiple-name-label"
-                id="demo-mutiple-name"
-                multiple
-                value={formDetails.classes}
-                onChange={handleChangeClasses}
-                input={<Input/>}
-                MenuProps={MenuProps}
-              >
-                {classData.map((data) => (
-                  <option key={data.class_id} value={data}>
-                    {data.class_name}
-                  </option>
-                ))}
-              </Select>
-              <br/>
+                multiple ref={fileInput}
+              />
+              <div id="checker"></div>
               <br/>
               <Button className={classes.pandaAddButton} type='submit'>Upload</Button>
             </form>
@@ -253,6 +208,6 @@ const AddDocuments = ({className, ...rest}) => {
 
 };
 
-export default AddDocuments;
+export default AddChapterPlan;
 
 

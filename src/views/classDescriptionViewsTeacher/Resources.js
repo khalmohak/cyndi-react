@@ -1,5 +1,17 @@
 import React, {useEffect} from 'react';
-import {AppBar, Box, Button, Container, Grid, makeStyles, Tab, Tabs, Toolbar, Typography} from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  makeStyles,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography
+} from "@material-ui/core";
 import Page from "../../components/Page";
 import PropTypes from "prop-types";
 import Pagination from "@material-ui/lab/Pagination";
@@ -217,7 +229,7 @@ export const Resources = () => {
                           <ResourcesDocuments data={data}/>
                         </Grid>
                       ))
-                      : <div>Loading...</div>}
+                      : <CircularProgress className={classes.loading}/>}
                   </Grid>
                 </Box>
                 <Box
@@ -260,7 +272,7 @@ export const Resources = () => {
                           <ResourceMedia data={data}/>
                         </Grid>
                       ))
-                      : <div>Loading...</div>}
+                      : <CircularProgress className={classes.loading}/>}
                   </Grid>
                 </Box>
 
@@ -304,7 +316,7 @@ export const Resources = () => {
                           <ResourcesLink data={data}/>
                         </Grid>
                       ))
-                      : <div>Loading...</div>}
+                      : <CircularProgress className={classes.loading}/>}
 
                   </Grid>
                 </Box>

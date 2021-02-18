@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: '1 1 auto',
     height: '100%',
-    overflow: 'scroll'
-  }
+    overflow: 'auto'
+  },
 }));
 
 const ColorButton = withStyles((theme) => ({
@@ -135,6 +135,7 @@ const DashboardLayout = () => {
                                           navigate('/app/dashboard')
                                         }}/>
               </BottomNavigation>
+
 
             </Box>
           </div>

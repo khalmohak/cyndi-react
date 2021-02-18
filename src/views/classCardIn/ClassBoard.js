@@ -4,7 +4,7 @@ import Firebase from 'firebase';
 import firebaseConfig from '../../utils/firebaseConfig';
 //import './App.css';
 import Message from './Message.js';
-
+import cryptLib from '@skavinvarnan/cryptlib';
 Firebase.initializeApp(firebaseConfig);
 
 if (sessionStorage.getItem('firebaseToken')) {
@@ -19,6 +19,15 @@ if (sessionStorage.getItem('firebaseToken')) {
       console.log(errorMessage);
     });
 }
+
+// console.log("helo cutie")
+// const plainText = "this is my plain text";
+// const key = "your key";
+// const cipherText = cryptLib.encryptPlainTextWithRandomIV(plainText, key);
+// console.log('cipherText %s', cipherText);
+// const decryptedString = cryptLib.decryptCipherTextWithRandomIV(cipherText, key);
+// console.log('decryptedString %s', decryptedString);
+
 
 const ClassBoard = () => {
   let [chat, setChat] = useState();
@@ -56,6 +65,7 @@ const ClassBoard = () => {
   //   img: "http://i.imgur.com/Tj5DGiO.jpg",
   // }])
   //let messages=[];
+
   const getUserData = () => {
     let ref = Firebase.database().ref('/ClassBoard');
     ref.on('value', snapshot => {
@@ -68,6 +78,7 @@ const ClassBoard = () => {
   };
   let messages = [];
   if (chat) {
+
     for (let i in chat['15']) {
       messages.push(chat['15'][i]['message']);
     }

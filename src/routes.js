@@ -10,6 +10,7 @@ import SettingsView from 'src/views/settings/SettingsView';
 import ResourcesList from 'src/views/resources/index';
 import Messaging from 'src/views/messaging/index';
 import Notifications from 'src/views/notifications/index';
+import AddNotificationCard from 'src/views/notifications/AddNotificationsCard';
 import TeacherCard from 'src/views/teacherCard/ProductListView/index';
 import {Register} from 'src/views/auth/Register';
 import ClassCardIn from "./views/classCardIn/index";
@@ -23,6 +24,7 @@ import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
 import AddMedia from "./views/classDescriptionViewsTeacher/AddMedia";
 import AddLink from "./views/classDescriptionViewsTeacher/AddLink";
 import AddSyllabus from "./views/classDescriptionViewsTeacher/AddSyllabus";
+import AddChapterPlan from "./views/classDescriptionViewsTeacher/AddChapterPlan";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -75,6 +77,7 @@ let route = (/*isAuthenticated*/) => {
               {path: 'resources', element: <ResourcesList/>},
               {path: 'messaging', element: <Messaging/>},
               {path: 'notifications', element: <Notifications/>},
+              {path: 'addnotifications', element: <AddNotificationCard/>},
               {path: 'teacher/classes', element: <Classes/>},
               {path: 'teacher/resources', element: <Resources/>},
               {path: 'teacher/chapterplan', element: <ChapterPlan/>},
@@ -83,6 +86,7 @@ let route = (/*isAuthenticated*/) => {
               {path: 'teacher/resources/addmedia', element: <AddMedia/>},
               {path: 'teacher/resources/addlink', element: <AddLink/>},
               {path: 'teacher/syllabus/addsyllabus', element: <AddSyllabus/>},
+              {path: 'teacher/chapterplan/addchapterplan', element: <AddChapterPlan/>},
               {path: '*', element: <Navigate to="/404"/>}
             ]
           },
