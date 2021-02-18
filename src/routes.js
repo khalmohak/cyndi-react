@@ -23,6 +23,7 @@ import AddDocuments from "./views/classDescriptionViewsTeacher/AddDocuments";
 import AddMedia from "./views/classDescriptionViewsTeacher/AddMedia";
 import AddLink from "./views/classDescriptionViewsTeacher/AddLink";
 import AddSyllabus from "./views/classDescriptionViewsTeacher/AddSyllabus";
+import AddChapterPlan from "./views/classDescriptionViewsTeacher/AddChapterPlan";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -83,6 +84,7 @@ let route = (/*isAuthenticated*/) => {
               {path: 'teacher/resources/addmedia', element: <AddMedia/>},
               {path: 'teacher/resources/addlink', element: <AddLink/>},
               {path: 'teacher/syllabus/addsyllabus', element: <AddSyllabus/>},
+              {path: 'teacher/chapterplan/addchapterplan', element: <AddChapterPlan/>},
               {path: '*', element: <Navigate to="/404"/>}
             ]
           },

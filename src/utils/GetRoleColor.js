@@ -43,10 +43,8 @@ const styleAlumnus = makeStyles((theme) => ({
 }));
 
 export const getRoleColor = () => {
-  console.log("Called");
-  console.log(styleAlumnus().color);
   const role = sessionStorage.getItem('userRole');
-  console.log(role);
+
   let color;
   switch (role) {
     case "Student":
@@ -74,7 +72,7 @@ export const getRoleColor = () => {
       color = styleStudent().color;
       break;
   }
-  console.log(color);
+
   return color;
 };
 

@@ -1,17 +1,48 @@
 import React, {useEffect} from 'react';
-import {Button, Card, CardContent, makeStyles, Typography} from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  makeStyles,
+  Toolbar,
+  Typography
+} from "@material-ui/core";
 import {apiEndPoint, s3Bucket, s3Region} from "../../constants";
 import axios from "axios";
 import {useNavigate} from "react-router";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import SyllabusHeader from "../../components/syllabus";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '20px',
-    width: "25%",
+    width: "100%",
     margin: "10px",
+    display: 'block',
+    textAlign: 'left',
+    height: "100%",
   },
   cardTitle: {
     fontSize: '25px'
+  },
+  cardDescription: {
+    fontSize: '13px',
+    color: 'grey'
+  },
+  cardLink: {
+    paddingBottom: '5px',
+  },
+  datetime: {
+    paddingBottom: '5px',
+    fontSize: '12px'
+  },
+  attachments: {
+    paddingBottom: '5px',
+    fontSize: '20px'
   },
   pandaAddButton: {
     backgroundColor: '#025fa1',
@@ -30,8 +61,8 @@ export const ChapterPlan = () => {
   const [syllabusD, setSyllabus] = React.useState(0)
   const navigate = useNavigate();
 
-  function handleAddSyllabus() {
-    navigate('/app/teacher/syllabus/addsyllabus')
+  function handleAddChapterPlan() {
+    navigate('/app/teacher/chapterplan/addchapterplan')
   }
 
   function getSyllabus() {
@@ -46,46 +77,77 @@ export const ChapterPlan = () => {
       headers: header
     }).then(res => {
       console.log(res.data);
+      setSyllabus(res.data);
 
     })
       .catch(err => console.log(err))
   }
 
+  function back() {
+    navigate('/app/teacher/')
+  }
+
   useEffect(() => {
     getSyllabus()
 
-  }, )
+  },)
 
   return (
     <>
+
+
+      <AppBar position="static">
+        <Toolbar>
+          <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+        </Toolbar>
+      </AppBar>
       <Button
-        onClick={handleAddSyllabus}
+        onClick={handleAddChapterPlan}
         className={classes.pandaAddButton}>
         Add
       </Button>
+
+
       {syllabusD ? syllabusD.map(data => {
         return (
-          <Card className={classes.root}>
-            <CardContent>
-              <Typography className={classes.cardTitle}>{data.title}</Typography>
-              {/*{JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(*/}
-              {/*  data => {*/}
-              {/*    return (*/}
-              {/*      <div>*/}
-              {/*        <a*/}
-              {/*          href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}*/}
-              {/*        >*/}
-              {/*          {data.filename}*/}
-              {/*        </a>*/}
-              {/*        <divider/>*/}
-              {/*      </div>*/}
-              {/*    )*/}
-              {/*  }*/}
-              {/*) : <div>Waiting..</div>}*/}
-            </CardContent>
-          </Card>
+
+
+          <Grid xs={6} sm={6} md={4} lg={3}>
+
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography className={classes.cardTitle}>{data.title}</Typography>
+                <Typography className={classes.cardDescription}>{data.description}</Typography>
+                <a className={classes.cardLink} href={data.attached_url}>Attached Link Here</a>
+                <Typography className={classes.datetime}>{data.datetime}</Typography>
+                <Divider/>
+                <Typography className={classes.attachments}>Attachments</Typography>
+                {JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(
+                  data => {
+                    return (
+                      <div>
+                        <Box
+                          pb={1}
+                        >
+                          <a
+                            href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}
+                          >
+                            {data.filename}
+                          </a>
+                        </Box>
+
+                        <Divider/>
+                      </div>
+                    )
+                  }
+                ) : <div>Waiting..</div>}
+              </CardContent>
+            </Card>
+          </Grid>
+
         )
       }) : <div>Loading..</div>}
+
 
     </>
   )
