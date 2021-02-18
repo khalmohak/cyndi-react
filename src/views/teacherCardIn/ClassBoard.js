@@ -3,6 +3,7 @@ import {Button} from '@material-ui/core';
 import Firebase from 'firebase';
 import './App.css';
 import Message from './Message.js';
+import cryptLib from "@skavinvarnan/cryptlib";
 
 //Firebase.initializeApp(firebaseConfig);
 
@@ -55,10 +56,19 @@ const ClassBoard = () => {
   //   img: "http://i.imgur.com/Tj5DGiO.jpg",
   // }])
   //let messages=[];
+
+
+  const plainText = "qup1Fc1amKOKn05Q7CAAHKICw57/u/NdoHuBFolG7/nMy+d8JjP1RRjEWC3vmfSF4Ln+7J0zhRw6amPjKuYEsA==";
+  const key = "EncryptMessages37";
+  const cipherText = cryptLib.encryptPlainTextWithRandomIV(plainText, key);
+  console.log('cipherText %s', cipherText);
+  const decryptedString = cryptLib.decryptCipherTextWithRandomIV(plainText, key);
+  console.log('decryptedString %s', decryptedString);
+
   const getUserData = () => {
     let ref = Firebase.database().ref('/ClassBoard');
     ref.on('value', snapshot => {
-      //console.log(snapshot.val());
+      console.log(snapshot.val());
       //messages=snapshot.val();
       setChat(snapshot.val());
 
@@ -69,6 +79,7 @@ const ClassBoard = () => {
   if (chat) {
     for (let i in chat['15']) {
       messages.push(chat['15'][i]['message']);
+      //console.log(chat['15'][i]['senderName']);
     }
 
   }

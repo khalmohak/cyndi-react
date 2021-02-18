@@ -1,8 +1,12 @@
-import React from 'react';
-import {Box, Container, makeStyles} from '@material-ui/core';
+import React, {useEffect} from 'react';
+import {Box, Container, makeStyles, Button, Grid, CircularProgress} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
-import ResourceCard from './NotificationsCard';
+
+import NotificationView from "./NotificationView";
+import {useNavigate} from "react-router-dom";
+import {apiEndPoint} from "../../constants";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,11 +17,51 @@ const useStyles = makeStyles((theme) => ({
   },
   productCard: {
     height: '100%'
+  },
+  pandaAddButton: {
+    backgroundColor: '#025fa1',
+    color: '#ffffff',
+    '&:hover': {
+      color: '#025fa1',
+      borderColor: "#025fa1"
+    }
   }
 }));
 
-const ResourcesListView = () => {
+const NotificationTeacher = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const [notifications, setNotifications] = React.useState([]);
+
+  function addNotification() {
+    navigate('/app/addnotifications');
+  }
+
+  function getNotifications() {
+    let apiData = {
+      university_name: sessionStorage.getItem('universityName'),
+      limit: 10,
+      offset: 0
+    }
+    let header = {
+      user_id: sessionStorage.getItem('userId'),
+      'x-access-token': sessionStorage.getItem('token')
+    }
+    axios.post(`${apiEndPoint}/get/notification/education`, apiData, {
+        headers: header
+      }
+    ).then(response => {
+      console.log(response.data);
+      setNotifications(response.data)
+    })
+      .catch(error => console.log(error))
+
+  }
+
+  useEffect(() => {
+    getNotifications();
+
+  }, [notifications])
 
   return (
     <Page
@@ -25,28 +69,36 @@ const ResourcesListView = () => {
       title="Resources"
     >
       <Container maxWidth={false}>
+        <Button className={classes.pandaAddButton} onClick={addNotification}>Add Notification</Button>
+
         <Box mt={3}>
           <Box
             container
             spacing={3}
-            display="flex"
+            display="block"
             justifyContent="center"
+
+
           >
-            {/* {products.map((product) => (
+            {notifications ? notifications.map((data) => (
+              <div>
               <Grid
+
                 item
-                key={product.id}
+                key={data.class_id}
                 lg={4}
                 md={6}
                 xs={12}
               >
-                <ResourceCard
-                  className={classes.productCard}
-                  product={product}
-                />
+                <NotificationView data={data}/>
+
               </Grid>
-            ))} */}
-            <ResourceCard/>
+
+              </div>
+            )) : <CircularProgress/>
+            }
+
+
           </Box>
         </Box>
         <Box
@@ -65,4 +117,4 @@ const ResourcesListView = () => {
   );
 };
 
-export default ResourcesListView;
+export default NotificationTeacher;

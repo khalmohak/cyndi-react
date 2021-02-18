@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
+  CardContent, CircularProgress,
   Divider,
   Grid,
   makeStyles,
@@ -156,13 +156,13 @@ export const Syllabus = () => {
                         </div>
                       )
                     }
-                  ) : <div>Waiting..</div>}
+                  ) : <CircularProgress className={classes.loading}/>}
                 </CardContent>
               </Card>
             </Grid>
           </Box>
         )
-      }) : <div>Loading..</div>}
+      }) : <CircularProgress className={classes.loading}/>}
 
     </>
   )

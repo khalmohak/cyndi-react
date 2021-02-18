@@ -145,7 +145,7 @@ const AddChapterPlan = ({className, ...rest}) => {
   };
 
   function back() {
-    navigate('/app/teacher/chapterplan')
+    navigate('/app/teacher/')
   }
 
 
@@ -164,7 +164,6 @@ const AddChapterPlan = ({className, ...rest}) => {
             <AppBar position="static">
               <Toolbar>
                 <Button onClick={back}><KeyboardBackspaceIcon/></Button>
-
               </Toolbar>
             </AppBar>
 

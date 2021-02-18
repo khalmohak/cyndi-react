@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
+  CardContent, CircularProgress,
   Divider,
   Grid,
   makeStyles,
@@ -76,7 +76,11 @@ export const ChapterPlan = () => {
     axios.post(`${apiEndPoint}/get/chapter/plan`, data, {
       headers: header
     }).then(res => {
-      console.log(res.data);
+
+      if (res.data.length === 0) {
+        console.log("ys")
+        navigate('/app/teacher/chapterplan/addchapterplan')
+      }
       setSyllabus(res.data);
 
     })
@@ -104,49 +108,56 @@ export const ChapterPlan = () => {
       <Button
         onClick={handleAddChapterPlan}
         className={classes.pandaAddButton}>
-        Add
+        Edit
       </Button>
 
 
       {syllabusD ? syllabusD.map(data => {
         return (
+          <Box
+            container
+            spacing={3}
+            display="flex"
+            justifyContent="center"
+          >
 
+            <Grid xs={6} sm={6} md={4} lg={3}>
+              <SyllabusHeader/>
 
-          <Grid xs={6} sm={6} md={4} lg={3}>
-
-            <Card className={classes.root}>
-              <CardContent>
-                <Typography className={classes.cardTitle}>{data.title}</Typography>
-                <Typography className={classes.cardDescription}>{data.description}</Typography>
-                <a className={classes.cardLink} href={data.attached_url}>Attached Link Here</a>
-                <Typography className={classes.datetime}>{data.datetime}</Typography>
-                <Divider/>
-                <Typography className={classes.attachments}>Attachments</Typography>
-                {JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(
-                  data => {
-                    return (
-                      <div>
-                        <Box
-                          pb={1}
-                        >
-                          <a
-                            href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}
+              <Card className={classes.root}>
+                <CardContent>
+                  <Typography className={classes.cardTitle}>{data.title}</Typography>
+                  <Typography className={classes.cardDescription}>{data.description}</Typography>
+                  <a className={classes.cardLink} href={data.attached_url}>Attached Link Here</a>
+                  <Typography className={classes.datetime}>{data.datetime}</Typography>
+                  <Divider/>
+                  <Typography className={classes.attachments}>Attachments</Typography>
+                  {JSON.parse(syllabusD[0].attached_files).files ? JSON.parse(syllabusD[0].attached_files).files.map(
+                    data => {
+                      return (
+                        <div>
+                          <Box
+                            pb={1}
                           >
-                            {data.filename}
-                          </a>
-                        </Box>
+                            <a
+                              href={`https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${data.fileurl}`}
+                            >
+                              {data.filename}
+                            </a>
+                          </Box>
 
-                        <Divider/>
-                      </div>
-                    )
-                  }
-                ) : <div>Waiting..</div>}
-              </CardContent>
-            </Card>
-          </Grid>
+                          <Divider/>
+                        </div>
+                      )
+                    }
+                  ) : <CircularProgress className={classes.loading}/>}
+                </CardContent>
+              </Card>
+            </Grid>
+          </Box>
 
         )
-      }) : <div>Loading..</div>}
+      }) : <CircularProgress className={classes.loading}/>}
 
 
     </>

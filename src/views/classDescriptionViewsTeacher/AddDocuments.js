@@ -183,7 +183,6 @@ const AddDocuments = ({className, ...rest}) => {
             <AppBar position="static">
               <Toolbar>
                 <Button onClick={back}><KeyboardBackspaceIcon/></Button>
-
               </Toolbar>
             </AppBar>
 

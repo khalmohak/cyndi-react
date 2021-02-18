@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 auto',
     height: '100%',
     overflow: 'auto'
-  }
+  },
 }));
 
 const ColorButton = withStyles((theme) => ({
@@ -86,6 +86,7 @@ const DashboardLayout = () => {
               }}>
                 <Home/>
               </Fab>
+
               <BottomNavigation
                 showLabels
                 className={getRoleColor()}
@@ -134,6 +135,7 @@ const DashboardLayout = () => {
                                           navigate('/app/dashboard')
                                         }}/>
               </BottomNavigation>
+
 
             </Box>
           </div>
