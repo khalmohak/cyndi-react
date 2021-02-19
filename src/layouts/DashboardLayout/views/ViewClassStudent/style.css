@@ -48,7 +48,7 @@
     height: 36px;
     bottom: 0px;
     float: right;
-    background-image: url("./yellow-strip.png");
+    background-image: url("yellow-strip.png");
     padding: 10px 0px;
     position: absolute;
     right: 0px;
@@ -411,7 +411,7 @@
     content: "";
     height: 192px;
     width: 362px;
-    background-image: url("./shade1.png");
+    background-image: url("shade1.png");
     display: inline-block;
 }
 

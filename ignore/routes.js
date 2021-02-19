@@ -3,13 +3,13 @@ import { Navigate, Route, Redirect } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout/dashboard';
 import MainLayout from 'src/layouts/MainLayout';
 import CustomerListView from 'src/views/customer/CustomerListView';
-import DashboardView from 'src/views/reports/DashboardView';
+import DashboardView from 'src/layouts/DashboardLayout/views/ViewProfile';
 import {LoginView,isLoggedIn} from 'src/views/auth/LoginView';
 import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/product/ClassListView';
-import SettingsView from 'src/views/settings/SettingsView';
+import ProductListView from 'src/layouts/DashboardLayout/views/ViewClassStudent';
+import SettingsView from 'src/layouts/DashboardLayout/Settings';
 import ResoucresList from 'src/views/resources/index';
-import TeacherCard from 'src/views/teacherCard/ProductListView/index';
+import TeacherCard from 'src/layouts/DashboardLayout/views/ViewClassTeacher/index';
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');

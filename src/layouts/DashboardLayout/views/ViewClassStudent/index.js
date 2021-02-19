@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core';
-import {apiEndPoint} from "../../../constants";
+import {apiEndPoint} from "../../../../constants";
 import axios from 'axios';
 import ClassListGenerator from "./classCardComponentGenerator";
 

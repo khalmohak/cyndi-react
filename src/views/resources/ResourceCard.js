@@ -23,7 +23,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 //import './App.css';
-import {current_class_id} from "../product/ClassListView/classCard";
+import {current_class_id} from "../../layouts/DashboardLayout/views/ViewClassStudent/classCard";
 import {apiEndPoint} from "../../constants";
 
 const Dropzone = require('react-dropzone');
