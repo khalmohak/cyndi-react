@@ -5,8 +5,8 @@ import {ThemeProvider} from '@material-ui/core';
 import GlobalStyles from 'src/components/GlobalStyles';
 import theme from 'src/theme';
 import route from 'src/routes';
-//import {ZoomMtg} from "@zoomus/websdk";
-//import './App.css';
+// import {ZoomMtg} from "@zoomus/websdk";
+ import './App.css';
 
 const App = () => {
 
