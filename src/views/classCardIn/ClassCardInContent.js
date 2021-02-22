@@ -7,7 +7,7 @@ import PandAClassCard from "./PandA";
 import QESClassCard from "./QES";
 import {apiEndPoint} from '../../constants';
 import axios from "axios";
-import {current_class_id} from '../product/ClassListView/classCard';
+import {current_class_id} from '../../layouts/DashboardLayout/views/ViewClassStudent/classCard';
 import Pagination from '@material-ui/lab/Pagination';
 
 function TabPanel(props) {

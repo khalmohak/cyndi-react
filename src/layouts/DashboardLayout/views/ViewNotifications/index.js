@@ -5,7 +5,7 @@ import Page from 'src/components/Page';
 
 import NotificationView from "./NotificationView";
 import {useNavigate} from "react-router-dom";
-import {apiEndPoint} from "../../constants";
+import {apiEndPoint} from "../../../../constants";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({

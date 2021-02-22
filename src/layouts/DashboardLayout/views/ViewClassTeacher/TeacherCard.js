@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import MultiSlider, {Progress} from 'react-multi-bar-slider';
 import {useNavigate} from 'react-router-dom';
+
 import {
   Avatar,
   Box,
@@ -13,12 +13,23 @@ import {
   Grid,
   Link,
   makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tooltip,
   Typography
 } from '@material-ui/core';
-import NotifyMe from '../../NotifyMe';
+import MultiSlider, {Progress} from "react-multi-bar-slider";
+import '../ViewClassStudent/style.css';
+import NotifyMe from '../../../../views/NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
-//import './style.css';
+// import {ZoomMtg} from "@zoomus/websdk";
+// import {zoomInitiater} from "../../zoom";
+import {current_class_id} from "../ViewClassStudent/classCard";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,9 +75,6 @@ const useStyles = makeStyles((theme) => ({
   cardTableHeading: {
     fontWeight: '500'
   },
-  bottomColor: {
-    backgroundColor: '#1e1f26'
-  },
 
   cardHeaderBackground: {
     borderRadius: '6px', backgroundColor: 'pink'
@@ -100,17 +108,33 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     color: '#fff'
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
 
 
 }));
 
+
+function createData(name, classes, assignments, projects, test_quiz) {
+  return {name, classes, assignments, projects, test_quiz};
+}
+
+const rows = [
+  createData('Classes', 12, 6, 6, '12/5/'),
+  createData('Assignments', 12, 9, 3, '12/5'),
+  createData('Projects', 12, 10, 2, '12/5/'),
+  createData('Test/Quiz', 12, 3, 9, '12/5/'),
+
+];
+
+/**
+ * dummy attendance percent
+ * @type {string}
+ */
 var attendancePercent = '40%';
 
-
+/**
+ * dummy data for ViewNotifications
+ * @type {({update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number})[]}
+ */
 var data = [
   {
     "update": "70 new employees are shifted",
@@ -130,22 +154,18 @@ var data = [
   }
 ]
 
-let current_class_id = 0;
 
-const ClassesCard = ({className, card, ...rest}) => {
+const TeachersCard = ({className, card, ...rest}) => {
   const classes = useStyles();
-  const [teacherName, setTeacherName] = useState(0);
   const s3Region = `ap-south-1`;
   const s3Bucket = `cyndi.primary.bucket`;
   let teacherNameTemp = '';
   let teacherPictureTemp = '';
   const navigate = useNavigate();
 
-  const handleClassCard = (event) => {
-    current_class_id = card.class_id;
-    sessionStorage.setItem('current_class_id', current_class_id);
-    navigate('/app/student', {replace: true});
-  }
+  /**
+   * Function to get the teachers name for a specific class
+   */
 
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
@@ -156,14 +176,21 @@ const ClassesCard = ({className, card, ...rest}) => {
         //setTeacherName(teacherDetails.name);
         teacherNameTemp = teacherDetails.name;
         teacherPictureTemp = teacherDetails.photo_url;
+
       }
     }
   };
+
   getTeacherName();
   //setTeacherName(teacherNameTemp);
   const user = {
     avatar: `https://s3.${s3Region}.amazonaws.com/${s3Bucket}/${teacherPictureTemp}`
   }
+
+  /**
+   * Function that returns avatar on the basis if user has already uploaded picture or not
+   * @returns {JSX.Element}
+   */
 
   const avatarName = () => {
     if (teacherPictureTemp === 'null') {
@@ -173,13 +200,30 @@ const ClassesCard = ({className, card, ...rest}) => {
     }
   }
 
-  const zoomMeetingStart = {};
+  /**
+   * Zoom meeting join function gets called when Join/Create class button is clicked
+   */
+    // const zoomMeetingStart = () => {
+    //   zoomInitiater(function (zoomConfig) {
+    //     console.log(zoomConfig);
+    //     ZoomMtg.generateSignature(zoomConfig);
+    //   })
+    //
+    // }
 
+  const handleClassCard = (event) => {
+      const current_class_id = card.class_id;
+      const current_class_name = card.class_name;
+      sessionStorage.setItem('current_class_id', current_class_id);
+      sessionStorage.setItem('current_class_name', current_class_name);
+      navigate('/app/teacher', {replace: true});
+    }
 
   return (
     <Card
-      onClick={handleClassCard}
+
       className={clsx(classes.root, className)}
+      onClick={handleClassCard}
       {...rest}
 
     >
@@ -194,7 +238,7 @@ const ClassesCard = ({className, card, ...rest}) => {
 
               <Box className={'dkpal'}>
                 <Button
-                  onClick={zoomMeetingStart}
+                  //onClick={zoomMeetingStart}
                 >Join Class</Button>
                 <Box className={'dkpal2'}>
                   <NotifyMe
@@ -218,7 +262,6 @@ const ClassesCard = ({className, card, ...rest}) => {
                 {card.class_name}
 
                 <Box className={'hadding'}>
-                  {/*{card.class_description}*/}
                   {teacherNameTemp}
                 </Box>
 
@@ -253,55 +296,40 @@ const ClassesCard = ({className, card, ...rest}) => {
           </Box>
 
 
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
-            <Box p={1} className={'inner'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner'}>
-              <Tooltip title="20%">
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'>
-                  <Progress className={'col2'} progress={20}/>
-                  <Progress className={'white-g'} progress={100}/>
-                </MultiSlider>
-              </Tooltip>
-            </Box>
+          <Box>
+            <TableContainer component={Paper}>
+              <Table className={'teacher'} size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Progress</TableCell>
+                    <TableCell align="right">Planned</TableCell>
+                    <TableCell align="right" className={classes.done}>Done</TableCell>
+                    <TableCell align="right">Remaining</TableCell>
+                    <TableCell align="right">Next</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.classes}</TableCell>
+                      <TableCell align="right" className={classes.done}>{row.assignments}</TableCell>
+                      <TableCell align="right" className={classes.remaining}>{row.projects}</TableCell>
+                      <TableCell align="right" className={classes.next}>{row.test_quiz}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
-
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
-            <Box p={1} className={'inner'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner'}>
-              <Tooltip title="100%">
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'>
-                  <Progress className={'white-g'} progress={100}/>
-                  <Progress className={'col1'} progress={70}/>
-                </MultiSlider>
-              </Tooltip>
-            </Box>
-          </Box>
-
-
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment2'}>
-            <Box p={1} className={'inner3'}>Courses </Box>
-            <Box p={1} flexGrow={1} className={'inner2'}>
-              <MultiSlider width='100%' height='20px'>
-                <Progress className={'curve'} color="#a1d9cc" progress={25}/>
-                <Progress className={'curve'} color="#95c7bc" progress={50}/>
-                <Progress className={'curve'} color="#88b7ad" progress={75}/>
-                <Progress className={'curve'} color="#7ca79d" progress={100}/>
-              </MultiSlider>
-            </Box>
-          </Box>
+          {/*Description End*/}
 
 
         </Box>
       </CardContent>
 
-      <Box flexGrow={1}/>
-      <Divider/>
       <Box flexGrow={1}/>
       <Divider/>
       <Box className={'bottomColor'}>
@@ -336,9 +364,9 @@ const ClassesCard = ({className, card, ...rest}) => {
   );
 };
 
-ClassesCard.propTypes = {
+TeachersCard.propTypes = {
   className: PropTypes.string,
-  card: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired
 };
 
-export {ClassesCard, current_class_id};
+export default TeachersCard;

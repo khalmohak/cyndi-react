@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {AppBar, Box, Button, Hidden, IconButton, makeStyles, Toolbar} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
+import {AppBar, Box, Hidden, makeStyles, Toolbar, Typography} from '@material-ui/core';
 import {LogoLarge, LogoSmall} from 'src/components/Logo';
-import {Add, ExitToApp} from '@material-ui/icons'
 import {getRoleColor} from "../../utils/GetRoleColor";
 import {useNavigate} from "react-router";
+//import history from "../../utils/history";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -20,10 +18,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
 const TopBar = ({
                   className,
-                  onMobileNavOpen,
                   ...rest
                 }) => {
   const classes = useStyles();
@@ -42,22 +38,23 @@ const TopBar = ({
         {...rest}
       >
         <Toolbar>
-          {/*<Hidden lgUp>*/}
-          <IconButton
+
+          {/*<IconButton
             edge="start"
             color="inherit"
             style={{
               outline: 'none'
             }}
-            onClick={() => {
-              onMobileNavOpen()
-            }}
+            onClick={history.back}
           >
-            <MenuIcon/>
-          </IconButton>
-          {/*</Hidden>*/}
+            <ArrowBackIos/>
+          </IconButton>*/}
 
           <Box flexGrow={1}/>
+
+          <Typography>
+            Add Class
+          </Typography>
 
           <Hidden mdDown>
             <RouterLink to="/app/dashboard">
@@ -68,42 +65,6 @@ const TopBar = ({
             <RouterLink to="/app/dashboard">
               <LogoSmall/>
             </RouterLink>
-          </Hidden>
-
-          <Box flexGrow={1}/>
-
-          <RouterLink to="/add/class">
-            <Button
-              variant="contained"
-              color={getRoleColor()}
-              style={{
-                outline: 'none',
-                color: '#fff',
-                backgroundColor: '#00000000'
-              }}
-              //className={getRoleColor()}
-              startIcon={<Add/>}
-              onClick={navigate('/add/class')}
-            >
-              Add
-            </Button>
-          </RouterLink>
-
-          <Hidden mdDown>
-            <IconButton color="inherit" style={{
-              outline: 'none', color: '#fff'
-            }}>
-
-              <NotificationsIcon className={'button_notifi'}/>
-            </IconButton>
-
-            <IconButton color="inherit" style={{
-              outline: 'none', color: '#fff'
-            }}>
-              <RouterLink to='/'>
-                <ExitToApp onClick={removeLoggedInStatus} className={'button_notifi'}/>
-              </RouterLink>
-            </IconButton>
           </Hidden>
 
         </Toolbar>

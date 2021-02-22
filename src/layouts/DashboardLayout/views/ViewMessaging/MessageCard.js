@@ -23,8 +23,8 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 //import './App.css';
-import {current_class_id} from "../product/ClassListView/classCard";
-import {apiEndPoint} from "../../constants";
+import {current_class_id} from "../ViewClassStudent/classCard";
+import {apiEndPoint} from "../../../../constants";
 
 const Dropzone = require('react-dropzone');
 const upload = require('superagent')

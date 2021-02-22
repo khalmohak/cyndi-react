@@ -4,7 +4,7 @@ import {Pagination} from '@material-ui/lab';
 import Page from 'src/components/Page';
 import TeachersCard from './TeacherCard';
 import axios from "axios";
-import {apiEndPoint} from "../../../constants";
+import {apiEndPoint} from "../../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {

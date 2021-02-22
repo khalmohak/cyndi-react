@@ -1,31 +1,9 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import AWS from 'aws-sdk';
+import React from 'react';
 import axios from "axios";
-import {
-  AppBar,
-  Backdrop,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Fade,
-  Grid,
-  Input,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Modal, Select,
-  Switch,
-  TextField, Toolbar,
-  Typography
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
+import {AppBar, Button, makeStyles, MenuItem, Select, TextField, Toolbar, Typography} from '@material-ui/core';
 //import './App.css';
-import {current_class_id} from "../product/ClassListView/classCard";
-import {apiEndPoint, s3URL} from "../../constants";
+import {current_class_id} from "../ViewClassStudent/classCard";
+import {apiEndPoint} from "../../../../constants";
 import moment from "moment";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import {useNavigate} from "react-router-dom";
@@ -75,20 +53,20 @@ const Notification = ({className, ...rest}) => {
   };
 
   function back() {
-    navigate('/app/notifications')
+    navigate('/app/ViewNotifications')
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let apiData = {
       class_id: sessionStorage.getItem('current_class_id'),
-      body:body,
-      title:title,
-      datetime:`${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
-      university_name:sessionStorage.getItem('universityName'),
-      college_name:sessionStorage.getItem('collegeName'),
-      type:notiType,
-      link:link
+      body: body,
+      title: title,
+      datetime: `${moment().subtract(10, 'days').calendar()} ${moment().format('LT')}`,
+      university_name: sessionStorage.getItem('universityName'),
+      college_name: sessionStorage.getItem('collegeName'),
+      type: notiType,
+      link: link
     }
 
     let header = {

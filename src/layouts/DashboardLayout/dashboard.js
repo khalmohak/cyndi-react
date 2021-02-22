@@ -49,7 +49,6 @@ const ColorButton = withStyles((theme) => ({
 
 const DashboardLayout = () => {
   const classes = useStyles();
-  const classes2 = useStyles;
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -135,8 +134,6 @@ const DashboardLayout = () => {
                                           navigate('/app/dashboard')
                                         }}/>
               </BottomNavigation>
-
-
             </Box>
           </div>
         </div>
