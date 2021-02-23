@@ -27,7 +27,7 @@ import AddLink from './layouts/LayoutDetailedResource/views/AddLink'
 import AddSyllabus from "./layouts/LayoutDetailedResource/views/AddSyllabus";
 import AddChapterPlan from "./layouts/LayoutDetailedResource/views/AddChapterPlan";
 import Profile from './layouts/LayoutEditProfile/views'
-
+import TimeTable from "./layouts/LayoutTimeTable/views";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -108,6 +108,13 @@ let route = (/*isAuthenticated*/) => {
             element: <DashboardLayout/>,
             children:[
               {path: 'profile', element: <Profile/>}
+            ]
+          },
+          {
+            path: 'timetable',
+            element: <DashboardLayout/>,
+            children:[
+              {path: '/', element: <TimeTable/>}
             ]
           },
           {

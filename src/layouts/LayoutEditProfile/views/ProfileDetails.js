@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   Box,
   Button,
-  Card,
+  Card, CardActions,
   CardContent,
   CardHeader,
   Divider,
@@ -14,38 +14,55 @@ import {
   makeStyles, Radio, RadioGroup,
   TextField
 } from '@material-ui/core';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+import {apiEndPoint} from "../../../constants";
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
+function getTeacherData() {
+  let body = {
+    role: 'Teacher'
+  }
+  let header = {
+    user_id: sessionStorage.getItem('userId'),
+    'x-access-token': sessionStorage.getItem('token')
+  }
+  axios.post(`${apiEndPoint}/get/role/details`, body, {
+    headers: header
+  }).then((response) => {
+    console.log(response.data[0]);
+    sessionStorage.setItem('employee_id', response.data[0].employee_id);
+    sessionStorage.setItem('gender', response.data[0].gender);
+    sessionStorage.setItem('subject_expertise', response.data[0].subject_expertise);
+    sessionStorage.setItem('teacher_rank', response.data[0].teacher_rank);
+    sessionStorage.setItem('dob', response.data[0].dob);
+  })
+    .catch(error => console.log(error));
+}
+
+getTeacherData();
+
+
 const ProfileDetails = ({className, ...rest}) => {
   const classes = useStyles();
 
-  const details = [];
+  let date = sessionStorage.getItem('dob');
+  let dd = date.slice(0, 2);
+  let dm = date.slice(3, 5);
+  let dy = date.slice(6, 10);
+
 
   const [values, setValues] = useState({
-    firstName: details[0],
-    lastName: '',
-    email: '',
-    phone: '',
-    state: '',
-    country: ''
+    name: sessionStorage.getItem('userName'),
+    gender: sessionStorage.getItem('gender'),
+    employee_id: sessionStorage.getItem('employee_id'),
+    subject_expertise: sessionStorage.getItem('subject_expertise'),
+    university: sessionStorage.getItem('universityName'),
+    college: sessionStorage.getItem('collegeName'),
+    rank: sessionStorage.getItem('teacher_rank'),
+    dob: dy + '-' + dm + '-' + dd
+
   });
 
   const handleChange = (event) => {
@@ -54,6 +71,63 @@ const ProfileDetails = ({className, ...rest}) => {
       [event.target.name]: event.target.value
     });
   };
+
+  function handleNameChange(e) {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value
+    });
+  }
+
+
+  function handleDateChange(e) {
+    let date = new Date(e.target.value);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+    setValues({
+      ...values,
+      [e.target.name]: dt + '/' + month + '/' + year
+    });
+    console.log(dt + '/' + month + '/' + year);
+  }
+
+
+  function onClick() {
+    console.log(values);
+    let header = {
+      user_id: sessionStorage.getItem('userId'),
+      'x-access-token': sessionStorage.getItem('token')
+    }
+
+    let body = {
+      university_name: values.university,
+      college_name: values.college,
+      employee_id: values.employee_id,
+      teacher_rank: values.rank,
+      subject_expertise: values.subject_expertise,
+      name: values.name,
+      dob: values.dob,
+      photo_url: sessionStorage.getItem('userPhoto'),
+      gender: values.gender
+    }
+
+    axios.post(`${apiEndPoint}/register/teacher`, body, {
+      headers: header
+    }).then(response => {
+      if (response.status === 200) {
+        alert("Info Updated")
+      }
+    })
+      .catch(err => console.log(err))
+  }
 
   return (
     <form
@@ -82,9 +156,9 @@ const ProfileDetails = ({className, ...rest}) => {
                 fullWidth
                 //helperText="Please specify the first name"
                 label="Name"
-                name="firstName"
-                onChange={handleChange}
-                value={details[0]}
+                name="name"
+                onChange={e => handleChange(e)}
+                value={values.name}
                 variant="outlined"
               />
             </Grid>
@@ -100,8 +174,10 @@ const ProfileDetails = ({className, ...rest}) => {
                 label="Date Of Birth"
                 type="date"
                 variant="outlined"
-                defaultValue="2017-05-24"
+                name="dob"
+                defaultValue={values.dob}
                 className={classes.textField}
+                onChange={e => handleDateChange(e)}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -113,9 +189,9 @@ const ProfileDetails = ({className, ...rest}) => {
               xs={12}>
 
               <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup row aria-label="gender" name="gender1" value={'female'} onChange={handleChange}>
-                <FormControlLabel value="female" control={<Radio/>} label="Female"/>
-                <FormControlLabel value="male" control={<Radio/>} label="Male"/>
+              <RadioGroup row aria-label="gender" name="gender" value={values.gender} onChange={e => handleChange(e)}>
+                <FormControlLabel value="Female" control={<Radio/>} label="Female"/>
+                <FormControlLabel value="Male" control={<Radio/>} label="Male"/>
                 <FormControlLabel value="other" control={<Radio/>} label="Other"/>
               </RadioGroup>
 
@@ -128,10 +204,10 @@ const ProfileDetails = ({className, ...rest}) => {
               <TextField
                 fullWidth
                 label="Employee Id Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
+                name="employee_id"
+                onChange={e => handleChange(e)}
+                type="text"
+                value={values.employee_id}
                 variant="outlined"
               />
             </Grid>
@@ -143,9 +219,9 @@ const ProfileDetails = ({className, ...rest}) => {
               <TextField
                 fullWidth
                 label="Any Subject Expertise"
-                name="Any Subject Expertise"
-                onChange={handleChange}
-                value={values.country}
+                name="subject_expertise"
+                onChange={e => handleChange(e)}
+                value={values.subject_expertise}
                 variant="outlined"
               />
             </Grid>
@@ -157,21 +233,24 @@ const ProfileDetails = ({className, ...rest}) => {
               <TextField
                 fullWidth
                 label="Select Your University"
-                name="state"
-                onChange={handleChange}
+                name="university"
+                onChange={e => handleChange(e)}
                 select
                 SelectProps={{native: true}}
-                value={values.state}
+                value={values.university}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
+                <option>
+                  JC Bose University Of Science And Technology
+                </option>
+                {/*{states.map((option) => (*/}
+                {/*  <option*/}
+                {/*    key={option.value}*/}
+                {/*    value={option.value}*/}
+                {/*  >*/}
+                {/*    {option.label}*/}
+                {/*  </option>*/}
+                {/*))}*/}
               </TextField>
 
             </Grid>
@@ -183,21 +262,27 @@ const ProfileDetails = ({className, ...rest}) => {
               <TextField
                 fullWidth
                 label="Select Your College/Department"
-                name="state"
-                onChange={handleChange}
+                name="college"
+                onChange={e => handleChange(e)}
                 select
                 SelectProps={{native: true}}
-                value={values.state}
+                value={values.college}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
+                <option>
+                  Civil Engineering
+                </option>
+                <option>
+                  CE
+                </option>
+                {/*{states.map((option) => (*/}
+                {/*  <option*/}
+                {/*    key={option.value}*/}
+                {/*    value={option.value}*/}
+                {/*  >*/}
+                {/*    {option.label}*/}
+                {/*  </option>*/}
+                {/*))}*/}
               </TextField>
 
             </Grid>
@@ -209,27 +294,35 @@ const ProfileDetails = ({className, ...rest}) => {
               <TextField
                 fullWidth
                 label="Rank/Position"
-                name="state"
-                onChange={handleChange}
+                name="rank"
+                onChange={e => handleChange(e)}
                 select
                 SelectProps={{native: true}}
-                value={values.state}
+                value={values.teacher_rank}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
+                <option>
+                  6
+                </option>
+                {/*{states.map((option) => (*/}
+                {/*  <option*/}
+                {/*    key={option.value}*/}
+                {/*    value={option.value}*/}
+                {/*  >*/}
+                {/*    {option.label}*/}
+                {/*  </option>*/}
+                {/*))}*/}
               </TextField>
 
             </Grid>
 
           </Grid>
         </CardContent>
+        <CardActions>
+          <Button
+            onClick={onClick}
+          >Save</Button>
+        </CardActions>
 
       </Card>
     </form>

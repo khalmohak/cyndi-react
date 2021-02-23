@@ -82,6 +82,7 @@
     "react-scripts": "^3.4.4",
     "react-sidebar": "^3.0.2",
     "react-sortablejs": "^6.0.0",
+    "react-spreadsheet-grid": "^2.0.0",
     "reactjs-localstorage": "^1.0.1",
     "superagent": "^6.1.0",
     "uuid": "^8.3.1",

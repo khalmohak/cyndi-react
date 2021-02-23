@@ -46,6 +46,7 @@ const LoginView = () => {
     return axios.post(`${apiEndPoint}/login`, credentials)
       .then(data => {
         if (data.data.auth === true) {
+          console.log(data.data)
           auth = 1;
           isLoggedIn = true;
           sessionStorage.setItem('userId', data.data.id);
