@@ -20,28 +20,7 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-function getTeacherData() {
-  let body = {
-    role: 'Teacher'
-  }
-  let header = {
-    user_id: sessionStorage.getItem('userId'),
-    'x-access-token': sessionStorage.getItem('token')
-  }
-  axios.post(`${apiEndPoint}/get/role/details`, body, {
-    headers: header
-  }).then((response) => {
-    console.log(response.data[0]);
-    sessionStorage.setItem('employee_id', response.data[0].employee_id);
-    sessionStorage.setItem('gender', response.data[0].gender);
-    sessionStorage.setItem('subject_expertise', response.data[0].subject_expertise);
-    sessionStorage.setItem('teacher_rank', response.data[0].teacher_rank);
-    sessionStorage.setItem('dob', response.data[0].dob);
-  })
-    .catch(error => console.log(error));
-}
 
-getTeacherData();
 
 
 const ProfileDetails = ({className, ...rest}) => {
