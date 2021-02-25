@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, {func} from 'prop-types';
 import {
   Box,
   Button,
@@ -8,11 +7,10 @@ import {
   CardHeader, Container,
   Divider,
   FormControl, FormControlLabel, FormLabel, Grid, InputLabel,
-  makeStyles, Radio, RadioGroup, Select,
+  makeStyles, Paper, Radio, RadioGroup, Select,
   TextField, Typography
 } from '@material-ui/core';
-import Spreadsheet from "react-spreadsheet";
-import {Dropdown} from "react-bootstrap";
+
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,208 +19,138 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const WeekDay = ({className, day, callback, ...rest}) => {
-
-  const [data, setData] = React.useState([
-    [{value: "Course"}],
-  ]);
-
-  function addRow() {
-    let stateData = [...data];
-    let max = 0;
-    for (let i = 0; i < stateData.length; i++) {
-      let length = stateData[i].length;
-      if (length > max) {
-        max = length;
-      }
-    }
-    let newRow = [];
-    for (let i = 0; i < max; i++) {
-      newRow.push({value: 100, DataViewer: TextView, DataEditor: TextEdit});
-    }
-    stateData.push(newRow);
-    setData(stateData);
+class WeekDay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {data:[[{type:"text",index:"0",value:"Courses"}]]};
   }
 
-  const addColumn = React.useCallback(
-    () =>
-      setData((data) =>
-        data.map((row, index) => {
-          let newD = [...data];
-          const nextRow = [...row];
-          //nextRow.length += 1;
-          nextRow.push({value: 100, DataViewer: TextView, DataEditor: TextEdit})
-          //return nextRow;
-          return newD[index] = nextRow;
-        })
-      ),
-    [setData]
-  );
-
-  const removeColumn = React.useCallback(() => {
-    setData((data) =>
-      data.map((row) => {
-        return row.slice(0, row.length - 1);
-      })
-    );
-  }, [setData]);
-
-  const TextView = ({cell}) => (
-    <Box
-      p={1.5}
-      flexDirection="column"
-    >
-      <FormControl>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-          native
-          //value={state.age}
-          onChange={onRowChange}
-          inputProps={{
-            name: 'age',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value=""/>
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </Select>
-      </FormControl>
-      <Box mt={1.5}/>
-      <FormControl>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-          native
-          // value={state.age}
-          // onChange={handleChange}
-          inputProps={{
-            name: 'age',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value=""/>
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </Select>
-      </FormControl>
-
-
-    </Box>
-    /*<TextField
-      type="text"
-      disabled
-      style={{pointerEvents: "none"}}
-    />*/
-  );
-
-  function onRowChange(e) {
-    console.log(data);
-    let newD = data;
-    newD[1][0]['value'] = e.target.value;
-    console.log(newD)
-    setData(newD);
-  }
-
-  /*const onRowChange = React.useCallback((e) => {
-    setData(
-      () => {
-        console.log(data);
-        let newD = data;
-        newD[1][0]['value'] = e.target.value;
-        return newD;
+ addRow(){
+    let data = this.state.data;
+    let max=0;
+    for (let i=0;i<data.length;i++){
+      if(data[i].length>=0){
+        max=data[i].length;
       }
+    }
+    data.push([{value:'',index:232,type:"course"}])
+    for (let i=1;i<max;i++){
+      data[data.length-1].push({value:'',index:232,type:"teacherSubject"})
+    }
+   this.setState(data)
+ }
+
+ removeRow(){
+    let data = this.state.data;
+    data.pop();
+    this.setState(data);
+ }
+
+ addColumn(){
+    let data = this.state.data;
+    data[0].push({value:'',type:'text',index:23})
+    for(let i=1;i<data.length;i++){
+      data[i].push({value:i,type:"teacherSubject",index:22})
+    }
+    this.setState(data)
+ }
+
+ removeColumn(){
+
+    let data = this.state.data;
+    for(let i=0;i<data.length;i++){
+      data[i].pop();
+      }
+    this.setState(data)
+ }
+
+ printState(){
+    console.log(this.state.data)
+ }
+
+
+  render() {
+
+    return (
+      <div>
+        <Box
+          display="flex"
+          flexDirection="row"
+        ><Box
+          width={'100px'}
+
+          style={{
+            display: "flex",
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          {'Monday'}
+
+        </Box>
+
+          <Grid container spacing={1}>
+            {this.state.data.map(data=>{
+              return(
+                <Grid container item xs={12} spacing={2}>
+                  <React.Fragment>
+                    {
+                      data.map(res=>{
+                        if(res.type=='text'){
+                          return(
+                            <Grid item xs={2}>
+                              <TextField
+                                value={res.value}
+
+                                variant="outlined"
+                              />
+                            </Grid>
+                          )
+                        }
+                        if(res.type=='course'){
+                          return(
+                            <Grid item xs={2}>
+                              <TextField
+                                type='date'
+                                value={res.value}
+
+                                variant="outlined"
+                              />
+                            </Grid>
+                          )
+                        }
+                        if(res.type=='teacherSubject'){
+                          return(
+                            <Grid item xs={2}>
+                              <TextField
+                                type="time"
+                                value={res.value}
+
+                                variant="outlined"
+                              />
+                            </Grid>
+                          )
+                        }
+
+                      })
+                    }
+                  </React.Fragment>
+
+                </Grid>
+              )})
+            }
+
+          </Grid>
+        </Box>
+        <Button onClick={this.addRow.bind(this)}>Add Row</Button>
+        <Button onClick={this.removeRow.bind(this)}>Remove Row</Button>
+        <Button onClick={this.addColumn.bind(this)}>Add Column</Button>
+        <Button onClick={this.removeColumn.bind(this)}>Remove Column</Button>
+        <Button onClick={this.printState.bind(this)}>Print State</Button>
+      </div>
     )
-  }, [setData])*/
-
-
-  const TextEdit = ({cell, onChange}) => (
-    <Box
-      flexDirection="column"
-      p={1.5}
-    >
-      <FormControl>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-          native
-          //value={state.age}
-          onChange={onRowChange}
-          inputProps={{
-            name: 'age',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value=""/>
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </Select>
-      </FormControl>
-      <Box mt={1.5}/>
-      <FormControl>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-          native
-          // value={state.age}
-          // onChange={handleChange}
-          inputProps={{
-            name: 'age',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value=""/>
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
-        </Select>
-      </FormControl>
-
-    </Box>
-    /*<TextField
-      type="text"
-      onChange={(e) =>{
-        //onRowChange(e)
-        console.log(data)
-      }
-
-      }
-      autoFocus
-    />*/
-  );
-
-  const removeRow = React.useCallback(() => {
-    setData((data) => {
-      return data.slice(0, data.length - 1);
-    });
-  }, [setData]);
-
-  function submit() {
-    callback(data);
   }
-
-  function onSheetChange(e) {
-    console.log(e)
-  }
-
-  return (
-    <Box>
-      <Button onClick={addRow}>Add Row</Button>
-      <Button onClick={removeRow}>Remove Row</Button>
-      <Typography>{day}</Typography>
-      <Spreadsheet
-        data={data}
-        hideRowIndicators
-        hideColumnIndicators
-        onChange={e => onSheetChange(e)}
-      />
-      <Button onClick={addColumn}>Add Column</Button>
-      <Button onClick={removeColumn}>Remove Column</Button>
-      <Button onClick={submit}>Submit</Button>
-    </Box>
-  )
 }
-
-WeekDay.propTypes = {className: PropTypes.string};
 
 export default WeekDay;

@@ -2,9 +2,9 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import React, {useEffect} from 'react';
 import {useRoutes} from 'react-router-dom';
 import {ThemeProvider} from '@material-ui/core';
-import GlobalStyles from 'src/components/GlobalStyles';
-import theme from 'src/theme';
-import route from 'src/routes';
+import GlobalStyles from './components/GlobalStyles';
+import theme from './theme';
+import route from './routes';
 // import {ZoomMtg} from "@zoomus/websdk";
  import './App.css';
 

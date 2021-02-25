@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
-import Page from 'src/components/Page';
+import Page from '../../../../components/Page';
 import {ClassesCard} from './classCard';
 
 const useStyles = makeStyles((theme) => ({

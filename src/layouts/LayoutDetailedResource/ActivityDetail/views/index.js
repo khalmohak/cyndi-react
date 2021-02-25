@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Container, Grid, makeStyles} from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from '../../../../components/Page';
 import ActivityCard from "./ActivityCard";
 import PropTypes from "prop-types";
 

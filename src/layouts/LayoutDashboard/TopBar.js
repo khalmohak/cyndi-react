@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {AppBar, Box, Button, Hidden, IconButton, makeStyles, Toolbar} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import {LogoLarge, LogoSmall} from 'src/components/Logo';
+import {LogoLarge, LogoSmall} from '../../components/Logo';
 import {Add, ExitToApp} from '@material-ui/icons'
 import {getRoleColor} from "../../utils/GetRoleColor";
 import {useNavigate} from "react-router";

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {AppBar, Box, Hidden, makeStyles, Toolbar, Typography} from '@material-ui/core';
-import {LogoLarge, LogoSmall} from 'src/components/Logo';
+import {LogoLarge, LogoSmall} from '../../../components/Logo';
 import {getRoleColor} from "../../../utils/GetRoleColor";
 import {useNavigate} from "react-router";
 //import history from "../../utils/history";
