@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Container, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
-import Page from 'src/components/Page';
+import Page from '../../../../components/Page';
 import ResourceCard from './MessageCard';
 
 const useStyles = makeStyles((theme) => ({

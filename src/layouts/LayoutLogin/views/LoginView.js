@@ -6,7 +6,7 @@ import {useCookies} from 'react-cookie'
 import {apiEndPoint} from "../../../constants";
 import {Avatar, Box, Button, Container, Grid, makeStyles, TextField, Typography} from '@material-ui/core';
 import {Alert, ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
-import Page from 'src/components/Page';
+import Page from '../../../components/Page';
 
 let auth = 0;
 let logErr = 0;

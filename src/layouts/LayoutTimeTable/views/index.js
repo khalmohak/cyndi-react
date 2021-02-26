@@ -22,14 +22,13 @@ import TimeTableEditor from "./TimeTableEditor";
 
 const useStyles = makeStyles(() => ({
   root: {
-    marginTop:"10px",
+    marginTop: "10px",
+    overflow: "true"
   }
 }));
 
-
 const TimeTable = ({className, ...rest}) => {
   const classes = useStyles();
-
 
   return (
     <Page
@@ -37,7 +36,7 @@ const TimeTable = ({className, ...rest}) => {
       title="Timetable"
     >
       <Container maxWidth={false}>
-          <TimeTableEditor/>
+        <TimeTableEditor/>
       </Container>
     </Page>
   );

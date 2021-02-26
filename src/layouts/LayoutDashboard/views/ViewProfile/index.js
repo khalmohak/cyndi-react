@@ -11,7 +11,7 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from '../../../../components/Page';
 import {apiEndPoint, s3URL} from "../../../../constants";
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import PeopleIcon from '@material-ui/icons/People';

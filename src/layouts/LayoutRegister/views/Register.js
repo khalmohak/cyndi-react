@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Formik} from 'formik';
 import {Box, Button, Container, Grid, makeStyles, TextField} from '@material-ui/core';
-import Page from 'src/components/Page';
+import Page from '../../../components/Page';
 import {Call, DateRange, Email, PermIdentity, VpnKey} from '@material-ui/icons';
 // import '../product/ViewClassStudent/style.css';
 

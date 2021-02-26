@@ -2,152 +2,281 @@ import React from 'react';
 import {
   Box,
   Button,
-  Card, CardActions,
-  CardContent,
-  CardHeader, Container,
-  Divider,
-  FormControl, FormControlLabel, FormLabel, Grid, InputLabel,
-  makeStyles, Paper, Radio, RadioGroup, Select,
-  TextField, Typography
+  FormControl, Grid, InputLabel,
+  MenuItem, Paper, Select,
+  TextField
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
-
-const useStyles = makeStyles(() => ({
-  root: {
-    overflow: "true"
-  }
-}));
-
+let iMatrix = 1;
+let jMatrix = 1;
 
 class WeekDay extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {data:[[{type:"text",index:"0",value:"Courses"}]]};
+    this.state = {data: [[{type: "text", index: "00", value: "Courses"}]]};
   }
 
- addRow(){
+  returnState() {
+    let days = this.props.day;
     let data = this.state.data;
-    let max=0;
-    for (let i=0;i<data.length;i++){
-      if(data[i].length>=0){
-        max=data[i].length;
+    let obj = {};
+    obj[days] = data;
+    this.props.callback(obj)
+  }
+
+
+  addRow() {
+    let data = this.state.data;
+    let max = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].length >= 0) {
+        max = data[i].length;
       }
     }
-    data.push([{value:'',index:232,type:"course"}])
-    for (let i=1;i<max;i++){
-      data[data.length-1].push({value:'',index:232,type:"teacherSubject"})
+    data.push([{value: '', index: `${iMatrix}0`, type: "course"}])
+    for (let i = 1; i < max; i++) {
+      data[data.length - 1].push({value: '', index: `${iMatrix}${i}`, type: "teacherSubject"})
     }
-   this.setState(data)
- }
+    iMatrix++;
+    this.setState(data)
+  }
 
- removeRow(){
+  removeRow() {
     let data = this.state.data;
-    data.pop();
+    if (data.length != 1) {
+      data.pop();
+    }
     this.setState(data);
- }
+    iMatrix--;
+  }
 
- addColumn(){
+  addColumn() {
     let data = this.state.data;
-    data[0].push({value:'',type:'text',index:23})
-    for(let i=1;i<data.length;i++){
-      data[i].push({value:i,type:"teacherSubject",index:22})
+    data[0].push({value: '', type: 'text', index: `0${jMatrix}`})
+    for (let i = 1; i < data.length; i++) {
+      data[i].push({value: {subject: "", teacher: ""}, type: "teacherSubject", index: `${i}${jMatrix}`})
     }
+    jMatrix++;
     this.setState(data)
- }
+  }
 
- removeColumn(){
+  removeColumn() {
 
     let data = this.state.data;
-    for(let i=0;i<data.length;i++){
-      data[i].pop();
-      }
-    this.setState(data)
- }
 
- printState(){
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].length != 1) {
+        data[i].pop();
+      }
+    }
+    jMatrix--;
+    this.setState(data)
+  }
+
+  handleTextChange(e, index) {
+    let sData = this.state.data;
+    sData[0].map(res => {
+      if (res.index === index) {
+        res.value = e.target.value;
+      }
+    })
+    this.setState(sData);
+  }
+
+  handleCourseChange(e, index) {
+    let sData = this.state.data;
+    sData.map(res => {
+      if (res[0].index === index) {
+        res[0].value = e.target.value;
+      }
+    })
+  }
+
+  handleTeacherChange(e, index) {
+    let sData = this.state.data;
+    for (let i = 1; i < sData.length; i++) {
+      for (let j = 1; j < sData[i].length; j++) {
+        if (sData[i][j].index === index) {
+          sData[i][j].value.teacher = e.target.value;
+        }
+      }
+    }
+    this.setState(sData);
+
+  }
+
+  handleSubjectChange(e, index) {
+    let sData = this.state.data;
+    for (let i = 1; i < sData.length; i++) {
+      for (let j = 1; j < sData[i].length; j++) {
+        if (sData[i][j].index === index) {
+          sData[i][j].value.subject = e.target.value;
+        }
+      }
+    }
+    this.setState(sData);
+  }
+
+  printState() {
     console.log(this.state.data)
- }
+  }
 
 
   render() {
+    const {classes} = this.props;
 
     return (
       <div>
-        <Box
-          display="flex"
-          flexDirection="row"
-        ><Box
-          width={'100px'}
+        <Paper>
+          <Box
+            display="flex"
+            flexDirection="row"
+          ><Box
+            width={'100px'}
 
-          style={{
-            display: "flex",
-            backgroundColor: 'white',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          {'Monday'}
+            style={{
+              display: "flex",
+              backgroundColor: 'white',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <b>{this.props.day}</b>
 
-        </Box>
+          </Box>
 
-          <Grid container spacing={1}>
-            {this.state.data.map(data=>{
-              return(
-                <Grid container item xs={12} spacing={2}>
-                  <React.Fragment>
-                    {
-                      data.map(res=>{
-                        if(res.type=='text'){
-                          return(
-                            <Grid item xs={2}>
-                              <TextField
-                                value={res.value}
+            <Grid
+              container spacing={1}
+              style={{padding: '20px'}}
+            >
+              {this.state.data.map(data => {
+                return (
+                  <Grid
+                    container
+                    item xs={12}
+                    spacing={2}
 
-                                variant="outlined"
-                              />
-                            </Grid>
-                          )
-                        }
-                        if(res.type=='course'){
-                          return(
-                            <Grid item xs={2}>
-                              <TextField
-                                type='date'
-                                value={res.value}
+                  >
+                    <React.Fragment>
+                      {
+                        data.map(res => {
+                          if (res.type === 'text') {
+                            return (
+                              <Grid item xs={2}>
+                                <TextField
+                                  value={res.value}
+                                  onChange={e => this.handleTextChange(e, res.index)}
+                                  placeholder="Period Timings"
+                                  variant="outlined"
+                                />
+                              </Grid>
+                            )
+                          }
+                          if (res.type === 'course') {
+                            return (
+                              <Grid item xs={2}>
+                                <FormControl
+                                  style={{
+                                    minWidth: 120,
+                                    width: '100%',
 
-                                variant="outlined"
-                              />
-                            </Grid>
-                          )
-                        }
-                        if(res.type=='teacherSubject'){
-                          return(
-                            <Grid item xs={2}>
-                              <TextField
-                                type="time"
-                                value={res.value}
+                                  }}
+                                >
+                                  <InputLabel
+                                    id={res.index}
+                                    style={{marginLeft: '10px'}}
+                                  >Course</InputLabel>
+                                  <Select
+                                    labelId={res.index}
+                                    id={res.index}
+                                    value={res.value}
+                                    onChange={e => this.handleCourseChange(e, res.index)}
+                                    label="Course"
+                                    variant="outlined"
+                                  >
+                                    <MenuItem value={'B.Tech'}>B.Tech</MenuItem>
+                                    <MenuItem value={'MBA'}>MBA</MenuItem>
+                                    <MenuItem value={'BSc'}>B.Sc</MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                            )
+                          }
+                          if (res.type === 'teacherSubject') {
+                            return (
+                              <Grid item xs={2}>
+                                <FormControl
+                                  style={{
+                                    minWidth: 120,
+                                    width: '100%',
 
-                                variant="outlined"
-                              />
-                            </Grid>
-                          )
-                        }
 
-                      })
-                    }
-                  </React.Fragment>
+                                  }}
+                                >
+                                  <InputLabel
+                                    id={res.index}
+                                    style={{marginLeft: '10px'}}
+                                  >Subject</InputLabel>
+                                  <Select
+                                    labelId={res.index}
+                                    id={res.index}
+                                    value={res.value.subject}
+                                    onChange={e => this.handleSubjectChange(e, res.index)}
+                                    variant="outlined"
+                                  >
+                                    <MenuItem value={'Digital Electronics'}>Digital Electronics</MenuItem>
+                                    <MenuItem value={'AEC'}>AEC</MenuItem>
+                                    <MenuItem value={'DSA'}>DSA</MenuItem>
+                                  </Select>
+                                </FormControl>
+                                <br/>
+                                <FormControl
+                                  style={{
+                                    minWidth: 120,
+                                    width: '100%'
+                                  }}
+                                >
+                                  <InputLabel
+                                    id={res.index}
+                                    style={{marginLeft: '10px'}}
+                                  >Teacher</InputLabel>
+                                  <Select
+                                    labelId={res.index}
+                                    id={res.index}
+                                    value={res.value.teacher}
+                                    onChange={e => this.handleTeacherChange(e, res.index)}
+                                    variant="outlined"
+                                  >
+                                    <MenuItem value={'Some teacher'}>Some teacher</MenuItem>
+                                    <MenuItem value={'Buddha'}>Buddha</MenuItem>
+                                    <MenuItem value={'Someone'}>Someone</MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                            )
+                          }
 
-                </Grid>
-              )})
-            }
+                        })
+                      }
+                    </React.Fragment>
 
-          </Grid>
-        </Box>
-        <Button onClick={this.addRow.bind(this)}>Add Row</Button>
-        <Button onClick={this.removeRow.bind(this)}>Remove Row</Button>
-        <Button onClick={this.addColumn.bind(this)}>Add Column</Button>
-        <Button onClick={this.removeColumn.bind(this)}>Remove Column</Button>
-        <Button onClick={this.printState.bind(this)}>Print State</Button>
+                  </Grid>
+                )
+              })
+              }
+
+            </Grid>
+
+          </Box>
+          <Button onClick={this.addRow.bind(this)}><AddIcon/> Row</Button>
+          <Button onClick={this.removeRow.bind(this)}><RemoveIcon/> Row</Button>
+          <Button onClick={this.addColumn.bind(this)}><AddIcon/> Column</Button>
+          <Button onClick={this.removeColumn.bind(this)}><RemoveIcon/> Column</Button>
+          <Button onClick={this.returnState()} hidden>Submit</Button>
+        </Paper>
       </div>
     )
   }

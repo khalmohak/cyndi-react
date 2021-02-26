@@ -27,7 +27,7 @@ import AddLink from './layouts/LayoutDetailedResource/views/AddLink'
 import AddSyllabus from "./layouts/LayoutDetailedResource/views/AddSyllabus";
 import AddChapterPlan from "./layouts/LayoutDetailedResource/views/AddChapterPlan";
 import Profile from './layouts/LayoutEditProfile/views'
-import TimeTable from "./layouts/LayoutTimeTable/views";
+import TimeTable from "./layouts/LayoutTimeTable/views/TimeTableEditor";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Box, Container, makeStyles, Button, Grid, CircularProgress, List, ListItem} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
-import Page from 'src/components/Page';
+import Page from '../../../../components/Page';
 
 import NotificationView from "./NotificationView";
 import {useNavigate} from "react-router-dom";
