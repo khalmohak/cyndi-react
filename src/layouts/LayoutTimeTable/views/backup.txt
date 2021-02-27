@@ -1,0 +1,301 @@
+import React from 'react';
+import {
+  Box,
+  Button,
+  Card, CardActions,
+  CardContent,
+  CardHeader, Container,
+  Divider,
+  FormControl, FormControlLabel, FormLabel, Grid, InputLabel,
+  makeStyles, Radio, RadioGroup, Select,
+  TextField, Typography
+} from '@material-ui/core';
+import Spreadsheet from "react-spreadsheet";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    overflow: "true"
+  }
+}));
+
+let textIdentifier = 0;
+
+class WeekDay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {data: [[{value: "Course"}]]};
+  }
+
+  addRow() {
+    let stateData = this.state.data;
+    let max = 0;
+    for (let i = 0; i < stateData.length; i++) {
+      let length = stateData[i].length;
+      if (length > max) {
+        max = length;
+      }
+    }
+    let newRow = [];
+    newRow.push({course: '', DataViewer: this.CourseView, DataEditor: this.CourseEdit})
+    for (let i = 1; i < max; i++) {
+      newRow.push({teacherSubject: '', DataViewer: this.TeacherSubjectView, DataEditor: this.TeacherSubjectEdit});
+    }
+    stateData.push(newRow);
+    this.setState(stateData);
+  }
+
+  removeRow = () => {
+    let sData = this.state.data;
+    if (sData.length > 1) {
+      sData = sData.pop();
+    }
+    this.setState(sData)
+  };
+
+  addColumn =
+    () => {
+      let sData = this.state.data;
+      sData[0].push({text: '', DataViewer: this.TextView, DataEditor: this.TextEdit, identifier:textIdentifier})
+      textIdentifier++;
+      for (let i = 1; i < sData.length; i++) {
+        sData[i].push({teacherSubject: '', DataViewer: this.TeacherSubjectView, DataEditor: this.TeacherSubjectEdit})
+      }
+
+      this.setState(sData);
+
+    }
+
+  removeColumn = () => {
+    let sData = this.state.data;
+    for (let i = 0; i < sData.length; i++) {
+      sData[i].pop()
+    }
+    this.setState(sData);
+  }
+
+  onRowChange(e) {
+
+    let newD = this.state.data;
+    //newD[2][0][''] = e.target.value;
+    console.log(newD)
+    this.setState(newD);
+  }
+
+  handleChangeText(e){
+    let newD = this.state.data;
+    console.log(e.target)
+  }
+
+  CourseView = ({cell}) => (
+    <Box
+      p={1.5}
+      flexDirection="column"
+    >
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Course</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          onChange={this.onRowChange.bind(this)}
+          inputProps={{
+            name: 'fds dfgs',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'B.Tech'}>B.Tech</option>
+          <option value={'MBA'}>MBA</option>
+          <option value={'B.Sc'}>B.Sc</option>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+
+  CourseEdit = ({cell, onChange}) => (
+    <Box
+      flexDirection="column"
+      p={1.5}
+    >
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Course</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          onChange={this.onRowChange.bind(this)}
+          inputProps={{
+            name: 'age',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'B.Tech'}>B.Tech</option>
+          <option value={'MBA'}>MBA</option>
+          <option value={'B.Sc'}>B.Sc</option>
+        </Select>
+      </FormControl>
+    </Box>
+
+  );
+
+  TeacherSubjectView = ({cell}) => (
+    <Box
+      p={1.5}
+      flexDirection="column"
+    >
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Subject</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          inputProps={{
+            name: 'fds dfgs',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'DSA'}>DSA</option>
+          <option value={'COA'}>COA</option>
+          <option value={'AI'}>AI</option>
+        </Select>
+      </FormControl>
+
+      <Box
+        mt={1.5}
+      />
+
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Teacher</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          onChange={this.onRowChange.bind(this)}
+          inputProps={{
+            name: 'fds dfgs',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'Fauji'}>Fauji</option>
+          <option value={'Some Teacher'}>Some Teacher</option>
+          <option value={'Not a teacher'}>Not a teacher</option>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+
+  TeacherSubjectEdit = ({cell}) => (
+    <Box
+      p={1.5}
+      flexDirection="column"
+    >
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Subject</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          onChange={this.onRowChange.bind(this)}
+          inputProps={{
+            name: 'fds dfgs',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'DSA'}>DSA</option>
+          <option value={'COA'}>COA</option>
+          <option value={'AI'}>AI</option>
+        </Select>
+      </FormControl>
+
+      <Box
+        mt={1.5}
+      />
+
+      <FormControl>
+        <InputLabel htmlFor="age-native-simple">Teacher</InputLabel>
+        <Select
+          native
+          //value={state.age}
+          onChange={this.onRowChange.bind(this)}
+          inputProps={{
+            name: 'fds dfgs',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value=""/>
+          <option value={'Fauji'}>Fauji</option>
+          <option value={'Some Teacher'}>Some Teacher</option>
+          <option value={'Not a teacher'}>Not a teacher</option>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+
+  TextView = ({cell}) => (
+    <Box
+      p={1.5}
+    >
+      <TextField
+        placeholder="Enter time"
+      >
+
+      </TextField>
+    </Box>
+
+  );
+
+  TextEdit = ({cell}) => (
+    <Box
+      p={1.5}
+    >
+      <TextField
+        placeholder="Enter time"
+        name={textIdentifier}
+        onChange={this.handleChangeText.bind(this)}
+      >
+
+      </TextField>
+    </Box>
+
+  );
+
+
+  render() {
+
+    return (
+      <Box>
+
+        <Button onClick={this.addRow.bind(this)}>Add Row</Button>
+        <Button onClick={this.removeRow.bind(this)}>Remove Row</Button>
+        <Box
+          display="flex"
+          flexDirection="row"
+        ><Box
+          width={'100px'}
+
+          style={{
+            display: "flex",
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          {'Mondayy'}
+
+        </Box>
+          <Spreadsheet
+            data={this.state.data}
+            hideRowIndicators
+            hideColumnIndicators
+            onChange={e => this.onSheetChange(e)}
+          />
+        </Box>
+
+        <Button onClick={this.addColumn.bind(this)}>Add Column</Button>
+        <Button onClick={this.removeColumn.bind(this)}>Remove Column</Button>
+        <Button onClick={this.submit}>Submit</Button>
+      </Box>
+    )
+  }
+}
+
+export default WeekDay;

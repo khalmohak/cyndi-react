@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navigate, Route, Redirect } from 'react-router-dom';
-import DashboardLayout from 'src/layouts/DashboardLayout/dashboard';
+import DashboardLayout from 'src/layouts/LayoutDashboard/dashboard';
 import MainLayout from 'src/layouts/MainLayout';
 import CustomerListView from 'src/views/customer/CustomerListView';
-import DashboardView from 'src/layouts/DashboardLayout/views/ViewProfile';
-import {LoginView,isLoggedIn} from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/layouts/DashboardLayout/views/ViewClassStudent';
-import SettingsView from 'src/layouts/DashboardLayout/Settings';
-import ResoucresList from 'src/views/resources/index';
-import TeacherCard from 'src/layouts/DashboardLayout/views/ViewClassTeacher/index';
+import DashboardView from 'src/layouts/LayoutDashboard/views/ViewProfile';
+import {LoginView,isLoggedIn} from 'src/layouts/LayoutLogin/views/LoginView';
+import NotFoundView from 'src/layouts/Layout404/views/NotFoundView';
+import ProductListView from 'src/layouts/LayoutDashboard/views/ViewClassStudent';
+import SettingsView from 'src/layouts/LayoutDashboard/Settings';
+import ResoucresList from 'src/layouts/LayoutResourceForm/views';
+import TeacherCard from 'src/layouts/LayoutDashboard/views/ViewClassTeacher/index';
 
 let route = (isAuthenticated)=>{
 const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');

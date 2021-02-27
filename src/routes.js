@@ -1,22 +1,33 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
-import DashboardLayout from 'src/layouts/DashboardLayout/dashboard';
-import MainLayout from 'src/layouts/MainLayout';
-import DashboardView from 'src/layouts/DashboardLayout/views/ViewProfile';
-import AddClass from 'src/layouts/LayoutAddClass/addClass';
-import {LoginView} from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
-import ClassListView from 'src/layouts/DashboardLayout/views/ViewClassStudent/index.js';
-import SettingsView from 'src/layouts/DashboardLayout/Settings';
-import ResourcesList from 'src/views/resources/index';
-import Messaging from 'src/layouts/DashboardLayout/views/ViewMessaging/index';
-import Notifications from 'src/layouts/DashboardLayout/views/ViewNotifications/index';
-import TeacherCard from 'src/layouts/DashboardLayout/views/ViewClassTeacher/index';
-import {Register} from 'src/views/auth/Register';
-import ClassCardIn from "./views/classCardIn/index";
-import ActivityDetail from "./views/activityDetail";
-import TeacherClassCardIn from "./views/teacherCardIn";
-import {Classes} from './views/classDescriptionViewsTeacher/Classes';
+import DashboardLayout from './layouts/LayoutDashboard/dashboard';
+import MainLayout from './layouts/MainLayout';
+import DashboardView from './layouts/LayoutDashboard/views/ViewProfile';
+import AddClass from './layouts/LayoutAddClass/views/addClass';
+import {LoginView} from './layouts/LayoutLogin/views/LoginView';
+import NotFoundView from './layouts/Layout404/views/NotFoundView';
+import ClassListView from './layouts/LayoutDashboard/views/ViewClassStudent/index.js';
+import SettingsView from './layouts/LayoutDashboard/Settings';
+import ResourcesList from './layouts/LayoutResourceForm/views';
+import Messaging from './layouts/LayoutDashboard/views/ViewMessaging/index';
+import Notifications from './layouts/LayoutDashboard/views/ViewNotifications/index';
+import TeacherCard from './layouts/LayoutDashboard/views/ViewClassTeacher/index';
+import {Register} from './layouts/LayoutRegister/views/Register';
+import ClassCardIn from "./layouts/LayoutClassScreen/Student/views";
+import ActivityDetail from "./layouts/LayoutDetailedResource/ActivityDetail/views";
+import TeacherClassCardIn from "./layouts/LayoutClassScreen/Teacher/views";
+import {Classes} from './layouts/LayoutDetailedResource/views/Classes';
+import AddNotificationsCard from "./layouts/LayoutDashboard/views/ViewNotifications/AddNotificationsCard";
+import {Resources} from "./layouts/LayoutDetailedResource/views/Resources";
+import {ChapterPlan} from "./layouts/LayoutDetailedResource/views/ChapterPlan";
+import {Syllabus} from "./layouts/LayoutDetailedResource/views/Syllabus";
+import AddDocuments from "./layouts/LayoutDetailedResource/views/AddDocuments";
+import AddMedia from "./layouts/LayoutDetailedResource/views/AddMedia";
+import AddLink from './layouts/LayoutDetailedResource/views/AddLink'
+import AddSyllabus from "./layouts/LayoutDetailedResource/views/AddSyllabus";
+import AddChapterPlan from "./layouts/LayoutDetailedResource/views/AddChapterPlan";
+import Profile from './layouts/LayoutEditProfile/views'
+import TimeTable from "./layouts/LayoutTimeTable/views/TimeTableEditor";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -65,29 +76,47 @@ let route = (/*isAuthenticated*/) => {
             children: [
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <TeacherCard/>},
-              // {path: 'add/class', element: <AddClass/>},
-
-              /*{path: 'teacher', element: <TeacherClassCardIn/>},*/
+              //{path: 'add/class', element: <AddClass/>},
+              {path: 'activity_detail', element: <ActivityDetail/>},
+              {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResourcesList/>},
               {path: 'messaging', element: <Messaging/>},
               {path: 'notifications', element: <Notifications/>},
-              /*{path: 'addnotifications', element: <AddNotificationCard/>},*/
-              /*{path: 'teacher/resources', element: <Resources/>},*/
-              /*{path: 'teacher/chapterplan', element: <ChapterPlan/>},*/
-              /*{path: 'teacher/syllabus', element: <Syllabus/>},*/
-              /* {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},*/
-              /*{path: 'teacher/resources/addmedia', element: <AddMedia/>},
+              {path: 'addnotifications', element: <AddNotificationsCard/>},
+              {path: 'teacher/resources', element: <Resources/>},
+              {path: 'teacher/chapterplan', element: <ChapterPlan/>},
+              {path: 'teacher/syllabus', element: <Syllabus/>},
+              {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
+              {path: 'teacher/resources/addmedia', element: <AddMedia/>},
               {path: 'teacher/resources/addlink', element: <AddLink/>},
               {path: 'teacher/syllabus/addsyllabus', element: <AddSyllabus/>},
-              {path: 'teacher/chapterplan/addchapterplan', element: <AddChapterPlan/>},*/
-              // {path: '*', element: <Navigate to="/404"/>}
+              {path: 'teacher/chapterplan/addchapterplan', element: <AddChapterPlan/>},
+
+               {path: '*', element: <Navigate to="/404"/>}
             ]
           },
-          /*{
-            path: '/add/class',
-            element: <AddClass/>
-          },*/
+          {
+            path: 'add',
+            element: <DashboardLayout/>,
+            children:[
+              {path: 'class', element: <AddClass/>}
+            ]
+          },
+          {
+            path: 'edit',
+            element: <DashboardLayout/>,
+            children:[
+              {path: 'profile', element: <Profile/>}
+            ]
+          },
+          {
+            path: 'timetable',
+            element: <DashboardLayout/>,
+            children:[
+              {path: '/', element: <TimeTable/>}
+            ]
+          },
           {
             path: '/',
             element: <MainLayout/>,
@@ -113,11 +142,11 @@ let route = (/*isAuthenticated*/) => {
 
           {path: 'student', element: <ClassCardIn/>},
           {path: 'teacher', element: <TeacherClassCardIn/>},
-          // {path: 'teacher/classes', element: <Classes/>},
-          // {path: 'teacher/resources', element: <Resources/>},
-          // {path: 'teacher/chapterplan', element: <ChapterPlan/>},
-          // {path: 'teacher/syllabus', element: <Syllabus/>},
-          // {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
+           {path: 'teacher/classes', element: <Classes/>},
+           {path: 'teacher/resources', element: <Resources/>},
+           {path: 'teacher/chapterplan', element: <ChapterPlan/>},
+           {path: 'teacher/syllabus', element: <Syllabus/>},
+           {path: 'teacher/resources/adddocuments', element: <AddDocuments/>},
 
           {path: 'activity_detail', element: <ActivityDetail/>},
         ]
