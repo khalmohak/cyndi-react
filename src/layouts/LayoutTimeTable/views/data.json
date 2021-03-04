@@ -1,0 +1,90 @@
+[
+  {
+    "Monday": [
+      [
+        {
+          "type": "text",
+          "index": "00",
+          "value": "Courses"
+        },
+        {
+          "value": "8",
+          "type": "text",
+          "index": "01"
+        },
+        {
+          "value": "9",
+          "type": "text",
+          "index": "02"
+        }
+      ],
+      [
+        {
+          "value": "B.Tech",
+          "index": "10",
+          "type": "course"
+        },
+        {
+          "value": {
+            "subject": "Digital Electronics",
+            "teacher": "Buddha"
+          },
+          "type": "teacherSubject",
+          "index": "11"
+        },
+        {
+          "value": {
+            "subject": "AEC",
+            "teacher": "Someone"
+          },
+          "type": "teacherSubject",
+          "index": "12"
+        }
+      ]
+    ]
+  },
+  {
+    "Tuesday": [
+      [
+        {
+          "type": "text",
+          "index": "00",
+          "value": "Courses"
+        },
+        {
+          "value": "8",
+          "type": "text",
+          "index": "01"
+        },
+        {
+          "value": "9",
+          "type": "text",
+          "index": "02"
+        }
+      ],
+      [
+        {
+          "value": "B.Tech",
+          "index": "10",
+          "type": "course"
+        },
+        {
+          "value": {
+            "subject": "Digital Electronics",
+            "teacher": "Buddha"
+          },
+          "type": "teacherSubject",
+          "index": "11"
+        },
+        {
+          "value": {
+            "subject": "AEC",
+            "teacher": "Someone"
+          },
+          "type": "teacherSubject",
+          "index": "12"
+        }
+      ]
+    ]
+  }
+]
