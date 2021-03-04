@@ -1,13 +1,15 @@
 import React from 'react';
 import {
+  Backdrop,
   Box,
-  Button, Divider,
+  Button, Fade,
   FormControl, Grid, InputLabel,
-  MenuItem, Paper, Select,
+  MenuItem, Modal, Paper, Select,
   TextField
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import {SwatchesPicker} from "react-color";
 
 let iMatrix = 1;
 let jMatrix = 1;
@@ -16,7 +18,23 @@ class WeekDay extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {data: [[{type: "text", index: "00", value: "Courses/Timings"}]]};
+    this.state = {
+      data: [[{type: "text", index: "00", value: "Courses/Timings"}]],
+      modalOpen: false,
+      colorSubject: "",
+    };
+  }
+
+  colors = ["#a40100", "#b535dd", "#065a53", "#48acb1", "#4d3e0e", "#848e0c", "#4e3479", "#7d68bd", "#a33914", "#644379"];
+
+  subjectColors = {
+    "DSA": this.colors[this.randomNumberGenerator()],
+    "AEC": this.colors[this.randomNumberGenerator()],
+    "Digital Electronics": this.colors[this.randomNumberGenerator()]
+  }
+
+  randomNumberGenerator() {
+    return Math.floor(Math.random() * 10);
   }
 
   returnState() {
@@ -45,7 +63,7 @@ class WeekDay extends React.Component {
 
   removeRow() {
     let data = this.state.data;
-    if (data.length != 1) {
+    if (data.length !== 1) {
       data.pop();
     }
     this.setState(data);
@@ -77,6 +95,7 @@ class WeekDay extends React.Component {
 
   handleTextChange(e, index) {
     let sData = this.state.data;
+    // eslint-disable-next-line array-callback-return
     sData[0].map(res => {
       if (res.index === index) {
         res.value = e.target.value;
@@ -87,6 +106,7 @@ class WeekDay extends React.Component {
 
   handleCourseChange(e, index) {
     let sData = this.state.data;
+    // eslint-disable-next-line array-callback-return
     sData.map(res => {
       if (res[0].index === index) {
         res[0].value = e.target.value;
@@ -119,14 +139,58 @@ class WeekDay extends React.Component {
   }
 
   printState() {
-    console.log(this.state.data)
+    //console.log(this.state.data)
+    console.log(this.subjectColors);
   }
 
+
   render() {
-    const {classes} = this.props;
+
+    function handleModalOpen() {
+      this.setState({modalOpen: true})
+    }
+
+    function handleModalClose() {
+      this.setState({modalOpen: false})
+    }
+
+    function colorSubjectChange(color) {
+      this.setState({colorSubject: color.hex});
+    }
 
     return (
       <div>
+        <Button
+          onClick={handleModalOpen.bind(this)}
+        >Pick Color</Button>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={this.state.modalOpen}
+          onClose={handleModalClose.bind(this)}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={this.state.modalOpen}>
+            <div>
+              <h2 id="transition-modal-title">Pick Color</h2>
+              <SwatchesPicker
+                color={this.state.colorSubject}
+                onChange={colorSubjectChange.bind(this)}
+              />
+            </div>
+          </Fade>
+        </Modal>
+
         <Paper>
           <Box
             display="flex"
@@ -160,6 +224,7 @@ class WeekDay extends React.Component {
                     >
                       <React.Fragment>
                         {
+                          // eslint-disable-next-line array-callback-return
                           data.map(res => {
                             if (res.type === 'text') {
                               return (
@@ -174,6 +239,7 @@ class WeekDay extends React.Component {
                                       onChange={e => this.handleTextChange(e, res.index)}
                                       placeholder="Period Timings"
                                       variant="filled"
+                                      //type="time"
                                       style={{color: "blue"}}
                                     />
 
@@ -237,14 +303,15 @@ class WeekDay extends React.Component {
                                       style={{
                                         minWidth: 120,
                                         width: '100%',
-
+                                        //backgroundColor: `${this.state.colorSubject}`
+                                        backgroundColor: `${this.subjectColors[res.value.subject]}`
                                       }}
                                     >
                                       <InputLabel
                                         id={res.index}
                                         style={{
                                           marginLeft: '10px',
-                                          color: "red"
+                                          color: `${this.subjectColors[res.value.subject]}`
                                         }}
                                       >Subject</InputLabel>
                                       <Select
@@ -253,6 +320,7 @@ class WeekDay extends React.Component {
                                         value={res.value.subject}
                                         onChange={e => this.handleSubjectChange(e, res.index)}
                                         variant="filled"
+                                        //style={{color:`${this.subjectColors[res.value.subject]}`}}
                                       >
                                         <MenuItem value={'Digital Electronics'}>Digital Electronics</MenuItem>
                                         <MenuItem value={'AEC'}>AEC</MenuItem>
@@ -313,6 +381,7 @@ class WeekDay extends React.Component {
           <Button onClick={this.removeRow.bind(this)}><RemoveIcon/> Row</Button>
           <Button onClick={this.addColumn.bind(this)}><AddIcon/> Column</Button>
           <Button onClick={this.removeColumn.bind(this)}><RemoveIcon/> Column</Button>
+          <Button onClick={this.printState.bind(this)}>Testing button</Button>
           <Button onClick={this.returnState()} hidden>Submit</Button>
         </Paper>
       </div>

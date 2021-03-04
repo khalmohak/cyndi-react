@@ -16,7 +16,7 @@ const removeLoggedInStatus = () => {
 
 const items = [
   {
-    href: '/app/profile',
+    href: '/app/dashboard',
     icon: ShoppingBagIcon,
     title: 'Profile'
   },

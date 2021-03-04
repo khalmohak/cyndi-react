@@ -4,15 +4,16 @@ import Firebase from 'firebase';
 import './App.css';
 import Message from './Message.js';
 import cryptLib from "@skavinvarnan/cryptlib";
+import {key} from "../../../../constants";
 
 //Firebase.initializeApp(firebaseConfig);
 
 if (sessionStorage.getItem('firebaseToken')) {
   Firebase.auth().signInWithCustomToken(sessionStorage.getItem('firebaseToken'))
-    // .then((userCredential) => {
-    //   // Signed in
-    //   let user = userCredential.user;
-    // })
+    .then((userCredential) => {
+      // Signed in
+      let user = userCredential.user;
+    })
     .catch((error) => {
       //let errorCode = error.code;
       let errorMessage = error.message;
@@ -60,8 +61,7 @@ const ClassBoard = () => {
 
   const plainText = "qup1Fc1amKOKn05Q7CAAHKICw57/u/NdoHuBFolG7/nMy+d8JjP1RRjEWC3vmfSF4Ln+7J0zhRw6amPjKuYEsA==";
   const key = "EncryptMessages37";
-  const cipherText = cryptLib.encryptPlainTextWithRandomIV(plainText, key);
-  console.log('cipherText %s', cipherText);
+
   const decryptedString = cryptLib.decryptCipherTextWithRandomIV(plainText, key);
   console.log('decryptedString %s', decryptedString);
 
@@ -77,9 +77,10 @@ const ClassBoard = () => {
   };
   let messages = [];
   if (chat) {
-    for (let i in chat['15']) {
-      messages.push(chat['15'][i]['message']);
-      //console.log(chat['15'][i]['senderName']);
+    for (let i in chat['37']) {
+      const key = "EncryptMessages37";
+      messages.push(cryptLib.decryptCipherTextWithRandomIV(chat['37'][i]['message'], key))
+      //console.log(chat['37'][i]['senderName']);
     }
 
   }

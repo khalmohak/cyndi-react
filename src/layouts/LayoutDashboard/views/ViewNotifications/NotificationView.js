@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     width: '400px',
-    height: '100px',
+    height: '120px',
     margin: '10px',
     borderLeft: "5px solid green",
   }
@@ -46,19 +46,20 @@ const NotificationView = ({className, data, ...rest}) => {
 
   return (
     <>
-      <Grid display="flex" justifyContent="center">
-
-          <Card className={classes.card}>
-            <CardContent>
-              {data.title}
-              <br/>
-              {data.body}
-              <br/>
-              {data.datetime}
-            </CardContent>
-          </Card>
-
-      </Grid>
+      <Card className={classes.card}>
+        <CardContent>
+          <b style={{fontSize:18, textTransform:'capitalize'}}>{data.title}</b>
+          <br/>
+          {data.body}
+          <br/>
+          <br/>
+          <Box
+          style={{textAlign:'right'}}
+          >
+            {data.datetime}
+          </Box>
+        </CardContent>
+      </Card>
     </>
   );
 

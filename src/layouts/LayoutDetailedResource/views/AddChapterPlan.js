@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-
   pandaAddButton: {
     backgroundColor: '#025fa1',
     color: '#ffffff',
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
       borderColor: "#025fa1"
     }
   }
-
 }));
 
 const AddChapterPlan = ({className, ...rest}) => {
@@ -45,9 +43,10 @@ const AddChapterPlan = ({className, ...rest}) => {
     formDescription: "",
     link: "",
     location: []
-
   });
+
   let successUploadCount = 0;
+
   const config = {
     bucketName: 'cyndi.primary.bucket',
     dirName: 'Activity/',
@@ -92,52 +91,53 @@ const AddChapterPlan = ({className, ...rest}) => {
       headers: apiHeader
     }).then(response => console.log(response))
       .catch(err => console.log(err))
-
-
   };
 
   const handleUpload = (file, extension, size) => {
     let newFileName = file.name.replace(/\..+$/, "");
     const ReactS3Client = new S3(config);
+    
     ReactS3Client.uploadFile(file, newFileName).then((data) => {
       console.log(data)
-
-      console.log(data.progress);
+      
       if (data.status === 204) {
         console.log("success");
         successUploadCount++;
         let form = formDetails;
-
+        
         let res = data.location.split("/");
         const last = res.length;
         res = res.slice(3, last);
         res = res.join("/");
 
         form.location.push({'filename': `${newFileName}.${extension}`, 'fileurl': res});
-        let h1 = document.createElement('h5');
+        let h1 = document.createElement('h1');
         let t = document.createTextNode(`File ${newFileName} Uploaded`);
 
         h1.appendChild(t);
         document.getElementById('checker').appendChild(h1);
         setFormDetails(form)
 
+
       } else {
         console.log("fail");
       }
-    });
+    })
+    .catch(err =>console.log(err))
   };
-
 
   const handleFormTitle = (e) => {
     const title = e.target.value;
     let form = formDetails;
     form.formTitle = title;
   };
+
   const handleFormDescription = (e) => {
     const title = e.target.value;
     let form = formDetails;
     form.formDescription = title;
   };
+
   const handleFormLink = (e) => {
     const title = e.target.value;
     let form = formDetails;
@@ -147,7 +147,6 @@ const AddChapterPlan = ({className, ...rest}) => {
   function back() {
     navigate('/app/teacher/')
   }
-
 
   return (
 
@@ -161,7 +160,7 @@ const AddChapterPlan = ({className, ...rest}) => {
             container
             spacing={3}
           >
-            <AppBar position="static">
+            <AppBar position="fixed">
               <Toolbar>
                 <Button onClick={back}><KeyboardBackspaceIcon/></Button>
               </Toolbar>

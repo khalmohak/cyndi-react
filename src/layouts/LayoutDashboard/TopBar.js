@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     backgroundColor: theme.palette.colorPrimaryTeacher.main
-  }
+  },
 }));
 
 
@@ -57,15 +57,17 @@ const TopBar = ({
           </IconButton>
           {/*</Hidden>*/}
 
-          <Box flexGrow={1}/>
-
+          <Box
+            flexGrow={1}
+            ml="100px"
+          />
           <Hidden mdDown>
-            <RouterLink to="/app/dashboard">
+            <RouterLink to="/app/class">
               <LogoLarge/>
             </RouterLink>
           </Hidden>
           <Hidden lgUp>
-            <RouterLink to="/app/dashboard">
+            <RouterLink to="/app/class">
               <LogoSmall/>
             </RouterLink>
           </Hidden>
@@ -81,9 +83,9 @@ const TopBar = ({
                 color: '#fff',
                 backgroundColor: '#00000000'
               }}
-              //className={getRoleColor()}
+
               startIcon={<Add/>}
-              //onClick={navigate('add/class')}
+
             >
               Add
             </Button>
@@ -101,7 +103,11 @@ const TopBar = ({
               outline: 'none', color: '#fff'
             }}>
               <RouterLink to='/'>
-                <ExitToApp onClick={removeLoggedInStatus} className={'button_notifi'}/>
+                <ExitToApp onClick={removeLoggedInStatus} style={{
+                  outline: 'none',
+                  color: '#fff',
+                  backgroundColor: '#00000000'
+                }}/>
               </RouterLink>
             </IconButton>
           </Hidden>

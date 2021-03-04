@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '20px',
     width: "350px",
-    margin: "10px"
+    margin: "10px",
+    height:"250px"
   },
   downloadBtn: {
     border: "2px solid red",

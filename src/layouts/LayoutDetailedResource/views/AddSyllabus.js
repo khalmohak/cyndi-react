@@ -161,7 +161,7 @@ const AddSyllabus = ({className, ...rest}) => {
             container
             spacing={3}
           >
-            <AppBar position="static">
+            <AppBar position="fixed">
               <Toolbar>
                 <Button onClick={back}><KeyboardBackspaceIcon/></Button>
 

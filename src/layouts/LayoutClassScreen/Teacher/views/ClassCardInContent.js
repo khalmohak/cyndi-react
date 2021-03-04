@@ -129,6 +129,9 @@ const useStyles = makeStyles((theme) => ({
   },
   backButton:{
     color:'#ffffff'
+  },
+  tab1:{
+    marginTop:'80px'
   }
 
 }));
@@ -137,6 +140,7 @@ let pandaData = undefined;
 const PandAAPI = () => {
   const dataAPI = {
     class_id: sessionStorage.getItem('current_class_id'),
+    role:sessionStorage.getItem('userRole'),
     limit: 10,
     offset: 0
   };
@@ -149,6 +153,7 @@ const PandAAPI = () => {
   }).then(
     res => {
       pandaData = res.data;
+      console.log(res);
 
     }
   )
@@ -159,6 +164,7 @@ let qesData = undefined;
 const QESAPI = () => {
   let dataAPI = {
     'class_id': sessionStorage.getItem('current_class_id'),
+    'role':sessionStorage.getItem('userRole'),
     'limit': 10,
     'offset': 0
   };
@@ -171,7 +177,9 @@ const QESAPI = () => {
     headers: headers
   }).then(
     res => {
+
       qesData = res.data;
+
 
     }
   )
@@ -221,16 +229,16 @@ console.log(window.location.href);
     PandAAPI();
     QESAPI();
 
-    // if (qesData && pandaData) {
-    //   console.log(qesData);
-    //   console.log(pandaData);
-    //
-    // }
+    if (qesData && pandaData) {
+      console.log(qesData);
+
+
+     }
   }, [qesData, pandaData])
 
   return (
     <div className={classes.root}>
-      <AppBar position="static"
+      <AppBar position="fixed"
 
               className={clsx(classes.appBar, {
                 [classes.appBarShift]: open,
@@ -276,10 +284,10 @@ console.log(window.location.href);
         {teacherData ? <SideMenu data={teacherData}/> : <div>Loading</div>}
 
       </Drawer>
-      <TabPanel value={value} index={0}>
+      <TabPanel className={classes.tab1} value={value} index={0}>
         <ClassBoard/>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel className={classes.tab1} value={value} index={1}>
 
         <Container maxWidth={false} className={'np'}>
 
@@ -314,26 +322,25 @@ console.log(window.location.href);
         </Container>
       </TabPanel>
 
-      <TabPanel value={value} index={2}>
+      <TabPanel className={classes.tab1} value={value} index={2}>
         <Container maxWidth={false} className={'np'}>
-
           <AddQandA/>
           <Box>
             <Grid
               container
               spacing={3}
             >
-              {qesData ? qesData.map((qes) => (
-                <Grid
-                  item
-                  key={qes.activity_id}
-                  lg={4}
-                  md={6}
-                  xs={12}
-                >
-                  <QESClassCard/>
-                </Grid>
-              )) : <div>Loading...</div>}
+              {/*{qesData ? qesData.map((qes) => (*/}
+              {/*  <Grid*/}
+              {/*    item*/}
+              {/*    key={qes.activity_id}*/}
+              {/*    lg={4}*/}
+              {/*    md={6}*/}
+              {/*    xs={12}*/}
+              {/*  >*/}
+              {/*    <QESClassCard/>*/}
+              {/*  </Grid>*/}
+              {/*)) : <div>Loading...</div>}*/}
 
             </Grid>
           </Box>

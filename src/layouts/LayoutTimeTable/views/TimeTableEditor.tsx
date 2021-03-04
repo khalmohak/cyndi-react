@@ -56,7 +56,7 @@ const TimeTableEditor: FunctionComponent<{ ttData?: JSON[] }> = ({ttData = []}) 
             sData.push(data);
         }
         setTimeTableData(sData);
-        console.log(sData)
+        //console.log(sData)
 
     }
 
