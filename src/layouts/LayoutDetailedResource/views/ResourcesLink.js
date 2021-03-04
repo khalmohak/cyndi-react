@@ -5,7 +5,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: '20px',
     width: "350px",
-    margin: "10px"
+    margin: "10px",
+    height:"250px"
   },
   downloadBtn: {
     border: "2px solid red",
@@ -31,10 +32,11 @@ const ResourcesLink = ({data, ...rest}) => {
       <CardContent>
         <Grid container>
           <Grid item xs={4}>
-            {attachedFiles ? <Box></Box>
-              :
-              <div><Button className={classes.downloadBtn}>Download</Button><Typography>Not Available</Typography></div>
-
+            {attachedFiles ?
+              <img src={`https://www.google.com/s2/favicons?sz=64&domain=${attachedFiles}`}/>:<Box></Box>
+              //   <Box>
+              //   <div><Button className={classes.downloadBtn}>Download</Button><Typography>Not Available</Typography></div>
+              // </Box>:<Box></Box>
             }
 
           </Grid>

@@ -22,6 +22,7 @@ import ResourceMedia from "./ResourceMedia";
 import ResourcesLink from "./ResourcesLink";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import NotificationView from "../../LayoutDashboard/views/ViewNotifications/NotificationView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     paddingTop: theme.spacing(3)
   },
-
   pandaAddButton: {
     backgroundColor: '#025fa1',
     color: '#ffffff',
@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
       color: '#025fa1',
       borderColor: "#025fa1"
     }
+  },
+  tab: {
+    marginTop: "100px"
   }
 }));
 
@@ -139,9 +142,7 @@ export const Resources = () => {
           } else {
             documents = [data]
           }
-
         }
-
         if (attachedFiles.link) {
           if (links) {
             links.push(data)
@@ -156,10 +157,7 @@ export const Resources = () => {
             media = [data]
           }
         }
-
       })
-
-
     }
   }
 
@@ -193,7 +191,7 @@ export const Resources = () => {
             container
             spacing={3}
           >
-            <AppBar position="static">
+            <AppBar position="fixed">
               <Toolbar>
                 <Button onClick={back}><KeyboardBackspaceIcon/></Button>
               </Toolbar>
@@ -203,7 +201,7 @@ export const Resources = () => {
                 <Tab label="Links" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
-            <TabPanel value={value} index={0}>
+            <TabPanel className={classes.tab} value={value} index={0}>
               <Container maxWidth={false} className={'np'}>
                 <Grid xs={1} sm={1} md={1} lg={1}>
                   <Button
@@ -216,15 +214,13 @@ export const Resources = () => {
                 <Box>
                   <Grid
                     container
-                    spacing={3}
+                    spacing={1}
+                    justify="left"
                   >
                     {documents ? documents.map((data) => (
                         <Grid
                           item
                           key={data.resource_id}
-                          lg={6}
-                          md={6}
-                          xs={12}
                         >
                           <ResourcesDocuments data={data}/>
                         </Grid>
@@ -245,8 +241,7 @@ export const Resources = () => {
                 </Box>
               </Container>
             </TabPanel>
-            <TabPanel value={value} index={1}>
-
+            <TabPanel className={classes.tab} value={value} index={1}>
               <Container maxWidth={false} className={'np'}>
                 <Grid xs={1} sm={1} md={1} lg={1}>
                   <Button
@@ -256,25 +251,27 @@ export const Resources = () => {
                   </Button>
                 </Grid>
 
-                <Box mt={1}>
-                  <Grid
-                    container
-                    spacing={3}
-                  >
-                    {media ? media.map((data) => (
-                        <Grid
-                          item
-                          key={data.resource_id}
-                          lg={4}
-                          md={6}
-                          xs={12}
-                        >
+                {/*<Box mt={1}>*/}
+                <Grid
+
+
+                >
+                  {media ? media.map((data) => (
+                      <Grid
+
+                        key={data.resource_id}
+                        xs={6}
+                      >
+
+                        <div>
                           <ResourceMedia data={data}/>
-                        </Grid>
-                      ))
-                      : <CircularProgress className={classes.loading}/>}
-                  </Grid>
-                </Box>
+                        </div>
+
+                      </Grid>
+                    ))
+                    : <CircularProgress className={classes.loading}/>}
+                </Grid>
+                {/*</Box>*/}
 
                 <Box
                   mt={3}
@@ -290,8 +287,8 @@ export const Resources = () => {
               </Container>
             </TabPanel>
 
-            <TabPanel value={value} index={2}>
-              <Container maxWidth={false} className={'np'}>
+            <TabPanel className={classes.tab} value={value} index={2}>
+              <Container maxWidth={true} className={'np'}>
                 <Grid xs={1} sm={1} md={1} lg={1}>
                   <Button
                     onClick={handleAddLink}
@@ -300,26 +297,15 @@ export const Resources = () => {
                   </Button>
                 </Grid>
 
-                <Box>
-                  <Grid
-                    container
-                    spacing={3}
-                  >
-                    {links ? links.map((data) => (
-                        <Grid
-                          item
-                          key={data.resource_id}
-                          lg={4}
-                          md={6}
-                          xs={12}
-                        >
-                          <ResourcesLink data={data}/>
-                        </Grid>
-                      ))
-                      : <CircularProgress className={classes.loading}/>}
+                <Grid container justify="left" spacing={1}>
+                  {links ? links.map((data) => (
+                    <Grid key={data.resource_id} item>
+                      <ResourcesLink data={data}/>
+                    </Grid>
+                  )) : <CircularProgress/>}
+                </Grid>
 
-                  </Grid>
-                </Box>
+
                 <Box
                   mt={6}
                   display="flex"

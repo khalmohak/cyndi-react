@@ -107,13 +107,13 @@ const DashboardLayout = () => {
                                         label="Resources" icon={<Description/>}
                                         onClick={() => {
                                           setSelection(0);
-                                          navigate('/app/resources')
+                                          navigate('/app/teacher')
                                         }}/>
                 <BottomNavigationAction style={{color: selection === 1 ? '#ffffff' : '#bfbfbf', outline: 'none'}}
-                                        label="Messaging" icon={<Message/>}
+                                        label="Timetable" icon={<Description/>}
                                         onClick={() => {
                                           setSelection(1);
-                                          navigate('/app/messaging')
+                                          navigate('/timetable')
                                         }}/>
                 <BottomNavigationAction style={{color: selection === 2 ? '#ffffff' : '#bfbfbf', outline: 'none'}}
                                         label="Class" icon={<Home/>}

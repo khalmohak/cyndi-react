@@ -384,9 +384,13 @@ const AddClass1 = () => {
                       value={batch}
                       onChange={handleBranch}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={"2015"}>2015</MenuItem>
+                      <MenuItem value={"2016"}>2016</MenuItem>
+                      <MenuItem value={"2017"}>2017</MenuItem>
+                      <MenuItem value={"2018"}>2018</MenuItem>
+                      <MenuItem value={"2019"}>2019</MenuItem>
+                      <MenuItem value={"2020"}>2020</MenuItem>
+                      <MenuItem value={"2021"}>2021</MenuItem>
                     </Select>
                   </FormControl>
                   <br/>
@@ -397,9 +401,15 @@ const AddClass1 = () => {
                       value={semester}
                       onChange={handleSemester}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={"1st"}>1st</MenuItem>
+                      <MenuItem value={"2nd"}>2nd</MenuItem>
+                      <MenuItem value={"3rd"}>3rd</MenuItem>
+                      <MenuItem value={"4th"}>4th</MenuItem>
+                      <MenuItem value={"5th"}>5th</MenuItem>
+                      <MenuItem value={"6th"}>6th</MenuItem>
+                      <MenuItem value={"7th"}>7th</MenuItem>
+                      <MenuItem value={"8th"}>8th</MenuItem>
+
                     </Select>
                   </FormControl>
                   <br/>

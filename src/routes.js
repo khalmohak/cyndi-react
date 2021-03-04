@@ -76,14 +76,21 @@ let route = (/*isAuthenticated*/) => {
             children: [
               {path: 'dashboard', element: <DashboardView/>},
               {path: 'class', element: <TeacherCard/>},
-              //{path: 'add/class', element: <AddClass/>},
-              {path: 'activity_detail', element: <ActivityDetail/>},
-              {path: 'teacher', element: <TeacherClassCardIn/>},
+
               {path: 'settings', element: <SettingsView/>},
               {path: 'resources', element: <ResourcesList/>},
               {path: 'messaging', element: <Messaging/>},
               {path: 'notifications', element: <Notifications/>},
-              {path: 'addnotifications', element: <AddNotificationsCard/>},
+
+
+               {path: '*', element: <Navigate to="/404"/>}
+            ]
+          },
+          {
+            path: 'app',
+
+            children: [
+              {path: 'teacher', element: <TeacherClassCardIn/>},
               {path: 'teacher/resources', element: <Resources/>},
               {path: 'teacher/chapterplan', element: <ChapterPlan/>},
               {path: 'teacher/syllabus', element: <Syllabus/>},
@@ -92,8 +99,9 @@ let route = (/*isAuthenticated*/) => {
               {path: 'teacher/resources/addlink', element: <AddLink/>},
               {path: 'teacher/syllabus/addsyllabus', element: <AddSyllabus/>},
               {path: 'teacher/chapterplan/addchapterplan', element: <AddChapterPlan/>},
+              {path: '/addnotification', element: <AddNotificationsCard/>},
 
-               {path: '*', element: <Navigate to="/404"/>}
+              {path: '*', element: <Navigate to="/404"/>}
             ]
           },
           {

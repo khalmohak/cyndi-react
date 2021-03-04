@@ -127,3 +127,7 @@ p {
 .MuiTypography-body1 {
     width: 100% !important;
 }
+
+.chatroom .chats {
+    background-color: #b5d3e7;
+}

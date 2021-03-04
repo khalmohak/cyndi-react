@@ -35,7 +35,7 @@ const NotificationTeacher = () => {
   const [notifications, setNotifications] = React.useState([]);
 
   function addNotification() {
-    navigate('/app/addnotifications');
+    navigate('/app/addnotification');
   }
 
   function getNotifications() {
@@ -69,42 +69,44 @@ const NotificationTeacher = () => {
       className={classes.root}
       title="Notifications"
     >
-      <Container maxWidth={false}>
+      <Container maxWidth={true}>
         <Button className={classes.pandaAddButton} onClick={addNotification}>Add Notification</Button>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Grid container justify="left" spacing={1}>
+              {notifications ? notifications.map((data) => (
+                <Grid key={data.class_id} item>
+                  <NotificationView data={data}/>
+                </Grid>
+              )): <CircularProgress/>}
+            </Grid>
+          </Grid>
+        </Grid>
 
-        <Box mt={3}>
+          {/*{notifications ? notifications.map((data) => (
+            <ListItem
+              item
+              key={data.class_id}
+            >
+              <NotificationView data={data}/>
+
+            </ListItem>
+          )) : <CircularProgress/>
+          }*/}
           <Box
-            container
-            spacing={3}
-            display="block"
+            mt={3}
+            display="flex"
             justifyContent="center"
           >
-            {notifications ? notifications.map((data) => (
-              <ListItem
-                item
-                key={data.class_id}
-              >
-                <NotificationView data={data}/>
-
-              </ListItem>
-            )) : <CircularProgress/>
-            }
+            <Pagination
+              color="primary"
+              count={3}
+              size="small"
+            />
           </Box>
-        </Box>
-        <Box
-          mt={3}
-          display="flex"
-          justifyContent="center"
-        >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
-        </Box>
       </Container>
     </Page>
-  );
+);
 };
 
 export default NotificationTeacher;

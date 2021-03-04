@@ -12,5 +12,14 @@ const s3config = {
   secretAccessKey: 'bYYFK1eiqIj8l+htjO9KxrSdRiX0ShEq8ligEeoj',
 };
 
-export {apiEndPoint, s3Bucket, s3Region, s3URL, s3config};
+function key(id1,id2,partKey){
+  if(id1>id2){
+    return `${partKey}${id2}_${id1}`
+  }
+  else{
+    return `${partKey}${id1}_${id2}`
+  }
+}
+
+export {apiEndPoint, s3Bucket, s3Region, s3URL, s3config,key};
 
