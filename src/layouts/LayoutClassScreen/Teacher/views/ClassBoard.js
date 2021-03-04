@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button} from '@material-ui/core';
+import {Button, CircularProgress} from '@material-ui/core';
 import Firebase from 'firebase';
 import './App.css';
 import Message from './Message.js';
@@ -58,20 +58,12 @@ const ClassBoard = () => {
   // }])
   //let messages=[];
 
-
-  const plainText = "qup1Fc1amKOKn05Q7CAAHKICw57/u/NdoHuBFolG7/nMy+d8JjP1RRjEWC3vmfSF4Ln+7J0zhRw6amPjKuYEsA==";
-  const key = "EncryptMessages37";
-
-  const decryptedString = cryptLib.decryptCipherTextWithRandomIV(plainText, key);
-  console.log('decryptedString %s', decryptedString);
-
   const getUserData = () => {
     let ref = Firebase.database().ref('/ClassBoard');
     ref.on('value', snapshot => {
       console.log(snapshot.val());
       //messages=snapshot.val();
       setChat(snapshot.val());
-
     });
 
   };
@@ -82,14 +74,11 @@ const ClassBoard = () => {
       messages.push(cryptLib.decryptCipherTextWithRandomIV(chat['37'][i]['message'], key))
       //console.log(chat['37'][i]['senderName']);
     }
-
   }
 
   useEffect(() => {
     getUserData();
-
   }, [])
-
 
   // function submitMessage(e) {
   //   e.preventDefault();
@@ -105,16 +94,17 @@ const ClassBoard = () => {
   //   });
   // }
 
-
   const username = "Mohak";
   return (
+
     <div className="chatroom chat147">
       <h3>Class Chat</h3>
       <ul className="chats">
         {
+          messages ?
           messages.map((chat) =>
             <Message chat={chat} user={username}/>
-          )
+          ) : <CircularProgress/>
         }
       </ul>
       <form className="input">
