@@ -1,3 +1,4 @@
+import moment from 'moment';
 const apiEndPoint = "http://cyndi-backend.ap-south-1.elasticbeanstalk.com:4000";
 const s3Region = `ap-south-1`;
 const s3Bucket = `cyndi.primary.bucket`;
@@ -12,14 +13,29 @@ const s3config = {
   secretAccessKey: 'bYYFK1eiqIj8l+htjO9KxrSdRiX0ShEq8ligEeoj',
 };
 
-function key(id1,id2,partKey){
+function usersKey(id1,id2){
   if(id1>id2){
-    return `${partKey}${id2}_${id1}`
+    return `${process.env.REACT_APP_KEY_PART}${id2}_${id1}`
   }
   else{
-    return `${partKey}${id1}_${id2}`
+    return `${process.env.REACT_APP_KEY_PART}${id1}_${id2}`
   }
 }
 
-export {apiEndPoint, s3Bucket, s3Region, s3URL, s3config,key};
+function classKey(id){
+    return `${process.env.REACT_APP_KEY_PART}${id}`
+}
+
+function getTodaysDate(){
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = today.getFullYear();
+  return(`${dd}-${mm}-${yyyy}`);
+}
+function getCurrentTime(){
+  return(moment().format('LT'));
+}
+
+export {apiEndPoint, s3Bucket, s3Region, s3URL, s3config,usersKey,classKey,getTodaysDate,getCurrentTime};
 
