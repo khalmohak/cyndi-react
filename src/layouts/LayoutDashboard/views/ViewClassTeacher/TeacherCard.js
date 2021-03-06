@@ -335,25 +335,25 @@ const TeachersCard = ({className, card, ...rest}) => {
         <Grid container justify="space-between" spacing={0}>
           <Grid className={classes.link}>
             <Link className={classes.link}>
-              <Dashboard></Dashboard> Board
+              <Dashboard/> Board
             </Link>
           </Grid>
 
           <Grid className={classes.link}>
             <Link className={classes.link}>
-              <InfoOutlined></InfoOutlined> Information
+              <InfoOutlined/> Information
             </Link>
           </Grid>
 
           <Grid className={classes.link}>
             <Link className={classes.link}>
-              <AssignmentOutlined></AssignmentOutlined> Activity
+              <AssignmentOutlined/> Activity
             </Link>
           </Grid>
 
           <Grid className={classes.link}>
             <Link className={classes.link}>
-              <InfoOutlined></InfoOutlined>
+              <InfoOutlined/>
             </Link>
           </Grid>
 

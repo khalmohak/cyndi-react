@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Button, CircularProgress, Input} from '@material-ui/core';
+import {Button, CircularProgress} from '@material-ui/core';
 import Firebase from 'firebase';
 import './App.css';
 import Message from './Message.js';
 import cryptLib from "@skavinvarnan/cryptlib";
 import {classKey, getCurrentTime, getTodaysDate} from "../../../../constants";
-import S3 from 'aws-sdk/clients/s3';
 import useSound from 'use-sound';
 import sent from '../../../../components/sent.mp3';
-import S3Uploader from "../../../../utils/S3Uploader";
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 if (sessionStorage.getItem('firebaseToken')) {
@@ -41,11 +39,13 @@ const ClassBoard = () => {
 
   const sendChat = (e, message) => {
     e.preventDefault();
-    const key = classKey('37', 'EncryptMessage');
+    const classId = sessionStorage.getItem('current_class_id');
+    const key = classKey(classId);
+
     let classBoard = Firebase.database().ref('/ClassBoard');
-    let ref = classBoard.child('37');
+    let ref = classBoard.child(classId);
     ref.push({
-      classId: sessionStorage.getItem('current_class_id'),
+      classId: classId,
       data: {},
       date: getTodaysDate(),
       message: cryptLib.encryptPlainTextWithRandomIV(message, key),
@@ -59,6 +59,7 @@ const ClassBoard = () => {
     })
     setUserChat("");
     play();
+    scrollToBottom();
   }
 
   const setUserMessage = (e) => {
@@ -69,14 +70,15 @@ const ClassBoard = () => {
   let messages = [];
   console.log(process.env.REACT_APP_KEY_PART)
   if (chat) {
-    for (let i in chat['37']) {
-      const key = "EncryptMessages37";
+    const classId = sessionStorage.getItem('current_class_id');
+    for (let i in chat[classId]) {
+      const key = classKey(classId);
       messages.push({
-        message: cryptLib.decryptCipherTextWithRandomIV(chat['37'][i]['message'], key),
-        senderName: chat['37'][i]['senderName'],
-        senderId: chat['37'][i]['senderId'],
-        time:chat['37'][i]['time'],
-        data:chat['37'][i]['data']
+        message: cryptLib.decryptCipherTextWithRandomIV(chat[classId][i]['message'], key),
+        senderName: chat[classId][i]['senderName'],
+        senderId: chat[classId][i]['senderId'],
+        time: chat[classId][i]['time'],
+        data: chat[classId][i]['data']
       })
     }
   }
@@ -98,7 +100,8 @@ const ClassBoard = () => {
         {
           messages ?
             messages.map((chat) =>
-              <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time} senderId={chat.senderId}/>
+              <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                       senderId={chat.senderId}/>
             ) : <CircularProgress/>
         }
         <div ref={messagesEndRef}/>
@@ -111,7 +114,7 @@ const ClassBoard = () => {
         <label className="custom-file-upload">
           <input type="file" multiple style={
             {
-              display:'none'
+              display: 'none'
             }
           }/>
           <AttachFileIcon/>
