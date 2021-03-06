@@ -1,16 +1,14 @@
-import React, {FunctionComponent, useState} from 'react';
-import {
-    Button, makeStyles
-} from '@material-ui/core';
+import React, {FunctionComponent} from 'react';
+import {Fab, makeStyles} from '@material-ui/core';
 import WeekDay from './WeekDay';
-import axios from "axios";
+import {Add} from "@material-ui/icons";
 
 const useStyles = makeStyles(() => ({
     root: {
         overflow: "true"
     },
     day: {
-        margin: '20px',
+        /*margin: '20px',*/
 
     },
     btn: {
@@ -38,7 +36,7 @@ const TimeTableEditor: FunctionComponent<{ ttData?: JSON[] }> = ({ttData = []}) 
                 let keys: string[] = Object.keys(sData[i]);
                 let value: string[] = Object.keys(data);
                 for (let j = 0; j < keys.length; j++) {
-                    if (keys[j] == value[0]) {
+                    if (keys[j] === value[0]) {
                         found = true;
                         index = i;
                     }
@@ -95,7 +93,9 @@ const TimeTableEditor: FunctionComponent<{ ttData?: JSON[] }> = ({ttData = []}) 
     function postTimeTable() {
         let dataToBeSent = JSON.stringify(reformatData());
         console.log(dataToBeSent)
-        axios.post("http://localhost:4000/test/api", dataToBeSent, {
+        console.log(dataToBeSent);
+
+        /*axios.post("http://localhost:4000/test/api", dataToBeSent, {
             headers: {
                 'user_id': sessionStorage.getItem('userId'),
                 'x-access-token': sessionStorage.getItem("token")
@@ -107,7 +107,7 @@ const TimeTableEditor: FunctionComponent<{ ttData?: JSON[] }> = ({ttData = []}) 
         )
             .catch(
                 err => console.log(err)
-            )
+            )*/
     }
 
     return (
@@ -123,10 +123,22 @@ const TimeTableEditor: FunctionComponent<{ ttData?: JSON[] }> = ({ttData = []}) 
                     )
                 })
             }
-            <Button
+            {/*<Button
                 onClick={postTimeTable}
                 className={classes.btn}
-            >SEND IT</Button>
+            >SEND IT</Button>*/}
+
+            <Fab variant="extended" style={{
+                position: 'absolute',
+                bottom: 30,
+                marginLeft: '90%',
+                zIndex: 1,
+                color: '#ff5253',
+                backgroundColor: '#fff',
+                outline: 'none'
+            }} onClick={postTimeTable}>
+                <Add/>Submit
+            </Fab>
 
         </div>
     )

@@ -22,7 +22,6 @@ import ResourceMedia from "./ResourceMedia";
 import ResourcesLink from "./ResourcesLink";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import NotificationView from "../../LayoutDashboard/views/ViewNotifications/NotificationView";
 
 const useStyles = makeStyles((theme) => ({
   root: {

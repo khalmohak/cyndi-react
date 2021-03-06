@@ -1,0 +1,182 @@
+[
+  {
+    "Monday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      },
+      "01": {
+        "value": "9-10",
+        "type": "text"
+      },
+      "02": {
+        "value": "10-12",
+        "type": "text"
+      },
+      "03": {
+        "value": "",
+        "type": "text"
+      },
+      "10": {
+        "value": "MBA",
+        "type": "course"
+      },
+      "11": {
+        "value": {
+          "subject": "AEC",
+          "teacher": "Some teacher"
+        },
+        "type": "teacherSubject"
+      },
+      "12": {
+        "value": {
+          "subject": "AEC",
+          "teacher": "Buddha"
+        },
+        "type": "teacherSubject"
+      },
+      "13": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "20": {
+        "value": "B.Tech",
+        "type": "course"
+      },
+      "21": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "22": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "23": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      }
+    }
+  },
+  {
+    "Tuesday": {
+      "14": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "15": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "16": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "24": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "25": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "26": {
+        "value": {
+          "subject": "",
+          "teacher": ""
+        },
+        "type": "teacherSubject"
+      },
+      "30": {
+        "value": "MBA",
+        "type": "course"
+      },
+      "40": {
+        "value": "B.Tech",
+        "type": "course"
+      },
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      },
+      "04": {
+        "value": "",
+        "type": "text"
+      },
+      "05": {
+        "value": "",
+        "type": "text"
+      },
+      "06": {
+        "value": "",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "Wednesday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "Thursday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "Friday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "Saturday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "Sunday": {
+      "00": {
+        "value": "Courses/Timings",
+        "type": "text"
+      }
+    }
+  }
+]

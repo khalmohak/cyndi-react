@@ -118,10 +118,10 @@ function createData(name, classes, assignments, projects, test_quiz) {
 }
 
 const rows = [
-  createData('Classes', 12, 6, 6, '12/5/'),
-  createData('Assignments', 12, 9, 3, '12/5'),
-  createData('Projects', 12, 10, 2, '12/5/'),
-  createData('Test/Quiz', 12, 3, 9, '12/5/'),
+  createData('Classes', 12, 6, 6, '12/12/2020'),
+  createData('Assignments', 12, 9, 3, '23/12/2020'),
+  createData('Projects', 12, 10, 2, '16/12/2020'),
+  createData('Test/Quiz', 12, 3, 9, '18/12/2020'),
 
 ];
 
@@ -129,13 +129,13 @@ const rows = [
  * dummy attendance percent
  * @type {string}
  */
-var attendancePercent = '40%';
+const attendancePercent = '40%';
 
 /**
  * dummy data for ViewNotifications
  * @type {({update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number}|{update: string, timestamp: number})[]}
  */
-var data = [
+const data = [
   {
     "update": "70 new employees are shifted",
     "timestamp": 1596119688264
@@ -152,7 +152,7 @@ var data = [
     "update": "Time to take a Break, TADA!!!",
     "timestamp": 1596119686811
   }
-]
+];
 
 
 const TeachersCard = ({className, card, ...rest}) => {
@@ -166,7 +166,6 @@ const TeachersCard = ({className, card, ...rest}) => {
   /**
    * Function to get the teachers name for a specific class
    */
-
   function getTeacherName() {
     const teachersList = JSON.parse(card.teachers_list);
     const teacherId = card.user_id;
@@ -179,7 +178,7 @@ const TeachersCard = ({className, card, ...rest}) => {
 
       }
     }
-  };
+  }
 
   getTeacherName();
   //setTeacherName(teacherNameTemp);

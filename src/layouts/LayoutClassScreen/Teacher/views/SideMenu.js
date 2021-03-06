@@ -71,7 +71,7 @@ export const SideMenu = ({data, ...rest}) => {
               </CardContent>
             </Card>
           </Box>
-          <Box m={1}>
+          {/*<Box m={1}>
             <Card
               className={classes.card}
               onClick={() => {
@@ -83,7 +83,7 @@ export const SideMenu = ({data, ...rest}) => {
                 <Typography>Classes</Typography>
               </CardContent>
             </Card>
-          </Box>
+          </Box>*/}
         </ListItem>
         <ListItem>
           <Box m={1}>
