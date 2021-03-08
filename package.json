@@ -46,6 +46,7 @@
     "dotenv": "^8.2.0",
     "firebase": "^8.2.5",
     "formik": "^2.2.6",
+    "get-audio-duration": "^2.0.3",
     "get-title-at-url": "^1.1.8",
     "history": "^5.0.0",
     "jquery": "^3.5.1",

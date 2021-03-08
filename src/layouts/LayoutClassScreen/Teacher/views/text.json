@@ -1,0 +1,37 @@
+[
+  { //audio
+    "fileName": "It's realme.mp3",
+    "fileUrl": "01EYX0MDDH000G00R40M300209-0.mp3",
+    "fileType": "mp3",
+    "fileSize": "1.9 MB",
+    "fileDuration": "1:20",
+    "fileLocalPath": "/storage/emulated/0/Music/It's realme.mp3"
+  },
+  { //contact
+    "contactName": "",
+    "contactNumber": ""
+  },
+  { //doc
+    "fileName": "It's realme.mp3",
+    "fileUrl": "01EYX0MDDH000G00R40M300209-0.mp3",
+    "fileType": "mp3",
+    "fileSize": "1.9 MB"
+  },
+  { //img
+    "dataUrl": "It's realme.mp3",
+    "imageCaption": "01EYX0MDDH000G00R40M300209-0.mp3"
+  },
+  {
+    //location
+    "dataUrl": {
+      "featureName": "It's realme.mp3",
+      "locality": "01EYX0MDDH000G00R40M300209-0.mp3",
+      "subAdminArea": "mp3",
+      "adminArea": "1.9 MB",
+      "countryName": "01EYX0MDDH000G00R40M300209-0.mp3",
+      "postalCode": "mp3",
+      "lat": "1.9 MB",
+      "long": "1.9 MB"
+    }
+  }
+]
