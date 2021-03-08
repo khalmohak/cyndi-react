@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {AppBar, Box, Button, Container, Grid, Input, Select, TextField, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Box, Button, Card,CardContent,CircularProgress, Container, Grid, Input, Select, TextField, Toolbar, Typography} from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
 import S3 from "react-aws-s3";
 import Page from "../../../components/Page";
@@ -8,6 +8,9 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import moment from 'moment';
 import {apiEndPoint} from "../../../constants";
 import axios from "axios";
+import clsx from "clsx";
+import {green} from '@material-ui/core/colors';
+import S3Uploader from "../../../utils/S3Uploader";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -29,7 +32,32 @@ const useStyles = makeStyles((theme) => ({
       color: '#025fa1',
       borderColor: "#025fa1"
     }
-  }
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 
 }));
 
@@ -37,7 +65,8 @@ const AddSyllabus = ({className, ...rest}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  //const [pandaType, setPandaType] = useState();
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
   const navigate = useNavigate();
   const fileInput = React.useRef();
   const [formDetails, setFormDetails] = useState({
@@ -47,26 +76,34 @@ const AddSyllabus = ({className, ...rest}) => {
     location: []
 
   });
-  let successUploadCount = 0;
-  const config = {
-    bucketName: 'cyndi.primary.bucket',
-    dirName: 'Activity/',
-    region: 'ap-south-1',
-    accessKeyId: 'AKIA5GLSIIS4NFKWWLGC',
-    secretAccessKey: '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',
-  };
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
 
-  function fileUpload() {
-    let newArr = fileInput.current.files;
-    for (let i = 0; i < newArr.length; i++) {
-      let extension = fileInput.current.files[i].name;
-      extension = extension.split(".");
-      extension = extension[extension.length - 1];
-      let size = fileInput.current.files[i].size;
-      console.log(size / (1024 * 1024));
-      handleUpload(newArr[i], extension, size);
+  
+  function fileUpload(e) {
+    let files = e.target.files;
+    setLoading(true)
+     let tempProgress = 0
+    for (let i = 0; i < files.length; i++) {
+      S3Uploader(files[i], 'Activity', (progress) => {
+
+      }, (uri) => {
+        tempProgress++;
+        if(tempProgress === files.length){
+          setLoading(false);
+          setSuccess(true)
+        }
+        console.log(uri)
+        let form = formDetails;
+        form.location.push({'filename': files[i].name, 'fileurl': uri});
+        setFormDetails(form)
+      })
     }
+
+
   }
+  
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -87,44 +124,13 @@ const AddSyllabus = ({className, ...rest}) => {
       'user_id': sessionStorage.getItem('userId'),
       'x-access-token': sessionStorage.getItem('token')
     }
+    console.log(apiData)
+    // axios.post(`${apiEndPoint}/add/syllabus`, apiData, {
+    //   headers: apiHeader
+    // }).then(response => console.log(response))
+    //   .catch(err => console.log(err))
 
-    axios.post(`${apiEndPoint}/add/syllabus`, apiData, {
-      headers: apiHeader
-    }).then(response => console.log(response))
-      .catch(err => console.log(err))
 
-
-  };
-
-  const handleUpload = (file, extension, size) => {
-    let newFileName = file.name.replace(/\..+$/, "");
-    const ReactS3Client = new S3(config);
-    ReactS3Client.uploadFile(file, newFileName).then((data) => {
-      console.log(data)
-
-      console.log(data.progress);
-      if (data.status === 204) {
-        console.log("success");
-        successUploadCount++;
-        let form = formDetails;
-
-        let res = data.location.split("/");
-        const last = res.length;
-        res = res.slice(3, last);
-        res = res.join("/");
-
-        form.location.push({'filename': `${newFileName}.${extension}`, 'fileurl': res});
-        let h1 = document.createElement('h5');
-        let t = document.createTextNode(`File ${newFileName} Uploaded`);
-
-        h1.appendChild(t);
-        document.getElementById('checker').appendChild(h1);
-        setFormDetails(form)
-
-      } else {
-        console.log("fail");
-      }
-    });
   };
 
 
@@ -168,37 +174,49 @@ const AddSyllabus = ({className, ...rest}) => {
               </Toolbar>
             </AppBar>
 
-            <form className='upload-steps' onSubmit={handleClick}>
-              <TextField
-                label="Title"
-                id="formTitle"
-                onChange={handleFormTitle}
-              />
-              <br/>
-              <TextField
-                label="Description"
-                id="formDescription"
-                onChange={handleFormDescription}
-              />
-              <br/>
-              <TextField
-                label="Add Link"
-                id="formLink"
-                onChange={handleFormLink}
-              />
-              <br/>
-              <br/>
-              <Typography>Choose Files</Typography>
-              <input
-                type='file'
-                onChange={fileUpload}
-                multiple ref={fileInput}
-              />
-              <div id="checker"></div>
-              <br/>
-              <Button className={classes.pandaAddButton} type='submit'>Upload</Button>
-            </form>
+            
+            <Card style={{
+              padding: "10px",
+              marginTop: "100px",
+            }}>
+              <CardContent>
+                <form className='upload-steps' onSubmit={handleClick}>
+                  <TextField
+                    label="Description"
+                    id="formDescription"
+                    onChange={handleFormDescription}
+                  />
+                  <br/>
+                  <TextField
+                    label="Add Link"
+                    id="formLink"
+                    onChange={handleFormLink}
+                  />
+                  <br/>
+                  <br/>
+                  <Typography>Choose Files</Typography>
+                  <input
+                    type='file'
+                    onChange={e => fileUpload(e)}
+                    multiple
+                  />
+                  <br/>
 
+                  <div className={classes.wrapper}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={buttonClassname}
+                      disabled={loading}
+                      type="submit"
+                    >
+                      Upload
+                    </Button>
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress}/>}
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
           </Grid>
         </Box>
       </Container>
