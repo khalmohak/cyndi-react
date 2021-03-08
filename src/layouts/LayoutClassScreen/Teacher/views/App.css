@@ -47,14 +47,14 @@ p {
     color: white;
 }
 
-.chatroom .chats .chat img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    position: absolute;
-    top: -10px;
-    left: 0px;
-}
+/*.chatroom .chats .chat img {*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    border-radius: 50%;*/
+/*    position: absolute;*/
+/*    top: -10px;*/
+/*    left: 0px;*/
+/*}*/
 
 .chatroom .chats .chat.right {
     float: right;
@@ -95,15 +95,12 @@ p {
     background-color: #eeeeee;
 }
 
-
-
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
     color: #fff
-
 }
 
 .file-preview {

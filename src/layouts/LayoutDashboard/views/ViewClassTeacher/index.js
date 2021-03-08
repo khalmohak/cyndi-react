@@ -45,7 +45,6 @@ const TeacherCard = () => {
       headers: headers
     }).then(response => {
       const classArray = response.data;
-
       setTeacherData(classArray);
       sessionStorage.setItem('classData', JSON.stringify(response));
 

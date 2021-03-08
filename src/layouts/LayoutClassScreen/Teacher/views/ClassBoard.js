@@ -15,6 +15,9 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import AudiotrackIcon from '@material-ui/icons/Audiotrack';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import S3Uploader from "../../../../utils/S3Uploader";
+import Audio from "./Audio";
+import Image from "./Image";
+import Documents from "./Document";
 // import {getAudioDurationInSeconds} from 'get-audio-duration';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +76,7 @@ const ClassBoard = () => {
       console.log(snapshot.val());
       setChat(snapshot.val());
       setTimeout(() => {
-        scrollToTop();
+        scrollToBottom();
       }, 400)
     });
   };
@@ -111,7 +114,7 @@ const ClassBoard = () => {
     play();
 
     setTimeout(() => {
-      scrollToTop();
+      scrollToBottom();
     }, 400)
   }
 
@@ -121,23 +124,23 @@ const ClassBoard = () => {
   }
 
   let messages = [];
-  console.log(process.env.REACT_APP_KEY_PART)
   if (chat) {
     const classId = sessionStorage.getItem('current_class_id');
     for (let i in chat[classId]) {
       const key = classKey(classId);
-      if(chat[classId][i]['message']){
-      messages.push({
-        message: cryptLib.decryptCipherTextWithRandomIV(chat[classId][i]['message'], key),
-        senderName: chat[classId][i]['senderName'],
-        senderId: chat[classId][i]['senderId'],
-        time: chat[classId][i]['time'],
-        data: chat[classId][i]['data']
-      })}
+      if (chat[classId][i]['message']) {
+        messages.push({
+          message: cryptLib.decryptCipherTextWithRandomIV(chat[classId][i]['message'], key),
+          senderName: chat[classId][i]['senderName'],
+          senderId: chat[classId][i]['senderId'],
+          time: chat[classId][i]['time'],
+          data: chat[classId][i]['data']
+        })
+      }
     }
   }
 
-  function scrollToTop() {
+  function scrollToBottom() {
     const duration = 2000;
     const list = document.getElementById("chats");
 
@@ -175,7 +178,6 @@ const ClassBoard = () => {
 
   function audioUpload(e) {
     let files = e.target.files;
-    console.log(files);
     let file = files[0]
     let reader = new FileReader()
     reader.readAsDataURL(file)
@@ -185,9 +187,9 @@ const ClassBoard = () => {
     setLoading(true)
     let tempProgress = 0
     const classId = sessionStorage.getItem('current_class_id');
+    const key = classKey(classId);
     for (let i = 0; i < files.length; i++) {
       S3Uploader(files[i], 'Activity', (progress) => {
-
       }, (uri) => {
         tempProgress++;
         if (tempProgress === files.length) {
@@ -198,15 +200,18 @@ const ClassBoard = () => {
         sendChat(e, {
           classId: classId,
           data: {
-            "fileName": files[0].name,
-            "fileUrl": uri,
-            "fileType": "mp3",
-            "fileSize": `${(files[0].size / 1024) / 1024} MB`,
-            "fileDuration": "4:10",
-            "fileLocalPath": ""
+            dataType: 2,
+            dataUrl: JSON.stringify({
+              "fileName": files[0].name,
+              "fileUrl": uri,
+              "fileType": "mp3",
+              "fileSize": `${(files[0].size / 1024) / 1024} MB`,
+              "fileDuration": "4:10",
+              "fileLocalPath": ""
+            })
           },
           date: getTodaysDate(),
-          message: "",
+          message: cryptLib.encryptPlainTextWithRandomIV("Audio", key),
           messageId: "",
           sameDate: false,
           sameUser: false,
@@ -218,8 +223,126 @@ const ClassBoard = () => {
 
       })
     }
+  }
 
+  function imageUpload(e) {
+    let files = e.target.files;
+    let file = files[0]
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      console.log(reader.result)
+    };
+    setLoading(true)
+    let tempProgress = 0
+    const classId = sessionStorage.getItem('current_class_id');
+    const key = classKey(classId);
+    for (let i = 0; i < files.length; i++) {
+      S3Uploader(files[i], 'Activity', (progress) => {
+      }, (uri) => {
+        tempProgress++;
+        if (tempProgress === files.length) {
+          setLoading(false);
+          setSuccess(true)
+        }
+        console.log(uri)
+        sendChat(e, {
+          classId: classId,
+          data: {
+            dataType: 7,
+            dataUrl: JSON.stringify({
+              "dataUrl": uri,
+              "imageCaption": " "
+            })
+          },
+          date: getTodaysDate(),
+          message: cryptLib.encryptPlainTextWithRandomIV("Audio", key),
+          messageId: "",
+          sameDate: false,
+          sameUser: false,
+          senderId: sessionStorage.getItem('userId'),
+          senderName: sessionStorage.getItem('userName'),
+          senderProfilePic: sessionStorage.getItem('userPhoto'),
+          time: getCurrentTime()
+        })
 
+      })
+    }
+  }
+
+  function documentUpload(e) {
+    let files = e.target.files;
+    let file = files[0]
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      console.log(reader.result)
+    };
+    setLoading(true)
+    let tempProgress = 0
+    const classId = sessionStorage.getItem('current_class_id');
+    const key = classKey(classId);
+    for (let i = 0; i < files.length; i++) {
+      S3Uploader(files[i], 'Activity', (progress) => {
+      }, (uri) => {
+        tempProgress++;
+        if (tempProgress === files.length) {
+          setLoading(false);
+          setSuccess(true)
+        }
+        console.log(uri)
+        sendChat(e, {
+          classId: classId,
+          data: {
+            dataType: 5,
+            dataUrl: JSON.stringify({
+              "fileName": files[0].name,
+              "fileUrl": uri,
+              "fileType": files[0].type,
+              "fileSize": `${(files[0].size / 1024) / 1024} MB`
+            })
+          },
+          date: getTodaysDate(),
+          message: cryptLib.encryptPlainTextWithRandomIV("Audio", key),
+          messageId: "",
+          sameDate: false,
+          sameUser: false,
+          senderId: sessionStorage.getItem('userId'),
+          senderName: sessionStorage.getItem('userName'),
+          senderProfilePic: sessionStorage.getItem('userPhoto'),
+          time: getCurrentTime()
+        })
+
+      })
+    }
+  }
+
+  const messageSorter = (chat) => {
+    if (chat.data) {
+
+      if (chat.data.dataType === 2) {
+        return (<Audio chat={chat.message}
+                       senderName={chat.senderName}
+                       data={chat.data}
+                       time={chat.time}
+                       senderId={chat.senderId}/>)
+      } else if (chat.data.dataType === 5) {
+        return (
+          <Documents chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                   senderId={chat.senderId}/>
+        )
+      } else if (chat.data.dataType === 7) {
+        return (
+          <Image chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                   senderId={chat.senderId}/>
+        )
+      }
+    } else {
+      return (
+        <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                 senderId={chat.senderId}/>
+      )
+    }
   }
 
   useEffect(() => {
@@ -228,16 +351,15 @@ const ClassBoard = () => {
 
   return (
     <div className="chatroom chat147">
-      <ul id="chats" className="chats">
+      <div id="chats" className="chats">
         {
 
           messages ?
             messages.map((chat) =>
-              <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
-                       senderId={chat.senderId}/>
+              messageSorter(chat)
             ) : <CircularProgress/>
         }
-      </ul>
+      </div>
 
       <form className="input">
         <input type="text" value={userChat} onChange={e => setUserMessage(e)}/>
@@ -276,7 +398,7 @@ const ClassBoard = () => {
               }
             }>
               <input type="file"
-
+                     onChange={e => imageUpload(e)}
                      multiple style={
                 {
                   display: 'none',
@@ -292,7 +414,9 @@ const ClassBoard = () => {
                 cursor: 'pointer'
               }
             }>
-              <input type="file" multiple style={
+              <input type="file"
+                     onChange={e => documentUpload(e)}
+                     multiple style={
                 {
                   display: 'none'
                 }
