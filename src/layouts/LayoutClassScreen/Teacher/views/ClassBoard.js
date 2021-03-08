@@ -34,6 +34,9 @@ const ClassBoard = () => {
     ref.on('value', snapshot => {
       console.log(snapshot.val());
       setChat(snapshot.val());
+      setTimeout(() => {
+        scrollToTop();
+      }, 400)
     });
   };
 
@@ -59,7 +62,10 @@ const ClassBoard = () => {
     })
     setUserChat("");
     play();
-    scrollToBottom();
+
+    setTimeout(() => {
+      scrollToTop();
+    }, 400)
   }
 
   const setUserMessage = (e) => {
@@ -83,28 +89,58 @@ const ClassBoard = () => {
     }
   }
 
-  const scrollToBottom = () => {
-    messagesEndRef.current.scroll({behavior: "smooth"})
+  function scrollToTop() {
+    const duration = 2000;
+    const list = document.getElementById("chats");
+
+    if (list !== null) {
+      const to = list.scrollHeight;
+      if (duration <= 0) return;
+      let difference = to - list.scrollTop;
+      let perTick = difference / duration * 10;
+
+      setTimeout(function () {
+        list.scrollTop = list.scrollTop + perTick;
+        if (list.scrollTop === to) return;
+        list.scrollTop = to;
+        // scrollTo(list, to, duration - 10);
+      }, 10);
+    }
+
+    /*if (list.scrollTop === list.scrollHeight) return;
+
+
+    const cosParameter = list.scrollTop / 2;
+    let scrollCount = 0, oldTimestamp = null;
+
+    function step(newTimestamp) {
+      if (oldTimestamp !== null) {
+        scrollCount += Math.PI * (newTimestamp - oldTimestamp) / 2000;
+        if (scrollCount >= Math.PI) return list.scrollTop = list.scrollHeight;
+        list.scrollTop = (cosParameter + cosParameter * Math.cos(scrollCount))+list.scrollHeight;
+      }
+      oldTimestamp = newTimestamp;
+      window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);*/
   }
 
 
   useEffect(() => {
     getUserData();
-
   }, [])
 
   return (
     <div className="chatroom chat147">
-      <h3>Class Chat</h3>
       <ul id="chats" className="chats">
         {
+
           messages ?
             messages.map((chat) =>
               <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
                        senderId={chat.senderId}/>
             ) : <CircularProgress/>
         }
-        <div ref={messagesEndRef}/>
 
       </ul>
 

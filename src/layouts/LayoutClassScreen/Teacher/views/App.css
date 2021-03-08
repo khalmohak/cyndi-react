@@ -20,37 +20,23 @@ p {
 
 .chatroom {
     width: 100%;
-    height: 600px;
+    height: 100%;
     background-color: rgba(0, 0, 0, .7);
-    border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
-}
-
-.chatroom h3 {
-    font-family: 'Pacifico', cursive;
-    background-color: rgba(2, 95, 161, 1);
-    color: #FFF;
-    margin: 0;
-    height: 40px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .chatroom .chats {
     box-sizing: border-box;
     padding: 0 20px;
-    margin: 10px 0 0;
     height: 510px;
+    overflow: hidden;
     overflow-y: scroll;
 }
 
 .chatroom .chats .chat {
-    background: rgba(255, 255, 255, 0.8);
+    background: #999999;
     position: relative;
-    padding: 5px 13px;
+    padding: 10px 10px;
     font-size: 14px;
     border-radius: 10px;
     list-style: none;
@@ -58,6 +44,7 @@ p {
     clear: both;
     margin: 10px 0;
     max-width: 200px;
+    color: white;
 }
 
 .chatroom .chats .chat img {
@@ -76,14 +63,12 @@ p {
 
 .chatroom .chats .chat a {
     text-decoration: none;
-    color: #3498DB;
     overflow:scroll;
 }
 
 .chatroom .input {
     height: 40px;
     width: 100%;
-    background: rgba(2, 95, 161, 1);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -92,35 +77,10 @@ p {
 .chatroom .input input[type="text"] {
     /*background: rgba(243, 237, 237, 0.5);*/
     outline: none;
-    border: 2px solid #025fa1;
-    padding: 0 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    margin-left: 10px;
-    height: 30px;
+    border-radius: 10px;
+    height: 100%;
     width: 100%;
-    box-sizing: border-box;
     font-size: 14px;
-}
-
-.chatroom .input input[type="submit"] {
-    background: transparent;
-    border: 1px solid #025fa1;
-    height: 30px;
-    width: 70px;
-    font-size: 14px;
-    box-sizing: border-box;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-}
-
-.chatroom .input input[type="submit"]:hover {
-    background: #025fa1;
-    color: #FFF;
-
 }
 
 .card_bg .MuiButton-root {
@@ -132,7 +92,7 @@ p {
 }
 
 .chatroom .chats {
-    background-color: #b5d3e7;
+    background-color: #eeeeee;
 }
 
 
