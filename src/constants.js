@@ -23,7 +23,7 @@ function usersKey(id1,id2){
 }
 
 function classKey(id){
-    return `${process.env.REACT_APP_KEY_PART}${id}`
+    return `EncryptMessages${id}`//${process.env.REACT_APP_KEY_PART}
 }
 
 function getTodaysDate(){

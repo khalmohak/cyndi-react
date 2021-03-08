@@ -1,20 +1,19 @@
 import React from 'react';
-import {
-  Backdrop,
-  Box,
-  Button, Fade,
-  FormControl, Grid, InputLabel,
-  MenuItem, Modal, Paper, Select,
-  TextField
-} from '@material-ui/core';
+import {Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import {SwatchesPicker} from "react-color";
 
 let iMatrix = 1;
 let jMatrix = 1;
 
 class WeekDay extends React.Component {
+
+  colors = ["#7ca79d", "#ddf2f5", "#9d85c1", "#03a5c6", "#98d4bb", "#a5b591", "#eebab2", "#f3a447", "#9ac8ea", "#e6bc28"];
+  subjectColors = {
+    "DSA": this.colors[0],
+    "AEC": this.colors[1],
+    "Digital Electronics": this.colors[2]
+  }
 
   constructor(props) {
     super(props);
@@ -23,14 +22,6 @@ class WeekDay extends React.Component {
       modalOpen: false,
       colorSubject: "",
     };
-  }
-
-  colors = ["#a40100", "#b535dd", "#065a53", "#48acb1", "#4d3e0e", "#848e0c", "#4e3479", "#7d68bd", "#a33914", "#644379"];
-
-  subjectColors = {
-    "DSA": this.colors[this.randomNumberGenerator()],
-    "AEC": this.colors[this.randomNumberGenerator()],
-    "Digital Electronics": this.colors[this.randomNumberGenerator()]
   }
 
   randomNumberGenerator() {
@@ -143,10 +134,15 @@ class WeekDay extends React.Component {
     console.log(this.subjectColors);
   }
 
+  getInitialState() {
+    return {
+      isMouseInside: false
+    };
+  }
 
   render() {
 
-    function handleModalOpen() {
+    /*function handleModalOpen() {
       this.setState({modalOpen: true})
     }
 
@@ -156,15 +152,16 @@ class WeekDay extends React.Component {
 
     function colorSubjectChange(color) {
       this.setState({colorSubject: color.hex});
-    }
+    }*/
+
 
     return (
       <div>
-        <Button
+        {/*<Button
           onClick={handleModalOpen.bind(this)}
-        >Pick Color</Button>
+        >Pick Color</Button>*/}
 
-        <Modal
+        {/*<Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
           open={this.state.modalOpen}
@@ -189,38 +186,50 @@ class WeekDay extends React.Component {
               />
             </div>
           </Fade>
-        </Modal>
+        </Modal>*/}
 
         <Paper>
           <Box
             display="flex"
             flexDirection="row"
           ><Box
-            width={'100px'}
+            width={'120px'}
+            className="block-example border border-dark"
             style={{
               display: "flex",
+              padding: 10,
+              flexDirection: 'column',
               backgroundColor: 'white',
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            <b>{this.props.day}</b>
-
+            <Box
+              height={'100%'}
+              style={{
+                display: "flex",
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                marginBottom: 10
+              }}
+            >
+              <b>{this.props.day}</b>
+            </Box>
+            <Button style={{backgroundColor: '#ff5354', marginBottom: 10, width: '100px'}}
+                    onClick={this.addRow.bind(this)} startIcon={<AddIcon/>}>Row</Button>
+            <Button style={{backgroundColor: '#ff5354', width: '100px'}}
+                    onClick={this.removeRow.bind(this)} startIcon={<RemoveIcon/>}>Row</Button>
           </Box>
-
             <Grid
-              container spacing={1}
-              style={{padding: '20px'}}
+              container
             >
               {this.state.data.map(data => {
                 return (
                   <>
-                    <Box p={1.01}/>
                     <Grid
                       container
                       item xs={12}
-                      spacing={2}
-
                     >
                       <React.Fragment>
                         {
@@ -231,7 +240,10 @@ class WeekDay extends React.Component {
                                 <>
                                   <Grid item xs={2}
                                         style={{
-                                          border: "1px solid gray"
+                                          border: "1px solid gray",
+                                          display: 'flex',
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center'
                                         }}
                                   >
                                     <TextField
@@ -240,11 +252,10 @@ class WeekDay extends React.Component {
                                       placeholder="Period Timings"
                                       variant="filled"
                                       //type="time"
-                                      style={{color: "blue"}}
+                                      style={{color: "blue", padding: 10}}
                                     />
 
                                   </Grid>
-                                  <Box mt={2}/>
                                 </>
                               )
                             }
@@ -254,6 +265,7 @@ class WeekDay extends React.Component {
 
                                   <Grid item xs={2}
                                         style={{
+                                          padding: 10,
                                           border: "1px solid gray",
                                           justifyContent: 'center',
                                           alignItems: 'center',
@@ -297,11 +309,12 @@ class WeekDay extends React.Component {
                                       }}
                                 >
                                   <Grid
-
+                                    style={{
+                                      padding: 10
+                                    }}
                                   >
                                     <FormControl
                                       style={{
-                                        minWidth: 120,
                                         width: '100%',
                                         //backgroundColor: `${this.state.colorSubject}`
                                         backgroundColor: `${this.subjectColors[res.value.subject]}`
@@ -328,10 +341,10 @@ class WeekDay extends React.Component {
                                       </Select>
                                     </FormControl>
                                   </Grid>
-
-                                  <Box mt={1}/>
                                   <Grid
-
+                                    style={{
+                                      padding: 10
+                                    }}
                                   >
                                     <FormControl
                                       style={{
@@ -370,19 +383,25 @@ class WeekDay extends React.Component {
                           })
                         }
                       </React.Fragment>
+                      <Box width={'120px'} className="block-example border border-dark"
+                           style={{flexDirection: 'column', padding: 10, display: 'flex'}}>
+                        <Button style={{backgroundColor: '#ff5354', marginBottom: 10}}
+                                onClick={this.addColumn.bind(this)} startIcon={<AddIcon/>}>Column</Button>
+                        <Button style={{backgroundColor: '#ff5354'}}
+                                onClick={this.removeColumn.bind(this)} startIcon={<RemoveIcon/>}>Column</Button>
+                      </Box>
                     </Grid>
                   </>
                 )
               })
               }
             </Grid>
+
+            {/*<Button style={{backgroundColor: '#ff5354', marginLeft: 8}} onClick={this.printState.bind(this)}>Testing
+                button</Button>*/}
+            <Button style={{backgroundColor: '#ff5354'}} onClick={this.returnState()}
+                    hidden>Submit</Button>
           </Box>
-          <Button onClick={this.addRow.bind(this)}><AddIcon/> Row</Button>
-          <Button onClick={this.removeRow.bind(this)}><RemoveIcon/> Row</Button>
-          <Button onClick={this.addColumn.bind(this)}><AddIcon/> Column</Button>
-          <Button onClick={this.removeColumn.bind(this)}><RemoveIcon/> Column</Button>
-          <Button onClick={this.printState.bind(this)}>Testing button</Button>
-          <Button onClick={this.returnState()} hidden>Submit</Button>
         </Paper>
       </div>
     )
