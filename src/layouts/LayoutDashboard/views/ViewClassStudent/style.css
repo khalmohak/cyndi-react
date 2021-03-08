@@ -469,8 +469,7 @@
 
 
 .chat147 .chats .chat {
-    max-width: 95% !important;
-    flex-wrap: wrap !important;
+    max-width: 100% !important;
 }
 
 .button_c {
