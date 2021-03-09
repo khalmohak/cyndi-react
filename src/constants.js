@@ -22,6 +22,15 @@ function usersKey(id1,id2){
   }
 }
 
+function usersChatKey(id1,id2){
+  if(id1>id2){
+    return `${id2}_${id1}`
+  }
+  else{
+    return `${id1}_${id2}`
+  }
+}
+
 function classKey(id){
     return `EncryptMessages${id}`//${process.env.REACT_APP_KEY_PART}
 }
@@ -37,5 +46,5 @@ function getCurrentTime(){
   return(moment().format('LT'));
 }
 
-export {apiEndPoint, s3Bucket, s3Region, s3URL, s3config,usersKey,classKey,getTodaysDate,getCurrentTime};
+export {apiEndPoint, s3Bucket, s3Region, s3URL, usersChatKey,s3config,usersKey,classKey,getTodaysDate,getCurrentTime};
 

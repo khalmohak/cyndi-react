@@ -28,6 +28,7 @@ import AddSyllabus from "./layouts/LayoutDetailedResource/views/AddSyllabus";
 import AddChapterPlan from "./layouts/LayoutDetailedResource/views/AddChapterPlan";
 import Profile from './layouts/LayoutEditProfile/views'
 import TimeTable from "./layouts/LayoutTimeTable/views/TimeTableEditor";
+import PersonalChat2 from "./layouts/LayoutPersonalChat/views/index2";
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -123,6 +124,13 @@ let route = (/*isAuthenticated*/) => {
             element: <DashboardLayout/>,
             children:[
               {path: '/', element: <TimeTable/>}
+            ]
+          },
+          {
+            path: 'personalchat',
+            element: <DashboardLayout/>,
+            children:[
+              {path: '/', element: <PersonalChat2/>}
             ]
           },
           {

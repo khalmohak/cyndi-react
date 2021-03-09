@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Pacifico');
+
+body {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    display: inline-block;
+}
+
+.App {
+    background-color: #025fa1;
+    height: 100vh;
+    width: 100%;
+    /*display: flex;*/
+    align-items: center;
+    justify-content: center;
+}
+
+.chatroom {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    overflow: hidden;
+}
+
+.chatroom .chats {
+    box-sizing: border-box;
+    padding: 0 20px;
+    height: 510px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.chatroom .chats .chat {
+    background: #999999;
+    position: relative;
+    padding: 10px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    list-style: none;
+    float: left;
+    clear: both;
+    margin: 10px 0;
+    max-width: 200px;
+    color: white;
+}
+
+/*.chatroom .chats .chat img {*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    border-radius: 50%;*/
+/*    position: absolute;*/
+/*    top: -10px;*/
+/*    left: 0px;*/
+/*}*/
+
+.chatroom .chats .chat.right {
+    float: right;
+    clear: both;
+}
+
+.chatroom .chats .chat a {
+    text-decoration: none;
+    overflow:scroll;
+}
+
+.chatroom .input {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.chatroom .input input[type="text"] {
+    /*background: rgba(243, 237, 237, 0.5);*/
+    outline: none;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    font-size: 14px;
+}
+
+.card_bg .MuiButton-root {
+    text-transform: Uppercase;
+}
+
+.MuiTypography-body1 {
+    width: 100% !important;
+}
+
+.chatroom .chats {
+    background-color: #eeeeee;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: #fff
+}
+
+.file-preview {
+    margin: 0 10px;
+}
+
+.MuiButton-label {
+    width: 100%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    color: white;
+}
