@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {AppBar, Button, CircularProgress, Fade, Modal, Tab, Tabs, Toolbar} from '@material-ui/core';
+import {AppBar, Avatar, Button, CircularProgress, Fade, Modal, Tab, Tabs, Toolbar} from '@material-ui/core';
 import Firebase from 'firebase';
 import './Design.css';
 import {makeStyles} from "@material-ui/styles";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import cryptLib from "@skavinvarnan/cryptlib";
 import {classKey, getCurrentTime, getTodaysDate, s3URL, usersChatKey, usersKey} from "../../../constants";
-
+import {getRoleColorPrimary} from "../../../theme";
+import sendBtnImage from "./send-btn.png";
+import emoji from "./emoji.png";
+import mic from "./mic.png";
+import Picker from 'emoji-picker-react';
+import ReactAudioPlayer from "react-audio-player";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,41 +48,46 @@ if (sessionStorage.getItem('firebaseToken')) {
 
 const PersonalChat2 = () => {
     const classes = useStyles();
-    let [chat, setChat] = useState();
-    const [key, setKey] = React.useState("");
-    const [date, setDate] = React.useState("");
-    const [lastMessage, setLastMessage] = React.useState("");
-    const [profilePic, setProfilePic] = React.useState("");
-    const [otherUserId, setOtherUserid] = React.useState("");
-    const [name, setName] = React.useState("");
-    const [time, setTime] = React.useState("");
-    const [enteredMessage, setEnteredMessage] = React.useState("");
+    const [chosenEmoji, setChosenEmoji] = useState(null);
 
+    const onEmojiClick = (event, emojiObject) => {
+      setChosenEmoji(emojiObject);
+    };
+
+    //const [enteredMessage, setEnteredMessage] = useState("");
+    let enteredMessage = "";
+    let currentOtherId;
     const userId = sessionStorage.getItem('userId');
     const usersRef = Firebase.database().ref("/Users").child(userId).child("/Chats");
-    const chatsRef = Firebase.database().ref("/Chats/" + key);
+
+    //const chatsRef = Firebase.database().ref("/Chats/").child()
 
     function back() {
       //navigate('/app/teacher/')
     }
 
     function onInputChange(e) {
-      setEnteredMessage(e.target.value);
+      // setEnteredMessage(e.target.value);
+      enteredMessage = e.target.value;
       if (e.target.value.trim() === "")
-        document.querySelector(".mic").src = "./mic.png";
+        document.querySelector(".mic").src = mic;
       else
-        document.querySelector(".mic").src = "./send-btn.png";
+        document.querySelector(".mic").src = sendBtnImage;
     }
 
-    function sendMessage() {
+    function sendMessage(id1, id2) {
+
       if (enteredMessage.trim() !== "") {
         document.querySelector(".text-input").focus();
-        const reference = chatsRef.push()
+        console.log(usersChatKey(id1, id2))
+        const reference = Firebase.database().ref("/Chats/").child(usersChatKey(id1, id2)).push()
         const uniqueKey = reference.key
+        console.log(reference.key)
         reference.set({
-          data: {},
+          data: {dataType: 1},
           date: getTodaysDate(),
-          message: cryptLib.encryptPlainTextWithRandomIV(enteredMessage, key),
+          receiverId: currentOtherId,
+          message: cryptLib.encryptPlainTextWithRandomIV(enteredMessage, usersKey(id1, id2)),
           messageId: uniqueKey,
           sameDate: false,
           sameUser: false,
@@ -85,10 +95,11 @@ const PersonalChat2 = () => {
           senderId: sessionStorage.getItem('userId'),
           sent: true,
           time: getCurrentTime()
-        })
+        }).then(success => console.log(success))
           .catch(err =>
             console.log(err));
-        setEnteredMessage("");
+        //setEnteredMessage("");
+        enteredMessage = "";
       }
     }
 
@@ -115,11 +126,40 @@ const PersonalChat2 = () => {
     }
 
     useEffect(() => {
+        let peopleArr = [];
+        let i = 0;
+        function generate() {
+
+          var hexValues = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e"];
+
+          function populate(a) {
+            for ( var i = 0; i < 6; i++ ) {
+              var x = Math.round( Math.random() * 14 );
+              var y = hexValues[x];
+              a += y;
+            }
+            return a;
+          }
+
+          var newColor1 = populate('#');
+          var newColor2 = populate('#');
+          var angle = Math.round( Math.random() * 360 );
+
+          var gradient = "linear-gradient(" + angle + "deg, " + newColor1 + ", " + newColor2 + ")";
+
+          return gradient;
+          // document.getElementById("container").style.background = gradient;
+          // document.getElementById("output").innerHTML = gradient;
+
+        }
+
+        document.querySelector(".my-profile-picture").src = s3URL(sessionStorage.getItem("userPhoto"));
+
         usersRef
           .on('child_added', function (snap) {
 
               let data = snap.val();
-             const userKey = usersKey(parseInt(userId), parseInt(data.otherUserId));
+              const userKey = usersKey(parseInt(userId), parseInt(data.otherUserId));
 
               const main_element = document.querySelector(".chats");
               const chat = document.createElement("div");
@@ -129,6 +169,8 @@ const PersonalChat2 = () => {
               const last_text = document.createElement("div");
 
               chat.className = "chat";
+              chat.id = "mohak" + i;
+              i++;
               img.className = "profile-picture";
               chat_info.className = "chat-info";
               title.className = "title";
@@ -136,14 +178,22 @@ const PersonalChat2 = () => {
 
               img.src = s3URL(data.profilePic);
               title.textContent = data.name;
-              last_text.textContent = data.lastMessage;
+              last_text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.lastMessage, userKey)
               last_text.classList.add(snap.key);
 
-               chat.addEventListener('click', function () {
-                 console.log(data)
-                 openChat(data.profilePic, data.name, data.otherUserId, userId);
-                 document.querySelector(".chat-box").style.transform = "translateX(0)";
-               })
+              chat.addEventListener('click', function () {
+                document.querySelector(".chat-body-bg").style.background= generate()
+                let currentSelectedUser = peopleArr.indexOf(data.otherUserId);
+                document.getElementById(`mohak${currentSelectedUser}`).style.backgroundColor = "rgba(00,00,00,0.3)";
+                for (let i = 0; i < peopleArr.length; i++) {
+                  if (i != currentSelectedUser) {
+                    document.getElementById(`mohak${i}`).style.backgroundColor = "";
+                  }
+
+                }
+                openChat(data.profilePic, data.name, data.otherUserId, userId);
+                document.querySelector(".chat-box").style.transform = "translateX(0)";
+              })
 
               chat.appendChild(img);
               chat.appendChild(chat_info);
@@ -152,21 +202,18 @@ const PersonalChat2 = () => {
               main_element.appendChild(chat);
 
 
-
               function openChat(their_profile_picture, their_name, other_id, my_id) {
+                currentOtherId = other_id;
                 let chatRef = Firebase.database().ref("/Chats").child(usersChatKey(parseInt(my_id), parseInt(other_id)));
                 document.querySelector(".chat-body").style.scrollBehavior = "auto";
                 //document.querySelector(".login-page").style.transform = "translateY(-100%)";
                 //chat_updater.off("child_added", callback);
                 document.querySelector(".chat-body").innerHTML = "";
 
-                document.querySelector(".chat-header .profile-picture").src = their_profile_picture;
+                document.querySelector(".chat-header .profile-picture").src = s3URL(their_profile_picture);
                 document.querySelector(".chat-header .title").textContent = their_name;
 
-
-
                 chatRef.on("child_added", function (snapshot) {
-                  //console.log(snapshot.val())
 
                   const chat_body = document.querySelector(".chat-body");
                   const message_holder = document.createElement("div");
@@ -182,39 +229,69 @@ const PersonalChat2 = () => {
                   const data = snapshot.val();
 
                   if (data.senderId === userId) {
-                    triangle.classList.add("my");
-                    triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" fill="#DAF9C7"/></svg>';
-                    text.classList.add("my-msg");
+                    if(data.data.dataType === 1){
+                      triangle.classList.add("my");
+                      triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
+                      triangle.style.fill = getRoleColorPrimary()
+                      text.classList.add("my-msg");
+                      text.style.setProperty("background-color", getRoleColorPrimary())
+                      text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                      time_stamp.textContent = data.date + " " + data.time;
+                    }
+                    else if(data.data.dataType === 2){
+                      triangle.classList.add("my");
+                      triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
+                      triangle.style.fill = getRoleColorPrimary()
+                      text.classList.add("my-msg");
+                      text.style.setProperty("background-color", getRoleColorPrimary())
+                      //text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                      time_stamp.textContent = data.date + " " + data.time;
+                      // text.appendChild(
+                      // <ReactAudioPlayer
+                      //
+                      //   controls
+                      // />)
+                    }
+
+
                   } else {
                     triangle.classList.add("their");
-                    triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 71 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5977 27.0302C11.1894 25.0383 12.6209 22.2878 15.0603 22.2983L66.7406 22.522C68.9863 22.5317 70.4255 24.9148 69.3888 26.9069L47.544 68.8822C46.5072 70.8743 43.7297 71.0628 42.4332 69.2291L12.5977 27.0302Z" fill="white"/></svg>';
+                    triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 71 72" xmlns="http://www.w3.org/2000/svg"><path d="M12.5977 27.0302C11.1894 25.0383 12.6209 22.2878 15.0603 22.2983L66.7406 22.522C68.9863 22.5317 70.4255 24.9148 69.3888 26.9069L47.544 68.8822C46.5072 70.8743 43.7297 71.0628 42.4332 69.2291L12.5977 27.0302Z"/></svg>';
+                    triangle.style.fill = "#e7e7e7";
                     text.classList.add("their-msg");
+                    text.style.setProperty("background-color", "#e7e7e7")
+                    text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                    time_stamp.textContent = data.date + " " + data.time;
                   }//Show the chat heads, ie the chat-sides text messages
 
-                  text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
-                  time_stamp.textContent = data.date + " " + data.time;
 
+
+                  console.log("bhjea")
                   chat_body.appendChild(message_holder);
                   message_holder.appendChild(text);
                   text.appendChild(time_stamp);
                   text.appendChild(triangle);
 
                   chat_body.scrollTop = chat_body.scrollHeight;
+
                   setTimeout(() => {
                     chat_body.style.scrollBehavior = "smooth";
                   }, 300)
                 })
               }
 
-              openChat(profilePic, name, data.otherUserId, userId);
+              peopleArr.push(data.otherUserId);
+              openChat(data.profilePic, data.name, data.otherUserId, userId);
 
             }
           );
 
-
         document.querySelector(".text-input").addEventListener('keypress', function (e) {
+
           if (e.key === "Enter") {
-            sendMessage();
+            if (currentOtherId) {
+              sendMessage(currentOtherId, userId);
+            }
           }
         });
 
@@ -227,13 +304,14 @@ const PersonalChat2 = () => {
         });
 
         let theme = true;
-        document.querySelector(".theme-toggle").addEventListener('click', function () {
+
+        function setTheme() {
           if (theme) {
-            document.querySelector(".menu").classList.toggle("closed")
+            //document.querySelector(".menu").classList.toggle("closed")
             document.querySelector(".theme-toggle").textContent = "Light Theme";
             document.documentElement.style.setProperty(
               "--background-color",
-              "#E5DDD5"
+              "white"
             );
             document.documentElement.style.setProperty(
               "--header-footer-color",
@@ -309,8 +387,11 @@ const PersonalChat2 = () => {
             );
             theme = true;
           }
-        })
+        }
+
+        setTheme()
         resize();
+
 
         window.addEventListener('resize', function () {
           resize();
@@ -323,13 +404,14 @@ const PersonalChat2 = () => {
     return (
       <>
 
-        <div style={{marginTop: "200px"}}>
+        <div>
           <div className="container">
             <div className="sidebar">
-              <div className="header">
+              <div className="header" style={{backgroundColor: getRoleColorPrimary()}}>
                 <div className="whatsapp">WhatsApp</div>
-                <img
-                  src="https://media-exp1.licdn.com/dms/image/C5603AQFySN0ieZxyPA/profile-displayphoto-shrink_100_100/0?e=1604534400&v=beta&t=7HZaHUTsz2q_9gdK5JMeEeC3J8cQNd9jj9_bLM3gxP4"
+                <Avatar
+                  style={{position: 'absolute'}}
+                  src={s3URL(sessionStorage.getItem("userPhoto"))}
                   className="my-profile-picture"/>
                 <div className="header-stuff">
                   <img src="./message-btn.png" alt="" className="create-message"/>
@@ -360,10 +442,14 @@ const PersonalChat2 = () => {
               <div className="chat-body-bg"/>
               <div className="chat-body"/>
               <div className="chat-footer">
-                <img src="./emoji.png" alt="" className="emoji"/>
-                <input type="text" value={enteredMessage} onChange={e => onInputChange(e)} className="text-input"
+                <img src={emoji} alt="" className="emoji"/>
+
+                <input type="text"
+                  //value={enteredMessage}
+                       onChange={e => onInputChange(e)}
+                       className="text-input"
                        placeholder="Type a message"/>
-                <img src="./mic.png" alt="" onClick={sendMessage} className="mic"/>
+                <img src={mic} alt="" onClick={sendMessage} className="mic"/>
               </div>
             </div>
           </div>

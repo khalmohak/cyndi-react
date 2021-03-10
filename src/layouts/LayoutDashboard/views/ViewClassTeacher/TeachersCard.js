@@ -323,7 +323,7 @@ const TeachersCard = ({className, card, ...rest}) => {
               </Table>
             </TableContainer>
           </Box>
-          {/*Description End*/}
+          {/Description End/}
 
 
         </Box>
