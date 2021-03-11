@@ -12,6 +12,10 @@ import emoji from "./emoji.png";
 import mic from "./mic.png";
 import Picker from 'emoji-picker-react';
 import ReactAudioPlayer from "react-audio-player";
+import Audio from "../../LayoutClassScreen/Teacher/views/Audio";
+import Documents from "../../LayoutClassScreen/Teacher/views/Document";
+import Image from "../../LayoutClassScreen/Teacher/views/Image";
+import Message from "../../LayoutClassScreen/Teacher/views/Message";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -54,11 +58,15 @@ const PersonalChat2 = () => {
       setChosenEmoji(emojiObject);
     };
 
-    //const [enteredMessage, setEnteredMessage] = useState("");
+
+    //const [currentOtherId, setCurrentOtherId] = useState(0);
     let enteredMessage = "";
-    let currentOtherId;
+    //let currentOtherId;
     const userId = sessionStorage.getItem('userId');
     const usersRef = Firebase.database().ref("/Users").child(userId).child("/Chats");
+    const [currentMessages, setCurrentMessages] = useState([])
+
+    let [currentUserId, setCurrentUserId] = useState();
 
     //const chatsRef = Firebase.database().ref("/Chats/").child()
 
@@ -76,7 +84,6 @@ const PersonalChat2 = () => {
     }
 
     function sendMessage(id1, id2) {
-
       if (enteredMessage.trim() !== "") {
         document.querySelector(".text-input").focus();
         console.log(usersChatKey(id1, id2))
@@ -86,7 +93,7 @@ const PersonalChat2 = () => {
         reference.set({
           data: {dataType: 1},
           date: getTodaysDate(),
-          receiverId: currentOtherId,
+          receiverId: setCurrentUserId,
           message: cryptLib.encryptPlainTextWithRandomIV(enteredMessage, usersKey(id1, id2)),
           messageId: uniqueKey,
           sameDate: false,
@@ -125,16 +132,107 @@ const PersonalChat2 = () => {
         document.querySelector(".menu-btn").src = "./menu-btn.png";
     }
 
+    //console.log(currentUserId)
+    //let chatRef2 = Firebase.database().ref("/Chats").child(usersChatKey(parseInt(userId), parseInt(currentUserId)));
+    //console.log(chatRef2)
+    function setTheme(theme) {
+      if (theme) {
+        //document.querySelector(".menu").classList.toggle("closed")
+        document.querySelector(".theme-toggle").textContent = "Light Theme";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          "white"
+        );
+        document.documentElement.style.setProperty(
+          "--header-footer-color",
+          "#EEEEEE"
+        );
+        document.documentElement.style.setProperty(
+          "--input-color",
+          "#FFFFFF"
+        );
+        document.documentElement.style.setProperty(
+          "--input-inside-color",
+          "#FFFFFF"
+        );
+        document.documentElement.style.setProperty(
+          "--search-box-color",
+          "#FCFCFC"
+        );
+        document.documentElement.style.setProperty(
+          "--text-color",
+          "#000000"
+        );
+        document.documentElement.style.setProperty(
+          "--their-text-chats-color",
+          "#FFFFFF"
+        );
+        document.documentElement.style.setProperty(
+          "--my-text-chats-color",
+          "#DAF9C7"
+        );
+        document.documentElement.style.setProperty(
+          "--chat-bg-opacity",
+          "0.4"
+        );
+        theme = false;
+      } else {
+        document.querySelector(".menu").classList.toggle("closed")
+        document.querySelector(".theme-toggle").textContent = "Dark Theme";
+        document.documentElement.style.setProperty(
+          "--background-color",
+          "#0D1418"
+        );
+        document.documentElement.style.setProperty(
+          "--header-footer-color",
+          "#2A2F32"
+        );
+        document.documentElement.style.setProperty(
+          "--input-color",
+          "#131C21"
+        );
+        document.documentElement.style.setProperty(
+          "--input-inside-color",
+          "#323739"
+        );
+        document.documentElement.style.setProperty(
+          "--search-box-color",
+          "#1E2428"
+        );
+        document.documentElement.style.setProperty(
+          "--text-color",
+          "#FFF"
+        );
+        document.documentElement.style.setProperty(
+          "--their-text-chats-color",
+          "#1E2428"
+        );
+        document.documentElement.style.setProperty(
+          "--my-text-chats-color",
+          "#054740"
+        );
+        document.documentElement.style.setProperty(
+          "--chat-bg-opacity",
+          "0.1"
+        );
+        theme = true;
+      }
+    }
+  let [currentChat, setCurrentChat] = useState();
+
     useEffect(() => {
+        getUserData(currentUserId)
+        console.log(currentChat)
         let peopleArr = [];
         let i = 0;
+
         function generate() {
 
-          var hexValues = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e"];
+          var hexValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e"];
 
           function populate(a) {
-            for ( var i = 0; i < 6; i++ ) {
-              var x = Math.round( Math.random() * 14 );
+            for (var i = 0; i < 6; i++) {
+              var x = Math.round(Math.random() * 14);
               var y = hexValues[x];
               a += y;
             }
@@ -143,7 +241,7 @@ const PersonalChat2 = () => {
 
           var newColor1 = populate('#');
           var newColor2 = populate('#');
-          var angle = Math.round( Math.random() * 360 );
+          var angle = Math.round(Math.random() * 360);
 
           var gradient = "linear-gradient(" + angle + "deg, " + newColor1 + ", " + newColor2 + ")";
 
@@ -182,7 +280,7 @@ const PersonalChat2 = () => {
               last_text.classList.add(snap.key);
 
               chat.addEventListener('click', function () {
-                document.querySelector(".chat-body-bg").style.background= generate()
+                document.querySelector(".chat-body-bg").style.background = generate()
                 let currentSelectedUser = peopleArr.indexOf(data.otherUserId);
                 document.getElementById(`mohak${currentSelectedUser}`).style.backgroundColor = "rgba(00,00,00,0.3)";
                 for (let i = 0; i < peopleArr.length; i++) {
@@ -201,83 +299,81 @@ const PersonalChat2 = () => {
               chat_info.appendChild(last_text);
               main_element.appendChild(chat);
 
-
               function openChat(their_profile_picture, their_name, other_id, my_id) {
-                currentOtherId = other_id;
+                // currentOtherId = other_id;
+                // console.log(currentOtherId)
+                setCurrentUserId(other_id);
+               // getUserData(other_id);
                 let chatRef = Firebase.database().ref("/Chats").child(usersChatKey(parseInt(my_id), parseInt(other_id)));
                 document.querySelector(".chat-body").style.scrollBehavior = "auto";
                 //document.querySelector(".login-page").style.transform = "translateY(-100%)";
                 //chat_updater.off("child_added", callback);
-                document.querySelector(".chat-body").innerHTML = "";
+                //document.querySelector(".chat-body").innerHTML = "";
 
                 document.querySelector(".chat-header .profile-picture").src = s3URL(their_profile_picture);
                 document.querySelector(".chat-header .title").textContent = their_name;
 
-                chatRef.on("child_added", function (snapshot) {
-
-                  const chat_body = document.querySelector(".chat-body");
-                  const message_holder = document.createElement("div");
-                  const text = document.createElement("div");
-                  const time_stamp = document.createElement("div");
-                  const triangle = document.createElement("svg");
-
-                  message_holder.className = "message-holder";
-                  text.className = "text";
-                  time_stamp.className = "time-stamp";
-                  triangle.className = "triangle";
-
-                  const data = snapshot.val();
-
-                  if (data.senderId === userId) {
-                    if(data.data.dataType === 1){
-                      triangle.classList.add("my");
-                      triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
-                      triangle.style.fill = getRoleColorPrimary()
-                      text.classList.add("my-msg");
-                      text.style.setProperty("background-color", getRoleColorPrimary())
-                      text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
-                      time_stamp.textContent = data.date + " " + data.time;
-                    }
-                    else if(data.data.dataType === 2){
-                      triangle.classList.add("my");
-                      triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
-                      triangle.style.fill = getRoleColorPrimary()
-                      text.classList.add("my-msg");
-                      text.style.setProperty("background-color", getRoleColorPrimary())
-                      //text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
-                      time_stamp.textContent = data.date + " " + data.time;
-                      // text.appendChild(
-                      // <ReactAudioPlayer
-                      //
-                      //   controls
-                      // />)
-                    }
-
-
-                  } else {
-                    triangle.classList.add("their");
-                    triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 71 72" xmlns="http://www.w3.org/2000/svg"><path d="M12.5977 27.0302C11.1894 25.0383 12.6209 22.2878 15.0603 22.2983L66.7406 22.522C68.9863 22.5317 70.4255 24.9148 69.3888 26.9069L47.544 68.8822C46.5072 70.8743 43.7297 71.0628 42.4332 69.2291L12.5977 27.0302Z"/></svg>';
-                    triangle.style.fill = "#e7e7e7";
-                    text.classList.add("their-msg");
-                    text.style.setProperty("background-color", "#e7e7e7")
-                    text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
-                    time_stamp.textContent = data.date + " " + data.time;
-                  }//Show the chat heads, ie the chat-sides text messages
-
-
-
-                  console.log("bhjea")
-                  chat_body.appendChild(message_holder);
-                  message_holder.appendChild(text);
-                  text.appendChild(time_stamp);
-                  text.appendChild(triangle);
-
-                  chat_body.scrollTop = chat_body.scrollHeight;
-
-                  setTimeout(() => {
-                    chat_body.style.scrollBehavior = "smooth";
-                  }, 300)
-                })
+                // chatRef.on("child_added", function (snapshot) {
+                //
+                //   const chat_body = document.querySelector(".chat-body");
+                //   const message_holder = document.createElement("div");
+                //   const text = document.createElement("div");
+                //   const time_stamp = document.createElement("div");
+                //   const triangle = document.createElement("svg");
+                //
+                //   message_holder.className = "message-holder";
+                //   text.className = "text";
+                //   time_stamp.className = "time-stamp";
+                //   triangle.className = "triangle";
+                //
+                //   const data = snapshot.val();
+                //
+                //   if (data.senderId === userId) {
+                //     if (data.data.dataType === 1) {
+                //       triangle.classList.add("my");
+                //       triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
+                //       triangle.style.fill = getRoleColorPrimary()
+                //       text.classList.add("my-msg");
+                //       text.style.setProperty("background-color", getRoleColorPrimary())
+                //       text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                //       time_stamp.textContent = data.date + " " + data.time;
+                //     } else if (data.data.dataType === 2) {
+                //       triangle.classList.add("my");
+                //       triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path id="triangleColor" d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z" /></svg>';
+                //       triangle.style.fill = getRoleColorPrimary()
+                //       text.classList.add("my-msg");
+                //       text.style.setProperty("background-color", getRoleColorPrimary())
+                //       //text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                //       time_stamp.textContent = data.date + " " + data.time;
+                //       // text.appendChild(
+                //       // <ReactAudioPlayer
+                //       //   controls
+                //       // />)
+                //     }
+                //
+                //
+                //   } else {
+                //     triangle.classList.add("their");
+                //     triangle.innerHTML = '<svg width="20" height="20" viewBox="0 0 71 72" xmlns="http://www.w3.org/2000/svg"><path d="M12.5977 27.0302C11.1894 25.0383 12.6209 22.2878 15.0603 22.2983L66.7406 22.522C68.9863 22.5317 70.4255 24.9148 69.3888 26.9069L47.544 68.8822C46.5072 70.8743 43.7297 71.0628 42.4332 69.2291L12.5977 27.0302Z"/></svg>';
+                //     triangle.style.fill = "#e7e7e7";
+                //     text.classList.add("their-msg");
+                //     text.style.setProperty("background-color", "#e7e7e7")
+                //     text.textContent = cryptLib.decryptCipherTextWithRandomIV(data.message, usersKey(parseInt(my_id), parseInt(other_id)));
+                //     time_stamp.textContent = data.date + " " + data.time;
+                //   }//Show the chat heads, ie the chat-sides text messages
+                //
+                //   chat_body.appendChild(message_holder);
+                //   message_holder.appendChild(text);
+                //   text.appendChild(time_stamp);
+                //   text.appendChild(triangle);
+                //
+                //
+                //   chat_body.scrollTop = chat_body.scrollHeight;
+                //
+                //   setTimeout(() => {
+                //     chat_body.style.scrollBehavior = "smooth";
+                //   }, 300)
+                // })
               }
 
               peopleArr.push(data.otherUserId);
@@ -286,12 +382,17 @@ const PersonalChat2 = () => {
             }
           );
 
-        document.querySelector(".text-input").addEventListener('keypress', function (e) {
+        const chat_body = document.querySelector(".chat-body");
+        chat_body.scrollTop = chat_body.scrollHeight;
 
+        setTimeout(() => {
+          chat_body.style.scrollBehavior = "smooth";
+        }, 300)
+
+        document.querySelector(".text-input").addEventListener('keypress', function (e) {
+          console.log(currentUserId)
           if (e.key === "Enter") {
-            if (currentOtherId) {
-              sendMessage(currentOtherId, userId);
-            }
+            sendMessage(currentUserId, userId);
           }
         });
 
@@ -303,107 +404,82 @@ const PersonalChat2 = () => {
           document.querySelector(".menu").classList.toggle("closed")
         });
 
-        let theme = true;
 
-        function setTheme() {
-          if (theme) {
-            //document.querySelector(".menu").classList.toggle("closed")
-            document.querySelector(".theme-toggle").textContent = "Light Theme";
-            document.documentElement.style.setProperty(
-              "--background-color",
-              "white"
-            );
-            document.documentElement.style.setProperty(
-              "--header-footer-color",
-              "#EEEEEE"
-            );
-            document.documentElement.style.setProperty(
-              "--input-color",
-              "#FFFFFF"
-            );
-            document.documentElement.style.setProperty(
-              "--input-inside-color",
-              "#FFFFFF"
-            );
-            document.documentElement.style.setProperty(
-              "--search-box-color",
-              "#FCFCFC"
-            );
-            document.documentElement.style.setProperty(
-              "--text-color",
-              "#000000"
-            );
-            document.documentElement.style.setProperty(
-              "--their-text-chats-color",
-              "#FFFFFF"
-            );
-            document.documentElement.style.setProperty(
-              "--my-text-chats-color",
-              "#DAF9C7"
-            );
-            document.documentElement.style.setProperty(
-              "--chat-bg-opacity",
-              "0.4"
-            );
-            theme = false;
-          } else {
-            document.querySelector(".menu").classList.toggle("closed")
-            document.querySelector(".theme-toggle").textContent = "Dark Theme";
-            document.documentElement.style.setProperty(
-              "--background-color",
-              "#0D1418"
-            );
-            document.documentElement.style.setProperty(
-              "--header-footer-color",
-              "#2A2F32"
-            );
-            document.documentElement.style.setProperty(
-              "--input-color",
-              "#131C21"
-            );
-            document.documentElement.style.setProperty(
-              "--input-inside-color",
-              "#323739"
-            );
-            document.documentElement.style.setProperty(
-              "--search-box-color",
-              "#1E2428"
-            );
-            document.documentElement.style.setProperty(
-              "--text-color",
-              "#FFF"
-            );
-            document.documentElement.style.setProperty(
-              "--their-text-chats-color",
-              "#1E2428"
-            );
-            document.documentElement.style.setProperty(
-              "--my-text-chats-color",
-              "#054740"
-            );
-            document.documentElement.style.setProperty(
-              "--chat-bg-opacity",
-              "0.1"
-            );
-            theme = true;
-          }
-        }
-
-        setTheme()
+        setTheme(true);
         resize();
-
-
         window.addEventListener('resize', function () {
           resize();
         })
       },
-      []
+      [currentChat]
     )
 
 
+    let [userChat, setUserChat] = useState();
+
+    const getUserData = (otherUserId) => {
+
+      let key = usersChatKey(parseInt(userId), parseInt(otherUserId))
+      console.log(key)
+      let ref = Firebase.database().ref('/Chats').child(key);
+      ref.on('child_added', snapshot => {
+        console.log(snapshot.val());
+        setCurrentChat(snapshot.val());
+        // setTimeout(() => {
+        //   // scrollToBottom();
+        // }, 400)
+      });
+    };
+
+    let messages = [];
+
+    if (currentChat) {
+      console.log(currentChat);
+      // const classId = sessionStorage.getItem('current_class_id');
+      // for (let i in chat[classId]) {
+      //   const key = classKey(classId);
+      //   if (chat[classId][i]['message']) {
+      //     messages.push({
+      //       message: cryptLib.decryptCipherTextWithRandomIV(chat[classId][i]['message'], key),
+      //       senderName: chat[classId][i]['senderName'],
+      //       senderId: chat[classId][i]['senderId'],
+      //       time: chat[classId][i]['time'],
+      //       data: chat[classId][i]['data']
+      //     })
+      //   }
+      // }
+    }
+
+    const messageSorter = (chat) => {
+      if (chat.data) {
+
+        if (chat.data.dataType === 2) {
+          return (<Audio chat={chat.message}
+                         senderName={chat.senderName}
+                         data={chat.data}
+                         time={chat.time}
+                         senderId={chat.senderId}/>)
+        } else if (chat.data.dataType === 5) {
+          return (
+            <Documents chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                       senderId={chat.senderId}/>
+          )
+        } else if (chat.data.dataType === 7) {
+          return (
+            <Image chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                   senderId={chat.senderId}/>
+          )
+        }
+      } else {
+        return (
+          <Message chat={chat.message} senderName={chat.senderName} data={chat.data} time={chat.time}
+                   senderId={chat.senderId}/>
+        )
+      }
+    }
+
     return (
       <>
-
         <div>
           <div className="container">
             <div className="sidebar">
@@ -440,7 +516,79 @@ const PersonalChat2 = () => {
                 </div>
               </div>
               <div className="chat-body-bg"/>
-              <div className="chat-body"/>
+              <div className="chat-body">
+                {/*<div className="message-holder">*/}
+                {/*  <div className="text">*/}
+                {/*    <div className="time-stamp">*/}
+
+                {/*    </div>*/}
+                {/*    <svg className="triangle">*/}
+
+                {/*    </svg>*/}
+                {/*  </div>*/}
+                {/*</div>*/}
+                {/*{*/}
+                {/*  messages ?*/}
+                {/*    messages.map((chat) =>*/}
+                {/*      messageSorter(chat)*/}
+                {/*    ) : <CircularProgress/>*/}
+                {/*}*/}
+                {/*{*/}
+                {/*  messages ?*/}
+                {/*    messages.map(data => {*/}
+                {/*      let key = usersKey(parseInt(userId), parseInt(currentUserId));*/}
+                {/*      console.log(key);*/}
+
+                {/*      if (data.senderId === userId) {*/}
+
+                {/*        if (data.data.dataType === 1) {*/}
+
+                {/*          return (*/}
+                {/*            <div className="message-holder">*/}
+                {/*              <div className="text my-msg" style={{backgroundColor: getRoleColorPrimary()}}>*/}
+                {/*                {*/}
+                {/*                  data.message*/}
+                {/*                }*/}
+
+                {/*                <div className="time-stamp">*/}
+                {/*                  {data.date + " " + data.time}*/}
+                {/*                </div>*/}
+                {/*                <svg className="triangle my" style={{fill: getRoleColorPrimary()}}>*/}
+                {/*                  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
+                {/*                    <path id="triangleColor"*/}
+                {/*                          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
+                {/*                  </svg>*/}
+                {/*                </svg>*/}
+                {/*              </div>*/}
+                {/*            </div>*/}
+
+                {/*          )*/}
+                {/*        }*/}
+                {/*      } else {*/}
+                {/*        if (data) {*/}
+                {/*          return (*/}
+                {/*            <div className="message-holder">*/}
+                {/*              <div className="text their-msg" style={{backgroundColor: "#e7e7e7"}}>*/}
+                {/*                {cryptLib.decryptCipherTextWithRandomIV(data.message, key)}*/}
+                {/*                <div className="time-stamp">*/}
+                {/*                  {data.date + " " + data.time}*/}
+                {/*                </div>*/}
+                {/*                <svg className="triangle their" style={{fill: "#e7e7e7"}}>*/}
+                {/*                  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
+                {/*                    <path id="triangleColor"*/}
+                {/*                          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
+                {/*                  </svg>*/}
+                {/*                </svg>*/}
+                {/*              </div>*/}
+                {/*            </div>*/}
+
+                {/*          )*/}
+                {/*        }*/}
+                {/*      }*/}
+                {/*    }) : <div><CircularProgress/></div>*/}
+                {/*}*/}
+
+              </div>
               <div className="chat-footer">
                 <img src={emoji} alt="" className="emoji"/>
 
@@ -449,7 +597,8 @@ const PersonalChat2 = () => {
                        onChange={e => onInputChange(e)}
                        className="text-input"
                        placeholder="Type a message"/>
-                <img src={mic} alt="" onClick={sendMessage} className="mic"/>
+                {/*<Button onClick={sendPressed}>Send</Button>*/}
+                <img src={mic} alt="" /*onClick={sendPressed}*/ className="mic"/>
               </div>
             </div>
           </div>

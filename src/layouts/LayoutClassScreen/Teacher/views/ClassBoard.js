@@ -70,6 +70,7 @@ const ClassBoard = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const getUserData = () => {
     let ref = Firebase.database().ref('/ClassBoard');
     ref.on('value', snapshot => {
@@ -357,7 +358,6 @@ const ClassBoard = () => {
     <div className="chatroom chat147">
       <div id="chats" className="chats">
         {
-
           messages ?
             messages.map((chat) =>
               messageSorter(chat)

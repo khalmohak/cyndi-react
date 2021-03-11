@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TeacherCard = () => {
   const classes = useStyles();
-  const [teacherData, setTeacherData] = useState();
+  const [teacherData, setTeacherData] = useState([]);
 
   /**
    * @headers data to post to api in the header
