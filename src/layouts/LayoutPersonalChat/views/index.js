@@ -1,24 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {Button, CircularProgress, Fade, Modal} from '@material-ui/core';
+import {AppBar, Button, CircularProgress, Fade, Modal, Tab, Tabs, Toolbar} from '@material-ui/core';
 import Firebase from 'firebase';
 import './App.css';
 import Message from './Message.js';
 import cryptLib from "@skavinvarnan/cryptlib";
-import {classKey, getCurrentTime, getTodaysDate} from "../../../../constants";
+import {classKey, getCurrentTime, getTodaysDate} from "../../../constants";
 import useSound from 'use-sound';
-import sent from '../../../../components/sent.mp3';
+import sent from '../../../components/sent.mp3';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Backdrop from '@material-ui/core/Backdrop';
 import {makeStyles} from "@material-ui/styles";
 import PermMediaIcon from '@material-ui/icons/PermMedia';
 import DescriptionIcon from '@material-ui/icons/Description';
 import AudiotrackIcon from '@material-ui/icons/Audiotrack';
-import ContactsIcon from '@material-ui/icons/Contacts';
-import S3Uploader from "../../../../utils/S3Uploader";
+import S3Uploader from "../../../utils/S3Uploader";
 import Audio from "./Audio";
 import Image from "./Image";
 import Documents from "./Document";
-// import {getAudioDurationInSeconds} from 'get-audio-duration';
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import {useNavigate} from "react-router";
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -51,17 +52,24 @@ if (sessionStorage.getItem('firebaseToken')) {
     });
 }
 
-const ClassBoard = () => {
+const PersonalChat = () => {
   const classes = useStyles();
+
   let [chat, setChat] = useState();
+
   let [userChat, setUserChat] = useState();
+
   const [play] = useSound(sent);
+
   const messagesEndRef = React.useRef(null);
 
   const [open, setOpen] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
+
   const [success, setSuccess] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(true);
@@ -93,12 +101,10 @@ const ClassBoard = () => {
     scrollToBottom();
   }
 
-
   const sendTextMessage = (e, message) => {
     e.preventDefault();
     const classId = sessionStorage.getItem('current_class_id');
     const key = classKey(classId);
-
     sendChat(e, {
       classId: classId,
       data: {},
@@ -160,22 +166,6 @@ const ClassBoard = () => {
       }, 10);
     }
 
-    /*if (list.scrollTop === list.scrollHeight) return;
-
-
-    const cosParameter = list.scrollTop / 2;
-    let scrollCount = 0, oldTimestamp = null;
-
-    function step(newTimestamp) {
-      if (oldTimestamp !== null) {
-        scrollCount += Math.PI * (newTimestamp - oldTimestamp) / 2000;
-        if (scrollCount >= Math.PI) return list.scrollTop = list.scrollHeight;
-        list.scrollTop = (cosParameter + cosParameter * Math.cos(scrollCount))+list.scrollHeight;
-      }
-      oldTimestamp = newTimestamp;
-      window.requestAnimationFrame(step);
-    }
-    window.requestAnimationFrame(step);*/
   }
 
   function audioUpload(e) {
@@ -350,14 +340,24 @@ const ClassBoard = () => {
     }
   }
 
+  function back() {
+    navigate('/app/teacher/')
+  }
+
   useEffect(() => {
     getUserData();
   }, [])
 
   return (
-    <div className="chatroom chat147">
+    <div className="chatroom chat147" style={{marginTop: "40px"}}>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+        </Toolbar>
+      </AppBar>
       <div id="chats" className="chats">
         {
+
           messages ?
             messages.map((chat) =>
               messageSorter(chat)
@@ -367,7 +367,6 @@ const ClassBoard = () => {
 
       <form className="input">
         <input type="text" value={userChat} onChange={e => setUserMessage(e)}/>
-        {/*<Input type="file"><AttachFileIcon/></Input>*/}
         <label className="custom-file-upload">
           <Button onClick={handleOpen} style={
             {
@@ -446,8 +445,6 @@ const ClassBoard = () => {
                      }/>
               <AudiotrackIcon className={classes.UploadIcons}/>
             </label>
-
-
           </div>
         </Fade>
       </Modal>
@@ -455,4 +452,4 @@ const ClassBoard = () => {
   );
 };
 
-export default ClassBoard;
+export default PersonalChat;

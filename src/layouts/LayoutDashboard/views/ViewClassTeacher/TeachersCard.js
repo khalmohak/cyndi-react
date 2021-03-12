@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {useNavigate} from 'react-router-dom';
-
 import {
   Avatar,
   Box,
@@ -25,11 +24,7 @@ import {
 } from '@material-ui/core';
 import MultiSlider, {Progress} from "react-multi-bar-slider";
 import '../ViewClassStudent/style.css';
-import NotifyMe from '../../../../utils/NotifyMe';
 import {AssignmentOutlined, Dashboard, InfoOutlined} from '@material-ui/icons'
-// import {ZoomMtg} from "@zoomus/websdk";
-// import {zoomInitiater} from "../../zoom";
-import {current_class_id} from "../ViewClassStudent/classCard";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -228,104 +223,101 @@ const TeachersCard = ({className, card, ...rest}) => {
     >
       <CardContent className={classes.cardContent}
       >
-
-        <Box display="flex" justifyContent="left">
-
-          <Box className={'topheader'}>
-            <span>{avatarName()}</span>
-            <i>
-
-              <Box className={'dkpal'}>
-                <Button
-                  //onClick={zoomMeetingStart}
-                >Join Class</Button>
-                <Box className={'dkpal2'}>
-                  <NotifyMe
-                    data={data}
-                    storageKey='notific_key'
-                    notific_key='timestamp'
-                    notific_value='update'
-                    heading='Notifications'
-                    sortedByKey={false}
-                    showDate={true}
-                    size='25'
-                    color="black"
-                  />
-                </Box>
-
-
-              </Box>
-
-
-              <Typography color="inherit" gutterBottom className={'hadding'}>
-                {card.class_name}
-
-                <Box className={'hadding'}>
-                  {teacherNameTemp}
-                </Box>
-
-                <Box className={'date'}>
-                  <Typography className={classes.nextClassDate}>
-                    <i>Next Class - <b>{'12/12/2020'}</b></i>
-                  </Typography>
-                </Box>
-
-              </Typography>
-
-            </i>
-          </Box>
-        </Box>
-
-
         <Box>
-          <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
-            <Box p={1} className={'inner'}>Attendance </Box>
-            <Box p={1} flexGrow={1} className={'inner'}>
-              <Tooltip title={attendancePercent}>
-                <MultiSlider
-                  width='100%'
-                  height='20px'
-                  roundedCorners='true'>
-                  <Progress className={'col1'} progress={40}/>
-                  <Progress className={'white-g'} progress={100}/>
-                </MultiSlider>
-              </Tooltip>
-            </Box>
+          <Box display="flex" justifyContent="left">
 
+            <Box className={'topheader'}>
+              <span>{avatarName()}</span>
+              <i>
+
+                <Box className={'dkpal'}>
+                  <Button
+                    //onClick={zoomMeetingStart}
+                  >Join Class</Button>
+                  {/*<Box className={'dkpal2'}>*/}
+                  {/*  <NotifyMe*/}
+                  {/*    data={data}*/}
+                  {/*    storageKey='notific_key'*/}
+                  {/*    notific_key='timestamp'*/}
+                  {/*    notific_value='update'*/}
+                  {/*    heading='Notifications'*/}
+                  {/*    sortedByKey={false}*/}
+                  {/*    showDate={true}*/}
+                  {/*    size='25'*/}
+                  {/*    color="black"*/}
+                  {/*  />*/}
+                  {/*</Box>*/}
+
+
+                </Box>
+
+
+                <Typography color="inherit" gutterBottom className={'hadding'}>
+                  {card.class_name}
+
+                  <Box className={'hadding'}>
+                    {teacherNameTemp}
+                  </Box>
+
+                  <Box className={'date'}>
+                    <Typography className={classes.nextClassDate}>
+                      <i>Next Class - <b>{'12/12/2020'}</b></i>
+                    </Typography>
+                  </Box>
+
+                </Typography>
+
+              </i>
+            </Box>
           </Box>
 
 
           <Box>
-            <TableContainer component={Paper}>
-              <Table className={'teacher'} size="small" aria-label="a dense table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Progress</TableCell>
-                    <TableCell align="right">Planned</TableCell>
-                    <TableCell align="right" className={classes.done}>Done</TableCell>
-                    <TableCell align="right">Remaining</TableCell>
-                    <TableCell align="right">Next</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.classes}</TableCell>
-                      <TableCell align="right" className={classes.done}>{row.assignments}</TableCell>
-                      <TableCell align="right" className={classes.remaining}>{row.projects}</TableCell>
-                      <TableCell align="right" className={classes.next}>{row.test_quiz}</TableCell>
+            <Box display="flex" p={1} bgcolor="background.paper" className={'assignment'}>
+              <Box p={1} className={'inner'}>Attendance </Box>
+              <Box p={1} flexGrow={1} className={'inner'}>
+                <Tooltip title={attendancePercent}>
+                  <MultiSlider
+                    width='100%'
+                    height='20px'
+                    roundedCorners='true'>
+                    <Progress className={'col1'} progress={40}/>
+                    <Progress className={'white-g'} progress={100}/>
+                  </MultiSlider>
+                </Tooltip>
+              </Box>
+            </Box>
+
+
+            <Box>
+              <TableContainer component={Paper}>
+                <Table className={'teacher'} size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Progress</TableCell>
+                      <TableCell align="right">Planned</TableCell>
+                      <TableCell align="right" className={classes.done}>Done</TableCell>
+                      <TableCell align="right">Remaining</TableCell>
+                      <TableCell align="right">Next</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow key={row.name.toString()}>
+                        <TableCell component="th" scope="row">
+                          {row.name.toString()}
+                        </TableCell>
+                        <TableCell align="right">{row.classes.toString()}</TableCell>
+                        <TableCell align="right" className={classes.done}>{row.assignments.toString()}</TableCell>
+                        <TableCell align="right" className={classes.remaining}>{row.projects.toString()}</TableCell>
+                        <TableCell align="right" className={classes.next}>{row.test_quiz.toString()}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
           </Box>
-          {/*Description End*/}
-
-
         </Box>
       </CardContent>
 
@@ -365,7 +357,6 @@ const TeachersCard = ({className, card, ...rest}) => {
 
 TeachersCard.propTypes = {
   className: PropTypes.string,
-  product: PropTypes.object.isRequired
 };
 
 export default TeachersCard;

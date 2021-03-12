@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
 import Page from '../../../../components/Page';
-import TeachersCard from './TeacherCard';
+import TeachersCard from './TeachersCard';
 import axios from "axios";
 import {apiEndPoint} from "../../../../constants";
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TeacherCard = () => {
   const classes = useStyles();
-  const [teacherData, setTeacherData] = useState();
+  const [teacherData, setTeacherData] = useState([]);
 
   /**
    * @headers data to post to api in the header
@@ -45,7 +45,6 @@ const TeacherCard = () => {
       headers: headers
     }).then(response => {
       const classArray = response.data;
-
       setTeacherData(classArray);
       sessionStorage.setItem('classData', JSON.stringify(response));
 
