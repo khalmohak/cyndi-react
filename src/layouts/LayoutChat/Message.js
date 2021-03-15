@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography} from "@material-ui/core";
-import {s3URL} from "../../../constants";
+import {s3URL} from "../../constants";
 
 const Message = ({chat, senderId, time, senderName, data}) => {
   function dataObjects() {

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Button, CircularProgress, Fade, Modal} from '@material-ui/core';
 import Firebase from 'firebase';
-import './App.css';
+import '../LayoutClassScreen/Teacher/views/App.css';
 import Message from './Message.js';
 import cryptLib from "@skavinvarnan/cryptlib";
-import {classKey, getCurrentTime, getTodaysDate} from "../../../../constants";
+import {classKey, getCurrentTime, getTodaysDate} from "../../constants";
 import useSound from 'use-sound';
-import sent from '../../../../components/sent.mp3';
+import sent from '../../components/sent.mp3';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import Backdrop from '@material-ui/core/Backdrop';
 import {makeStyles} from "@material-ui/styles";
@@ -14,7 +14,7 @@ import PermMediaIcon from '@material-ui/icons/PermMedia';
 import DescriptionIcon from '@material-ui/icons/Description';
 import AudiotrackIcon from '@material-ui/icons/Audiotrack';
 import ContactsIcon from '@material-ui/icons/Contacts';
-import S3Uploader from "../../../../utils/S3Uploader";
+import S3Uploader from "../../utils/S3Uploader";
 import Audio from "./Audio";
 import Image from "./Image";
 import Documents from "./Document";
@@ -51,15 +51,13 @@ if (sessionStorage.getItem('firebaseToken')) {
     });
 }
 
-const ClassBoard = () => {
+const ClassBoard = (chatID) => {
   const classes = useStyles();
   let [chat, setChat] = useState();
   let [userChat, setUserChat] = useState();
   const [play] = useSound(sent);
-  const messagesEndRef = React.useRef(null);
-
   const [open, setOpen] = React.useState(false);
-
+  console.log(chatID.id)
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 

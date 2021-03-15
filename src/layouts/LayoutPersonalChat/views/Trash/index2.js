@@ -5,17 +5,17 @@ import './Design.css';
 import {makeStyles} from "@material-ui/styles";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import cryptLib from "@skavinvarnan/cryptlib";
-import {classKey, getCurrentTime, getTodaysDate, s3URL, usersChatKey, usersKey} from "../../../constants";
-import {getRoleColorPrimary} from "../../../theme";
+import {classKey, getCurrentTime, getTodaysDate, s3URL, usersChatKey, usersKey} from "../../../../constants";
+import {getRoleColorPrimary} from "../../../../theme";
 import sendBtnImage from "./send-btn.png";
 import emoji from "./emoji.png";
 import mic from "./mic.png";
 import Picker from 'emoji-picker-react';
 import ReactAudioPlayer from "react-audio-player";
-import Audio from "../../LayoutClassScreen/Teacher/views/Audio";
-import Documents from "../../LayoutClassScreen/Teacher/views/Document";
-import Image from "../../LayoutClassScreen/Teacher/views/Image";
-import Message from "../../LayoutClassScreen/Teacher/views/Message";
+import Audio from "../../../LayoutChat/Audio";
+import Documents from "../../../LayoutChat/Document";
+import Image from "../../../LayoutChat/Image";
+import Message from "../../../LayoutChat/Message";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -87,13 +87,13 @@ const PersonalChat2 = () => {
       if (enteredMessage.trim() !== "") {
         document.querySelector(".text-input").focus();
         console.log(usersChatKey(id1, id2))
-        const reference = Firebase.database().ref("/Chats/").child(usersChatKey(id1, id2)).push()
+        const reference = Firebase.database().ref("/Chats").child(usersChatKey(parseInt(id1), parseInt(id2))).push()
         const uniqueKey = reference.key
         console.log(reference.key)
         reference.set({
           data: {dataType: 1},
           date: getTodaysDate(),
-          receiverId: setCurrentUserId,
+          receiverId: currentUserId,
           message: cryptLib.encryptPlainTextWithRandomIV(enteredMessage, usersKey(id1, id2)),
           messageId: uniqueKey,
           sameDate: false,
@@ -164,11 +164,11 @@ const PersonalChat2 = () => {
           "#000000"
         );
         document.documentElement.style.setProperty(
-          "--their-text-chats-color",
+          "--their-text-chats-side-color",
           "#FFFFFF"
         );
         document.documentElement.style.setProperty(
-          "--my-text-chats-color",
+          "--my-text-chats-side-color",
           "#DAF9C7"
         );
         document.documentElement.style.setProperty(
@@ -204,11 +204,11 @@ const PersonalChat2 = () => {
           "#FFF"
         );
         document.documentElement.style.setProperty(
-          "--their-text-chats-color",
+          "--their-text-chats-side-color",
           "#1E2428"
         );
         document.documentElement.style.setProperty(
-          "--my-text-chats-color",
+          "--my-text-chats-side-color",
           "#054740"
         );
         document.documentElement.style.setProperty(
@@ -221,7 +221,7 @@ const PersonalChat2 = () => {
   let [currentChat, setCurrentChat] = useState();
 
     useEffect(() => {
-        getUserData(currentUserId)
+        getUserData()
         console.log(currentChat)
         let peopleArr = [];
         let i = 0;
@@ -259,7 +259,7 @@ const PersonalChat2 = () => {
               let data = snap.val();
               const userKey = usersKey(parseInt(userId), parseInt(data.otherUserId));
 
-              const main_element = document.querySelector(".chats");
+              const main_element = document.querySelector(".chats-side");
               const chat = document.createElement("div");
               const chat_info = document.createElement("div");
               const img = document.createElement("img");
@@ -301,7 +301,7 @@ const PersonalChat2 = () => {
 
               function openChat(their_profile_picture, their_name, other_id, my_id) {
                 // currentOtherId = other_id;
-                // console.log(currentOtherId)
+                //console.log(other_id)
                 setCurrentUserId(other_id);
                // getUserData(other_id);
                 let chatRef = Firebase.database().ref("/Chats").child(usersChatKey(parseInt(my_id), parseInt(other_id)));
@@ -411,30 +411,32 @@ const PersonalChat2 = () => {
           resize();
         })
       },
-      [currentChat]
+      []
     )
 
 
     let [userChat, setUserChat] = useState();
+    let messages = [];
+    // const [messages,setMessages] = useState([]);
+    const [isMessageChanged,setValue] = useState(false);
+    const getUserData = () => {
 
-    const getUserData = (otherUserId) => {
-
-      let key = usersChatKey(parseInt(userId), parseInt(otherUserId))
+      let key = usersChatKey(parseInt(userId), parseInt(currentUserId))
       console.log(key)
       let ref = Firebase.database().ref('/Chats').child(key);
       ref.on('child_added', snapshot => {
-        console.log(snapshot.val());
-        setCurrentChat(snapshot.val());
-        // setTimeout(() => {
-        //   // scrollToBottom();
-        // }, 400)
+        setValue(true);
+        messages.push(snapshot.val());
+        setValue(false);
       });
     };
 
-    let messages = [];
+    getUserData()
 
-    if (currentChat) {
-      console.log(currentChat);
+
+
+    if (messages) {
+      //console.log(messages);
       // const classId = sessionStorage.getItem('current_class_id');
       // for (let i in chat[classId]) {
       //   const key = classKey(classId);
@@ -478,6 +480,11 @@ const PersonalChat2 = () => {
       }
     }
 
+
+function sendPressed(){
+      console.log(enteredMessage)
+      sendMessage(sessionStorage.getItem('userId'),currentUserId)
+}
     return (
       <>
         <div>
@@ -490,8 +497,8 @@ const PersonalChat2 = () => {
                   src={s3URL(sessionStorage.getItem("userPhoto"))}
                   className="my-profile-picture"/>
                 <div className="header-stuff">
-                  <img src="./message-btn.png" alt="" className="create-message"/>
-                  <img src="./menu-btn.png" alt="" className="menu-btn"/>
+                  <img src="message-btn.png" alt="" className="create-message"/>
+                  <img src="menu-btn.png" alt="" className="menu-btn"/>
                 </div>
                 <div className="menu closed">
                   <div className="theme-toggle">Dark Theme</div>
@@ -499,14 +506,16 @@ const PersonalChat2 = () => {
                 </div>
               </div>
               <div className="search-box">
-                <img src="./search-btn.png" alt="" className="search-btn"/>
+                <img src="search-btn.png" alt="" className="search-btn"/>
                 <input type="text" placeholder="Search People" className="search" onChange={e => searchList}/>
               </div>
-              <div className="chats"/>
+              <div className="chats-side
+
+              "/>
             </div>
             <div className="chat-box">
               <div className="chat-header">
-                <img src="./go-back.png" alt="" className="back-btn"/>
+                <img src="go-back.png" alt="" className="back-btn"/>
                 <img
                   src="https://media-exp1.licdn.com/dms/image/C5603AQFySN0ieZxyPA/profile-displayphoto-shrink_100_100/0?e=1604534400&v=beta&t=7HZaHUTsz2q_9gdK5JMeEeC3J8cQNd9jj9_bLM3gxP4"
                   alt="" className="profile-picture"/>
@@ -527,66 +536,65 @@ const PersonalChat2 = () => {
                 {/*    </svg>*/}
                 {/*  </div>*/}
                 {/*</div>*/}
-                {/*{*/}
-                {/*  messages ?*/}
-                {/*    messages.map((chat) =>*/}
-                {/*      messageSorter(chat)*/}
-                {/*    ) : <CircularProgress/>*/}
-                {/*}*/}
-                {/*{*/}
-                {/*  messages ?*/}
-                {/*    messages.map(data => {*/}
-                {/*      let key = usersKey(parseInt(userId), parseInt(currentUserId));*/}
-                {/*      console.log(key);*/}
+                {
+                  /*messages ?
+                    messages.map((chat) =>
+                      //messageSorter(chat)
+                      console.log(chat)
+                    ) : <CircularProgress/>*/
+                }
+                {
+                  isMessageChanged ?
+                    messages.map( (data, index) => {
+                      let key = usersKey(parseInt(userId), parseInt(currentUserId));
+                      console.log(key+"  "+index);
 
-                {/*      if (data.senderId === userId) {*/}
+                      if (data.senderId === userId) {
 
-                {/*        if (data.data.dataType === 1) {*/}
+                        if (data.data.dataType === 1) {
+                          console.log(data.message);
+                          console.log(key);
+                          return (
+                            <div className="message-holder">
+                              <div className="text my-msg" style={{backgroundColor: getRoleColorPrimary()}}>
+                                  {cryptLib.decryptCipherTextWithRandomIV(data.message, key)}
+                                <div className="time-stamp">
+                                  {data.date + " " + data.time}
+                                </div>
+                                {/*<svg className="triangle my" style={{fill: getRoleColorPrimary()}}>*/}
+                                {/*  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
+                                {/*    <path id="triangleColor"*/}
+                                {/*          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
+                                {/*  </svg>*/}
+                                {/*</svg>*/}
+                              </div>
+                            </div>
 
-                {/*          return (*/}
-                {/*            <div className="message-holder">*/}
-                {/*              <div className="text my-msg" style={{backgroundColor: getRoleColorPrimary()}}>*/}
-                {/*                {*/}
-                {/*                  data.message*/}
-                {/*                }*/}
+                          )
+                        }
+                      } else {
+                        if (data) {
+                          return (
+                            <div className="message-holder">
+                              <div className="text their-msg" style={{backgroundColor: "#e7e7e7"}}>
+                                {cryptLib.decryptCipherTextWithRandomIV(data.message, key)}
+                                <div className="time-stamp">
+                                  {data.date + " " + data.time}
+                                </div>
+                                {/*<svg className="triangle their" style={{fill: "#e7e7e7"}}>*/}
+                                {/*  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
+                                {/*    <path id="triangleColor"*/}
+                                {/*          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
+                                {/*  </svg>*/}
+                                {/*</svg>*/}
+                              </div>
+                            </div>
 
-                {/*                <div className="time-stamp">*/}
-                {/*                  {data.date + " " + data.time}*/}
-                {/*                </div>*/}
-                {/*                <svg className="triangle my" style={{fill: getRoleColorPrimary()}}>*/}
-                {/*                  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
-                {/*                    <path id="triangleColor"*/}
-                {/*                          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
-                {/*                  </svg>*/}
-                {/*                </svg>*/}
-                {/*              </div>*/}
-                {/*            </div>*/}
-
-                {/*          )*/}
-                {/*        }*/}
-                {/*      } else {*/}
-                {/*        if (data) {*/}
-                {/*          return (*/}
-                {/*            <div className="message-holder">*/}
-                {/*              <div className="text their-msg" style={{backgroundColor: "#e7e7e7"}}>*/}
-                {/*                {cryptLib.decryptCipherTextWithRandomIV(data.message, key)}*/}
-                {/*                <div className="time-stamp">*/}
-                {/*                  {data.date + " " + data.time}*/}
-                {/*                </div>*/}
-                {/*                <svg className="triangle their" style={{fill: "#e7e7e7"}}>*/}
-                {/*                  <svg width="20" height="20" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">*/}
-                {/*                    <path id="triangleColor"*/}
-                {/*                          d="M58.5129 26.9913C59.9147 24.9949 58.4742 22.249 56.0349 22.2675L4.35559 22.6596C2.10991 22.6766 0.678455 25.0644 1.72168 27.0531L23.7032 68.957C24.7464 70.9457 27.5246 71.1252 28.8151 69.2873L58.5129 26.9913Z"/>*/}
-                {/*                  </svg>*/}
-                {/*                </svg>*/}
-                {/*              </div>*/}
-                {/*            </div>*/}
-
-                {/*          )*/}
-                {/*        }*/}
-                {/*      }*/}
-                {/*    }) : <div><CircularProgress/></div>*/}
-                {/*}*/}
+                          )
+                        }
+                      }
+                    }) : <CircularProgress/>
+                }
 
               </div>
               <div className="chat-footer">
@@ -598,7 +606,7 @@ const PersonalChat2 = () => {
                        className="text-input"
                        placeholder="Type a message"/>
                 {/*<Button onClick={sendPressed}>Send</Button>*/}
-                <img src={mic} alt="" /*onClick={sendPressed}*/ className="mic"/>
+                <img src={mic} alt="" onClick={sendPressed} className="mic"/>
               </div>
             </div>
           </div>

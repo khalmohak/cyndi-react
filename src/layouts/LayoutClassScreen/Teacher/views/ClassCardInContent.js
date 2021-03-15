@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import ClassBoard from './ClassBoard';
+import ClassBoard from '../../../LayoutChat/ClassBoard';
 import './Style.css'
 import {
   AppBar,
@@ -285,7 +285,10 @@ console.log(window.location.href);
 
       </Drawer>
       <TabPanel className={classes.tab1} value={value} index={0}>
-        <ClassBoard/>
+        <ClassBoard
+          id={sessionStorage.getItem('current_class_id')}
+          type="class"
+        />
       </TabPanel>
       <TabPanel className={classes.tab1} value={value} index={1}>
 

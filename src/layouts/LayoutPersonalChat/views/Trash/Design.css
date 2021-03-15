@@ -177,7 +177,7 @@ body {
     z-index: 2;
 }
 
-.chats {
+.chats-side {
     position: absolute;
     height: calc(100% - 120px);
     width: 100%;
