@@ -127,11 +127,11 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginRight: 0,
   },
-  backButton:{
-    color:'#ffffff'
+  backButton: {
+    color: '#ffffff'
   },
-  tab1:{
-    marginTop:'80px'
+  tab1: {
+    marginTop: '80px'
   }
 
 }));
@@ -140,7 +140,7 @@ let pandaData = undefined;
 const PandAAPI = () => {
   const dataAPI = {
     class_id: sessionStorage.getItem('current_class_id'),
-    role:sessionStorage.getItem('userRole'),
+    role: sessionStorage.getItem('userRole'),
     limit: 10,
     offset: 0
   };
@@ -164,7 +164,7 @@ let qesData = undefined;
 const QESAPI = () => {
   let dataAPI = {
     'class_id': sessionStorage.getItem('current_class_id'),
-    'role':sessionStorage.getItem('userRole'),
+    'role': sessionStorage.getItem('userRole'),
     'limit': 10,
     'offset': 0
   };
@@ -224,7 +224,7 @@ const ClassCardInContent = ({className, card, ...rest}) => {
     navigate('/app/class/')
   }
 
-console.log(window.location.href);
+  console.log(window.location.href);
   useEffect(() => {
     PandAAPI();
     QESAPI();
@@ -233,7 +233,7 @@ console.log(window.location.href);
       console.log(qesData);
 
 
-     }
+    }
   }, [qesData, pandaData])
 
   return (
