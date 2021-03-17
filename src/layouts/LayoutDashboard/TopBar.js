@@ -26,12 +26,51 @@ const TopBar = ({
                   onMobileNavOpen,
                   ...rest
                 }) => {
-  const classes = useStyles();
-  const [notifications] = useState([]);
+
+  //const [ifShow,setIfShow] = useState(true);
+
   const removeLoggedInStatus = () => {
     sessionStorage.removeItem('loggedIn');
   }
   const navigate = useNavigate();
+  // let addButtonRoute = "";
+  //
+  // if(sessionStorage.getItem('currentTab') == "Class"){
+  //   addButtonRoute = "/add/class";
+  //   ifShow=true;
+  //   //setIfShow(true);
+  // }
+  // else if(sessionStorage.getItem('currentTab') == "Notifications"){
+  //   addButtonRoute = "/app/addnotification";
+  //   ifShow=true;
+  //   //setIfShow(true);
+  // }
+  // else{
+  //   setIfShow(false);
+  // }
+
+  // function showTopBar(){
+  //   if(ifShow){
+  //     return(
+  //       <RouterLink to={addButtonRoute}>
+  //         <Button
+  //           variant="contained"
+  //           color={getRoleColor()}
+  //           style={{
+  //             outline: 'none',
+  //             color: '#fff',
+  //             backgroundColor: '#00000000'
+  //           }}
+  //
+  //           startIcon={<Add/>}
+  //
+  //         >
+  //           Add
+  //         </Button>
+  //       </RouterLink>
+  //     )
+  //   }
+  // }
 
   return (
     <React.Fragment>
@@ -55,7 +94,7 @@ const TopBar = ({
           >
             <MenuIcon/>
           </IconButton>
-          {/*</Hidden>*/}
+
 
           <Box
             flexGrow={1}
@@ -74,22 +113,10 @@ const TopBar = ({
 
           <Box flexGrow={1}/>
 
-          <RouterLink to="/add/class">
-            <Button
-              variant="contained"
-              color={getRoleColor()}
-              style={{
-                outline: 'none',
-                color: '#fff',
-                backgroundColor: '#00000000'
-              }}
 
-              startIcon={<Add/>}
+          {/*{showTopBar()}*/}
 
-            >
-              Add
-            </Button>
-          </RouterLink>
+
 
           <Hidden mdDown>
             <IconButton color="inherit" style={{

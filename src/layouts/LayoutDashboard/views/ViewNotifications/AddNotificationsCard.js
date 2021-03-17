@@ -1,6 +1,17 @@
 import React from 'react';
 import axios from "axios";
-import {AppBar, Button, makeStyles, MenuItem, Select, TextField, Toolbar, Typography} from '@material-ui/core';
+import {
+  AppBar,
+  Box,
+  Button,
+  makeStyles,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Toolbar,
+  Typography
+} from '@material-ui/core';
 //import './App.css';
 import {current_class_id} from "../ViewClassStudent/classCard";
 import {apiEndPoint} from "../../../../constants";
@@ -23,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     borderTop: '7px solid #025fa1',
     width: "800px"
+  },
+  box: {
 
   }
 
@@ -53,7 +66,7 @@ const Notification = ({className, ...rest}) => {
   };
 
   function back() {
-    navigate('/app/ViewNotifications')
+    navigate('/app/notifications')
   }
 
   const handleSubmit = (e) => {
@@ -93,34 +106,42 @@ const Notification = ({className, ...rest}) => {
           <Button onClick={back}><KeyboardBackspaceIcon/></Button>
         </Toolbar>
       </AppBar>
-      <form>
-        <Typography>Select notification type</Typography>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={notiType}
-          onChange={handleChangeType}
-        >
-          <MenuItem value={'College'}>College</MenuItem>
-          <MenuItem value={'University'}>University</MenuItem>
-          <MenuItem value={'Department'}>Department</MenuItem>
-          <MenuItem value={'Branch'}>Branch</MenuItem>
-          <MenuItem value={'Class'}>Class</MenuItem>
+      <Box display="flex" justifyContent="flex-start" m={2}>
+        <Paper className={classes.box} style={{
+          padding:"15px"
+        }}>
+          <form>
+            <Typography>Select notification type</Typography>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={notiType}
+              onChange={handleChangeType}
+            >
+              <MenuItem value={'College'}>College</MenuItem>
+              <MenuItem value={'University'}>University</MenuItem>
+              <MenuItem value={'Department'}>Department</MenuItem>
+              <MenuItem value={'Branch'}>Branch</MenuItem>
+              <MenuItem value={'Class'}>Class</MenuItem>
 
-        </Select>
-        <br/>
-        <br/>
+            </Select>
+            <br/>
+            <br/>
 
-        <TextField label="Link" variant="outlined" onChange={handleChangeLink}/>
-        <br/>
-        <TextField label="Title" variant="outlined" onChange={handleChangeTitle}/>
-        <br/>
-        <TextField label="Description" variant="outlined" onChange={handleChangeBody}/>
-        <br/>
+            <TextField label="Link" variant="outlined" onChange={handleChangeLink}/>
+            <br/>
+            <TextField label="Title" variant="outlined" onChange={handleChangeTitle}/>
+            <br/>
+            <TextField label="Description" variant="outlined" onChange={handleChangeBody}/>
+            <br/>
 
-        <Button type={"submit"} onClick={handleSubmit}>Send it</Button>
-      </form>
-
+            <Button type={"submit"} style={{
+              backgroundColor:"grey",
+              marginTop:"10px"
+            }} onClick={handleSubmit}>Send it</Button>
+          </form>
+        </Paper>
+      </Box>
     </>
   );
 

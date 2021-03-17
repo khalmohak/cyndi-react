@@ -40,7 +40,6 @@ const LoginView = () => {
   const [userName, setUserName] = useState();
   const [userPassword, setPassword] = useState();
   const [role, setRole] = useState();
-  const [cookies, setCookie, removeCookie] = useCookies(['auth']);
 
   async function loginUser(credentials) {
     return axios.post(`${apiEndPoint}/login`, credentials)
@@ -84,7 +83,6 @@ const LoginView = () => {
     axios.post(`${apiEndPoint}/get/role/details`, data, {
       headers: headers
     }).then((response) => {
-
       sessionStorage.setItem('universityName', response.data[0].university_name);
       sessionStorage.setItem('collegeName', response.data[0].college_name);
       sessionStorage.setItem('userYear', response.data[0].year);

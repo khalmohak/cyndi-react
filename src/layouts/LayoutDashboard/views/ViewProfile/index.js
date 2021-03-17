@@ -79,7 +79,6 @@ const Dashboard = () => {
     axios.post(`${apiEndPoint}/get/role/details`, body, {
       headers: header
     }).then((response) => {
-      console.log(response.data[0]);
       sessionStorage.setItem('employee_id', response.data[0].employee_id);
       sessionStorage.setItem('gender', response.data[0].gender);
       sessionStorage.setItem('subject_expertise', response.data[0].subject_expertise);
@@ -90,6 +89,7 @@ const Dashboard = () => {
   }
 
   getTeacherData();
+
 
   return (
     <Page

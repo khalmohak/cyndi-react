@@ -18,7 +18,7 @@ import {
   Typography,
   Container,
   Box,
-  Grid
+  Grid, Paper
 } from '@material-ui/core';
 import TopBar from './TopBar';
 import {purple} from '@material-ui/core/colors';
@@ -71,6 +71,14 @@ const useStyles = makeStyles((theme) => ({
   button: {
     background: 'grey',
     color: 'white'
+  },
+  pandaAddButton: {
+    backgroundColor: '#025fa1',
+    color: '#ffffff',
+    '&:hover': {
+      color: '#025fa1',
+      borderColor: "#025fa1"
+    }
   }
 }));
 
@@ -198,7 +206,6 @@ const AddClass1 = () => {
     }).then(res => console.log(res))
       .catch(err => console.log(err))
   }
-
 
   function getStudents() {
     let apiData = {
@@ -340,7 +347,12 @@ const AddClass1 = () => {
             <div className={classes.wrapper}>
               <div className={classes.contentContainer}>
                 <div className={classes.content}>
-                  <TopBar/>
+                  {/*<TopBar/>*/}
+                  <Paper style={{
+                    width: '100%',
+                    maxWidth: 360,
+                    padding:"10px"
+                  }}>
                   <FormControl className={classes.formControl}>
                     <InputLabel id="course">Select Course</InputLabel>
                     <Select
@@ -436,7 +448,8 @@ const AddClass1 = () => {
                     >
                     </TextField>
                   </FormControl>
-                  <Typography>
+                  </Paper>
+                    <Typography>
                     Add Students
                   </Typography>
 
@@ -500,12 +513,9 @@ const AddClass1 = () => {
                     className={classes.button}
                     onClick={handleSubmit}
                   >Add Class</Button>
-
-
                 </div>
               </div>
             </div>
-
           </Grid>
         </Box>
       </Container>

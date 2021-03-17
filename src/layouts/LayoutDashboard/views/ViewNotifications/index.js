@@ -38,6 +38,8 @@ const NotificationTeacher = () => {
     navigate('/app/addnotification');
   }
 
+
+
   function getNotifications() {
     let apiData = {
       university_name: sessionStorage.getItem('universityName'),
@@ -52,14 +54,14 @@ const NotificationTeacher = () => {
         headers: header
       }
     ).then(response => {
-      console.log(response.data);
       setNotifications(response.data)
     })
       .catch(error => console.log(error))
 
   }
-
+  sessionStorage.setItem("currentTab","Notifications")
   useEffect(() => {
+
     getNotifications();
 
   }, [notifications])

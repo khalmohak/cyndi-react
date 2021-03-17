@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Box, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
+import {Box, Button, CircularProgress, Container, Grid, makeStyles} from '@material-ui/core';
 import {Pagination} from '@material-ui/lab';
 import Page from '../../../../components/Page';
 import TeachersCard from './TeachersCard';
 import axios from "axios";
 import {apiEndPoint} from "../../../../constants";
+import {useNavigate} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,13 +16,21 @@ const useStyles = makeStyles((theme) => ({
   },
   classCard: {
     height: '100%'
+  },
+  pandaAddButton: {
+    backgroundColor: '#025fa1',
+    color: '#ffffff',
+    '&:hover': {
+      color: '#025fa1',
+      borderColor: "#025fa1"
+    }
   }
 }));
 
 const TeacherCard = () => {
   const classes = useStyles();
   const [teacherData, setTeacherData] = useState([]);
-
+  const navigate = useNavigate();
   /**
    * @headers data to post to api in the header
    * @ApiData data to post to the api in the body
@@ -53,8 +62,13 @@ const TeacherCard = () => {
         console.log(err)
       })
   }
+  sessionStorage.setItem("currentTab","Class")
+  function goToAddClass(){
+    navigate('/add/class');
+  }
 
   useEffect(() => {
+
     getClassData();
   }, []);
 
@@ -64,12 +78,15 @@ const TeacherCard = () => {
       className={classes.root}
       title="Class"
     >
+
       <Container maxWidth={false}>
+        <Button className={classes.pandaAddButton} onClick={goToAddClass}>Add Class</Button>
         <Box mt={3}>
           <Grid
             container
             spacing={3}
           >
+
             {teacherData ? teacherData.map((card) => (
               <Grid
                 item
