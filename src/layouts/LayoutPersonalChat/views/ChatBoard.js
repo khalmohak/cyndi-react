@@ -5,7 +5,7 @@ import Firebase from 'firebase';
 // import '../LayoutClassScreen/Teacher/views/App.css';
 import Message from './Message.js';
 import cryptLib from "@skavinvarnan/cryptlib";
-import {classKey, getCurrentTime, getTodaysDate} from "../../../constants";
+import {classKey, getCurrentTime, getTodaysDate, usersChatKey, usersKey} from "../../../constants";
 import useSound from 'use-sound';
 import sent from '../../../components/sent.mp3';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
@@ -52,9 +52,9 @@ if (sessionStorage.getItem('firebaseToken')) {
     });
 }
 
-const ClassBoard = (chatID) => {
+const UsersChat = (chatID) => {
   const classes = useStyles();
-  let [chat, setChat] = useState();
+  let [chat, setChat] = useState([]);
   let [userChat, setUserChat] = useState();
   const [play] = useSound(sent);
   const [open, setOpen] = React.useState(false);
@@ -71,9 +71,13 @@ const ClassBoard = (chatID) => {
   };
 
   const getUserData = () => {
-    let ref = Firebase.database().ref('/ClassBoard');
+    let key = usersChatKey(parseInt(chatID.id),parseInt(sessionStorage.getItem('userId')));
+    console.log(key)
+    let ref = Firebase.database().ref('/Chats').child(key);
     ref.on('value', snapshot => {
-      console.log(snapshot.val());
+      //console.log(snapshot.val());
+      // let data = chat;
+      // chat.push(snapshot.val());
       setChat(snapshot.val());
       setTimeout(() => {
         scrollToBottom();
@@ -126,16 +130,19 @@ const ClassBoard = (chatID) => {
 
   let messages = [];
   if (chat) {
-    const classId = chatID.id;
-    for (let i in chat[classId]) {
-      const key = classKey(classId);
-      if (chat[classId][i]['message']) {
+    console.log(chat)
+    for (let i in chat) {
+      const key = usersKey(parseInt(chatID.id),parseInt(sessionStorage.getItem('userId')));
+
+      if (chat[i]['message']) {
+        console.log(key)
+        console.log(chat[i]['message'])
         messages.push({
-          message: cryptLib.decryptCipherTextWithRandomIV(chat[classId][i]['message'], key),
-          senderName: chat[classId][i]['senderName'],
-          senderId: chat[classId][i]['senderId'],
-          time: chat[classId][i]['time'],
-          data: chat[classId][i]['data']
+           message: cryptLib.decryptCipherTextWithRandomIV(chat[i]['message'], key),
+          //message:chat[i]['message'],
+          senderId: chat[i]['senderId'],
+          time: chat[i]['time'],
+          data: chat[i]['data']
         })
       }
     }
@@ -347,8 +354,9 @@ const ClassBoard = (chatID) => {
   }
 
   useEffect(() => {
+
     getUserData();
-  }, [])
+  }, [chatID])
 
   return (
     <div className="chatroom chat147">
@@ -356,7 +364,8 @@ const ClassBoard = (chatID) => {
         {
           messages ?
             messages.map((chat) =>
-              messageSorter(chat)
+              //messageSorter(chat)
+              console.log(chat)
             ) : <CircularProgress/>
         }
       </div>
@@ -451,4 +460,4 @@ const ClassBoard = (chatID) => {
   );
 };
 
-export default ClassBoard;
+export default UsersChat;

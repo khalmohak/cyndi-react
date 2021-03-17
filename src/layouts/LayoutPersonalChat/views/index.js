@@ -18,7 +18,7 @@ import {makeStyles} from "@material-ui/styles";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import {useNavigate} from "react-router";
 import {s3URL, usersChatKey} from "../../../constants";
-import ChatBoard from "./ChatBoard";
+import UsersChat from "./ChatBoard";
 
 
 const useStyles = makeStyles(() => ({
@@ -58,7 +58,7 @@ function loginFirebase() {
 const PersonalChat = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [otherUser, setOtherUser] = React.useState(37);
+  const [otherUser, setOtherUser] = React.useState(60);
   const [friends, setFriends] = React.useState(null);
 
   const getUserData = async () => {
@@ -99,7 +99,6 @@ const PersonalChat = () => {
 
   function changeChat(id) {
     setOtherUser(id);
-    console.log(id);
   }
 
   useEffect(() => {
@@ -164,7 +163,7 @@ const PersonalChat = () => {
             {() => {
               console.log(otherUser);
             }}
-            <ChatBoard
+            <UsersChat
               id={otherUser}
               type="class"
             />
