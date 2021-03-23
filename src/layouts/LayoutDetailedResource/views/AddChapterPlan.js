@@ -22,6 +22,7 @@ import {apiEndPoint} from "../../../constants";
 import axios from "axios";
 import S3Uploader from "../../../utils/S3Uploader";
 import clsx from "clsx";
+import {getRoleColor} from "../../../utils/GetRoleColor";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -109,6 +110,7 @@ const AddChapterPlan = ({className, ...rest}) => {
 
 
   }
+  const appBarColor = getRoleColor();
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -172,9 +174,9 @@ const AddChapterPlan = ({className, ...rest}) => {
             container
             spacing={3}
           >
-            <AppBar position="fixed">
+            <AppBar className={clsx(appBarColor)} position="fixed">
               <Toolbar>
-                <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+                <Button onClick={back} style={{color:'white'}}><KeyboardBackspaceIcon/></Button>
               </Toolbar>
             </AppBar>
             <Card style={{

@@ -4,8 +4,8 @@ import {s3URL} from "../../constants";
 
 const Image = ({chat, senderId, time, senderName, data}) => {
   function dataObjects() {
-    console.log(JSON.parse(data.dataUrl))
-    return (JSON.parse(data.dataUrl))
+    //console.log(JSON.parse(data.dataUrl))
+    return (data.dataUrl)
   }
 
   const media = dataObjects();

@@ -72,7 +72,6 @@ export const getRoleColor = () => {
       color = styleStudent().color;
       break;
   }
-
   return color;
 };
 

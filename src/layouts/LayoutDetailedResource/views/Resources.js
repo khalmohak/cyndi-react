@@ -22,6 +22,9 @@ import ResourceMedia from "./ResourceMedia";
 import ResourcesLink from "./ResourcesLink";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import {getRoleColor} from "../../../utils/GetRoleColor";
+import clsx from "clsx";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -160,6 +163,7 @@ export const Resources = () => {
     }
   }
 
+  const appBarColor = getRoleColor();
   sortingMedia()
 
   function handleAddDocs() {
@@ -190,9 +194,9 @@ export const Resources = () => {
             container
             spacing={3}
           >
-            <AppBar position="fixed">
+            <AppBar className={clsx(appBarColor)} position="fixed">
               <Toolbar>
-                <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+                <Button onClick={back} style={{color:'white'}}><KeyboardBackspaceIcon/></Button>
               </Toolbar>
               <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                 <Tab label="Documents" {...a11yProps(0)} />

@@ -16,6 +16,8 @@ import axios from "axios";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import SyllabusHeader from "../../../components/syllabus";
+import {getRoleColor} from "../../../utils/GetRoleColor";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,13 +98,15 @@ export const ChapterPlan = () => {
 
   },)
 
+  const appBarColor = getRoleColor();
+
   return (
     <>
 
 
-      <AppBar position="static">
+      <AppBar className={clsx(appBarColor)} position="static">
         <Toolbar>
-          <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+          <Button onClick={back} style={{color:'white'}}><KeyboardBackspaceIcon/></Button>
         </Toolbar>
       </AppBar>
       <Button

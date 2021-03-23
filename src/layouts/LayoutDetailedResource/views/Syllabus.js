@@ -16,6 +16,8 @@ import axios from "axios";
 import {useNavigate} from "react-router";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import SyllabusHeader from "../../../components/syllabus";
+import {getRoleColor} from "../../../utils/GetRoleColor";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +62,7 @@ export const Syllabus = () => {
   const classes = useStyles();
   const [syllabusD, setSyllabus] = React.useState(0)
   const navigate = useNavigate();
+  const appBarColor = getRoleColor();
 
   function handleAddSyllabus() {
     navigate('/app/teacher/syllabus/addsyllabus')
@@ -104,9 +107,9 @@ export const Syllabus = () => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar className={clsx(appBarColor)} position="static">
         <Toolbar>
-          <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+          <Button onClick={back} style={{color:'white'}}><KeyboardBackspaceIcon/></Button>
 
         </Toolbar>
       </AppBar>

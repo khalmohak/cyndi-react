@@ -11,6 +11,7 @@ import axios from "axios";
 import clsx from "clsx";
 import {green} from '@material-ui/core/colors';
 import S3Uploader from "../../../utils/S3Uploader";
+import {getRoleColor} from "../../../utils/GetRoleColor";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -153,6 +154,7 @@ const AddSyllabus = ({className, ...rest}) => {
   function back() {
     navigate('/app/teacher/')
   }
+  const appBarColor = getRoleColor();
 
 
   return (
@@ -167,9 +169,9 @@ const AddSyllabus = ({className, ...rest}) => {
             container
             spacing={3}
           >
-            <AppBar position="fixed">
+            <AppBar className={clsx(appBarColor)} position="fixed">
               <Toolbar>
-                <Button onClick={back}><KeyboardBackspaceIcon/></Button>
+                <Button onClick={back} style={{color:'white'}}><KeyboardBackspaceIcon/></Button>
 
               </Toolbar>
             </AppBar>

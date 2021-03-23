@@ -58,7 +58,7 @@ const UsersChat = (chatID) => {
   let [userChat, setUserChat] = useState();
   const [play] = useSound(sent);
   const [open, setOpen] = React.useState(false);
-  console.log(chatID.id)
+
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 
@@ -72,7 +72,6 @@ const UsersChat = (chatID) => {
 
   const getUserData = () => {
     let key = usersChatKey(parseInt(chatID.id),parseInt(sessionStorage.getItem('userId')));
-    console.log(key)
     let ref = Firebase.database().ref('/Chats').child(key);
     ref.on('value', snapshot => {
       //console.log(snapshot.val());
@@ -129,24 +128,7 @@ const UsersChat = (chatID) => {
   }
 
   let messages = [];
-  if (chat) {
-    console.log(chat)
-    for (let i in chat) {
-      const key = usersKey(parseInt(chatID.id),parseInt(sessionStorage.getItem('userId')));
 
-      if (chat[i]['message']) {
-        console.log(key)
-        console.log(chat[i]['message'])
-        messages.push({
-           message: cryptLib.decryptCipherTextWithRandomIV(chat[i]['message'], key),
-          //message:chat[i]['message'],
-          senderId: chat[i]['senderId'],
-          time: chat[i]['time'],
-          data: chat[i]['data']
-        })
-      }
-    }
-  }
 
   function scrollToBottom() {
     const duration = 2000;
@@ -354,8 +336,24 @@ const UsersChat = (chatID) => {
   }
 
   useEffect(() => {
-
     getUserData();
+    if (chat) {
+      const key = usersKey(parseInt(chatID.id),parseInt(sessionStorage.getItem('userId')));
+      console.log(key)
+      for (let i in chat) {
+        console.log(chat[i])
+        if (chat[i]['message']) {
+          //console.log(cryptLib.decryptCipherTextWithRandomIV(chat[i]['message'], key))
+          // messages.push({
+          //    message: cryptLib.decryptCipherTextWithRandomIV(chat[i]['message'], key),
+          //   //message:chat[i]['message'],
+          //   senderId: chat[i]['senderId'],
+          //   time: chat[i]['time'],
+          //   data: chat[i]['data']
+          // })
+        }
+      }
+    }
   }, [chatID])
 
   return (

@@ -586,7 +586,29 @@ if (sessionStorage.getItem('firebaseToken')) {
       console.log(errorMessage);
     });
 }
+function generateColor() {
 
+  let hexValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e"];
+
+  function populate(a) {
+    for (var i = 0; i < 6; i++) {
+      var x = Math.round(Math.random() * 14);
+      var y = hexValues[x];
+      a += y;
+    }
+    return a;
+  }
+
+  let newColor1 = populate('#');
+  let newColor2 = populate('#');
+  let angle = Math.round(Math.random() * 360);
+
+  let gradient = "linear-gradient(" + angle + "deg, " + newColor1 + ", " + newColor2 + ")";
+
+
+  return gradient;
+
+}
 const ClassBoard = (chatID) => {
   const classes = useStyles();
   let [chat, setChat] = useState();
@@ -626,7 +648,6 @@ const ClassBoard = (chatID) => {
     play();
     scrollToBottom();
   }
-
 
   const sendTextMessage = (e, message) => {
     e.preventDefault();
@@ -675,6 +696,10 @@ const ClassBoard = (chatID) => {
       }
     }
   }
+
+  // let isFirst=true;
+  // let generatedColor = generateColor();
+  //
 
   function scrollToBottom() {
     const duration = 2000;
@@ -887,7 +912,11 @@ const ClassBoard = (chatID) => {
 
   return (
     <div className="chatroom chat147">
-      <div id="chats" className="chats">
+      <div id="chats" style={
+        {
+          background: "pink" /*generateColor()*/
+        }
+      } className="chats">
         {
           messages ?
             messages.map((chat) =>
@@ -907,7 +936,10 @@ const ClassBoard = (chatID) => {
           }/>
           <AttachFileIcon/>
         </label>
-        <Button type="submit" onClick={e => sendTextMessage(e, userChat)} value="Submit">Send</Button>
+        <Button type="submit" style={{
+          color:"white"
+        }}
+                onClick={e => sendTextMessage(e, userChat)} value="Submit">Send</Button>
       </form>
 
       <Modal

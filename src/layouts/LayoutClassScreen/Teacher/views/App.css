@@ -34,7 +34,7 @@ p {
 }
 
 .chatroom .chats .chat {
-    background: #999999;
+    /*background: #999999;*/
     position: relative;
     padding: 10px 10px;
     font-size: 14px;
@@ -91,9 +91,9 @@ p {
     width: 100% !important;
 }
 
-.chatroom .chats {
-    background-color: #eeeeee;
-}
+/*.chatroom .chats {*/
+/*    background-color: #eeeeee;*/
+/*}*/
 
 .custom-file-upload {
     border: 1px solid #ccc;
