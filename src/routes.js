@@ -29,6 +29,10 @@ import AddChapterPlan from "./layouts/LayoutDetailedResource/views/AddChapterPla
 import Profile from './layouts/LayoutEditProfile/views'
 import TimeTable from "./layouts/LayoutTimeTable/views/TimeTableEditor";
 import PersonalChat from "./layouts/LayoutPersonalChat/views";
+import ForgotPassword from "./layouts/LayoutForgotPassword/views";
+import RegisterPhone from "./layouts/LayoutRegister/views";
+import RegisterEmail from "./layouts/LayoutRegister/views/RegisterEmail";
+
 
 let route = (/*isAuthenticated*/) => {
   const isAlreadyLoggedIn = sessionStorage.getItem('loggedIn');
@@ -133,13 +137,22 @@ let route = (/*isAuthenticated*/) => {
             ]
           },
           {
+            path: 'register',
+            children:[
+              {path: '/', element: <RegisterPhone/>},
+              {path: '/email', element: <RegisterEmail/>},
+              {path: '/register', element: <Register/>},
+            ]
+          },
+          {
             path: '/',
             element: <MainLayout/>,
             children: [
               {path: 'login', element: <LoginView/>},
-              {path: 'register', element: <Register/>},
+
               {path: '404', element: <NotFoundView/>},
               {path: 'teacher', element: <TeacherClassCardIn/>},
+              {path: 'forgotpassword', element: <ForgotPassword/>},
 
               {path: '/', element: <Navigate to="/login"/>},
               // {path: '*', element: <Navigate to="/404"/>}

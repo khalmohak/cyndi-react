@@ -45,6 +45,7 @@
     "dotenv": "^8.2.0",
     "emoji-picker-react": "^3.4.2",
     "firebase": "^8.2.5",
+    "firebaseui": "^4.8.0",
     "formik": "^2.2.6",
     "get-audio-duration": "^2.0.3",
     "get-title-at-url": "^1.1.8",
@@ -117,6 +118,7 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
+    "redux-devtools-extension": "^2.13.9",
     "sass": "^1.30.0"
   }
 }

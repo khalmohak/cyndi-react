@@ -3,10 +3,11 @@ import {useNavigate} from 'react-router-dom';
 import {Avatar, Box, Button, Container, Grid, makeStyles, TextField, Typography} from '@material-ui/core';
 import {Alert, ToggleButton, ToggleButtonGroup} from '@material-ui/lab';
 import Page from '../../../components/Page';
-import {userDetails} from "./saveUserDetails";
 import {useDispatch, useSelector} from "react-redux";
-import loginUserAction from "../../../actions/loginUserAction";
+import forgotPasswordAction from "../../../actions/forgotPasswordAction";
+import firebase from 'firebase';
 
+firebase.auth().useDeviceLanguage();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,55 +27,20 @@ const useStyles = makeStyles((theme) => ({
   mainlogin: {backgroundColor: '#e0e0e0', padding: '30px', borderRadius: '10px',},
   color: {color: '#ffffff'},
   flot1: {float: 'right'},
-  register: {
-    "&:hover":{
-      color:"#01509f",
-      textDecoration:"underline"
-    }
-  },
-  forgot: {
-    "&:hover":{
-      color:"red",
-      textDecoration:"underline"
-    }
-  }
 }));
 
-const LoginView = () => {
+const ForgotPassword = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const [userName, setUserName] = useState();
-  const [userPassword, setPassword] = useState();
-  const [role, setRole] = useState();
   const dispatch = useDispatch();
+  const [phone, setPhone] = useState(null)
 
-  const user = useSelector(state => state.user)
-
-  if (user.done) {
-    navigate('/app/class', {replace: true});
-  }
-
-  const loginError = () => {
-    if (user.failed) {
-      return (<Alert severity="error">Login failed check your username or password</Alert>)
-    }
-  }
-
-  userDetails();
-
-
-  const handleSubmit = async e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUserAction({
-      email: userName,
-      password: userPassword,
-      role: role
+    dispatch(forgotPasswordAction({
+      type: "Phone",
+      phone_no: phone
     }))
-  }
-
-
-  const roleButton = (event, value) => {
-    setRole(value);
   }
 
   return (
@@ -89,8 +55,6 @@ const LoginView = () => {
         justifyContent="center" className='m-a'
       >
         <Container maxWidth="xs" className={classes.mainlogin}>
-
-
           <Grid container spacing={3} className={classes.dkpal}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -107,7 +71,7 @@ const LoginView = () => {
                     align="center"
                     color="textPrimary"
                     variant="h2" className={classes.color}>
-                    Sign in
+                    Forgot Password
                   </Typography>
                 </Box>
 
@@ -115,55 +79,28 @@ const LoginView = () => {
                   align="center"
                   color="textSecondary"
                   variant="body1" className={classes.color}>
-                  or login with email address
+                  Please enter your registered phone number
                 </Typography>
 
               </Grid>
             </Grid>
           </Grid>
 
-
           <Grid container spacing={3} className={classes.login}>
-
             <Grid item xs={12}>
               <Grid container spacing={3}>
-
                 <Grid item xs={12}>
 
                   <form onSubmit={handleSubmit}>
                     <TextField
                       fullWidth
-                      label="Email Address"
+                      label="Enter your phone number"
                       margin="normal"
-                      name="email"
-
-                      onChange={e => setUserName(e.target.value)}
-                      type="email"
-                      value={userName}
+                      name="phone"
+                      onChange={e => setPhone(e.target.value)}
+                      type="phone"
+                      value={phone}
                     />
-                    <TextField
-                      fullWidth
-                      label="Password"
-                      margin="normal"
-                      name="password"
-
-                      onChange={e => setPassword(e.target.value)}
-                      type="password"
-                      value={userPassword}
-                    />
-
-                    <ToggleButtonGroup className='button_c'
-                                       exclusive
-                                       value={role}
-                                       aria-label="text alignment"
-                                       onChange={roleButton}
-                    >
-
-                      <ToggleButton value={"Student"}>Student</ToggleButton>
-                      <ToggleButton value={"Teacher"}>Teacher</ToggleButton>
-
-
-                    </ToggleButtonGroup>
 
                     <Box my={2}>
                       <Button
@@ -173,24 +110,18 @@ const LoginView = () => {
                         type="submit"
                         variant="contained"
                       >
-                        Sign in now
+                        SEND OTP
                       </Button>
                     </Box>
                   </form>
-                  <Typography className={classes.register}
-                              onClick={e=>navigate('/register')}
-                              >Register?</Typography>
-                  <Typography className={classes.forgot}
-                              onClick={e=>navigate('/forgotpassword')}
-                  >Forgot Password?</Typography>
+
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          {loginError()}
         </Container>
       </Box>
     </Page>
   );
 };
-export {LoginView};
+export default ForgotPassword;
