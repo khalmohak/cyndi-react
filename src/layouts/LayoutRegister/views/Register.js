@@ -8,6 +8,8 @@ import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
 import axios from "axios";
 import {apiEndPoint} from "../../../constants";
 // import '../product/ViewClassStudent/style.css';
+import {useDispatch, useSelector} from "react-redux";
+import {registerConstants} from "../../../constants/ActionsConstants";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,58 +28,35 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [name, setName] = React.useState();
-  const [phone, setPhone] = React.useState();
-  const [email, setEmail] = React.useState();
   const [dob, setDOB] = React.useState();
-  const [password, setPassword] = React.useState();
   const [role, setRole] = React.useState();
-
-
-  function changeName(e) {
-    setName(e.target.value)
-  }
-
-  function changePhone(e) {
-    setPhone(e.target.value)
-  }
-
-  function changeEmail(e) {
-    setEmail(e.target.value)
-  }
-
-  function changeDOB(e) {
-    setDOB(e.target.value)
-  }
-
-  function changePassword(e) {
-    setPassword(e.target.value)
-  }
+  const user = useSelector(state => state.user)
 
   function roleButton(e, value) {
     setRole(value)
   }
 
-  function register() {
-    let apiBody = {
-      name: name,
-      email: email,
-      dob: dob,
-      password: password,
-      phone_no: phone,
-      role: role
-    }
-    axios.post(`${apiEndPoint}/register/user`, apiBody)
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          alert("User Registered")
-          navigate('/login', {replace: true})
-        }
-      })
-      .catch(err => console.log(err))
+  function setValues(){
+    dispatch({
+      type:registerConstants.SET_NAME,
+      payload:name
+    })
+    dispatch({
+      type:registerConstants.SET_DOB,
+      payload:dob
+    })
+    dispatch({
+      type:registerConstants.SET_ROLE,
+      payload:role
+    })
+    console.log(user);
+
+    navigate('/register/phone')
   }
+
+
 
   return (
     <Page className={classes.root} title="Register">
@@ -92,135 +71,81 @@ const Register = () => {
             <Grid item lg={7} className='bg2' alignItems="flex-start">
 
 
-              <Formik
-                initialValues={{
-                  email: '',
-                  password: ''
-                }}
-              >
-                {({
-                    handleBlur,
-                    handleChange,
+              <form>
 
-                  }) => (
+                <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
 
+                  <Grid container item xs={12} spacing={5} className='mar'>
 
-                  <form>
+                    <h2>Register</h2>
 
-                    <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
-
-                      <Grid container item xs={12} spacing={5} className='mar'>
-
-                        <h2>Register</h2>
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            <PermIdentity/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid"
-                                       onChange={e => changeName(e)}
-                                       value={name}
-                                       label="Name"
-                                       className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            <Call/> </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid"
-                                       onChange={e => changePhone(e)}
-                                       value={phone}
-                                       label="Phone"
-                                       className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            <Email/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid"
-                                       onChange={e => changeEmail(e)}
-                                       value={email}
-                                       label="Email"
-                                       className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            <DateRange/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid"
-                                       onChange={e => changeDOB(e)}
-                                       value={dob}
-                                       type="date"
-                                       label="Date of Birth"
-                                       className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            <VpnKey/>
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <TextField id="input-with-icon-grid"
-                                       type="password"
-                                       value={password}
-                                       onChange={e => changePassword(e)}
-                                       label="Password"
-                                       className={classes.wfull}/>
-                          </Grid>
-                        </Grid>
-
-
-                        <Grid container spacing={2} alignItems="flex-end" className='font'>
-                          <Grid item lg={1}>
-                            Role
-                          </Grid>
-                          <Grid item lg={11} alignItems="flex-start">
-                            <ToggleButtonGroup className='button_c'
-                                               exclusive
-                                               value={role}
-                                               aria-label="text alignment"
-                                               onChange={roleButton}
-                                               className={classes.wfull}
-                                               style={{backgroundColor: "white"}}
-                            >
-
-                              <ToggleButton value={"Student"}>Student</ToggleButton>
-                              <ToggleButton value={"Teacher"}>Teacher</ToggleButton>
-
-
-                            </ToggleButtonGroup>
-                          </Grid>
-                        </Grid>
-
-
-                        <Button color="primary"
-                                fullWidth size="large"
-                                type="submit"
-                                variant="contained"
-                                onClick={register}
-                                className='white-btn'>
-                          Register</Button>
-
-
+                    <Grid container spacing={2} alignItems="flex-end" className='font'>
+                      <Grid item lg={1}>
+                        <DateRange/>
                       </Grid>
+                      <Grid item lg={11} alignItems="flex-start">
+                        <TextField id="input-with-icon-grid"
+                                   onChange={e => setName(e.target.value)}
+                                   value={dob}
+                                   type="string"
+                                   label="Name"
+                                   className={classes.wfull}/>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={2} alignItems="flex-end" className='font'>
+                      <Grid item lg={1}>
+                        <DateRange/>
+                      </Grid>
+                      <Grid item lg={11} alignItems="flex-start">
+                        <TextField id="input-with-icon-grid"
+                                   onChange={e => setDOB(e.target.value)}
+                                   value={dob}
+                                   type="date"
+                                   label="Date of Birth"
+                                   className={classes.wfull}/>
+                      </Grid>
+                    </Grid>
 
 
-                    </Box>
+                    <Grid container spacing={2} alignItems="flex-end" className='font'>
+                      <Grid item lg={1}>
+                        Role
+                      </Grid>
+                      <Grid item lg={11} alignItems="flex-start">
+                        <ToggleButtonGroup className='button_c'
+                                           exclusive
+                                           value={role}
+                                           aria-label="text alignment"
+                                           onChange={roleButton}
+                                           className={classes.wfull}
+                                           style={{backgroundColor: "white"}}
+                        >
 
-                  </form>
-                )}
-              </Formik>
+                          <ToggleButton value={"Student"}>Student</ToggleButton>
+                          <ToggleButton value={"Teacher"}>Teacher</ToggleButton>
+
+
+                        </ToggleButtonGroup>
+                      </Grid>
+                    </Grid>
+
+
+                    <Button color="primary"
+                            fullWidth size="large"
+                            type="submit"
+                            variant="contained"
+                            onClick={setValues}
+                            className='white-btn'>
+                      Register</Button>
+
+
+                  </Grid>
+
+
+                </Box>
+
+              </form>
 
 
             </Grid>

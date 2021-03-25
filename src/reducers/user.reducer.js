@@ -1,18 +1,27 @@
-import {forgotPasswordConstants, loginConstants} from "../constants/ActionsConstants";
+import {forgotPasswordConstants, loginConstants, registerConstants} from "../constants/ActionsConstants";
 
 const initState = {
   error: null,
   message: '',
   loading: false,
-  done:false,
-  failed:false,
-  otp:"",
-  ifUserExistForForgotPassword:null
+  done: false,
+  failed: false,
+  otp: "",
+  ifUserExistForForgotPassword: null,
+  ifOTPMatched: false,
+  name: null,
+  dob: null,
+  role: null,
+  phone: null,
+  email: null,
+  regErrorExist: null,
+  regErrorFailed: null,
+  regSuccess:false
 }
 
-const userReducer=  (state = initState, action) => {
+const userReducer = (state = initState, action) => {
 
-  switch(action.type){
+  switch (action.type) {
     case loginConstants.LOGIN_REQUEST:
       state = {
         ...state,
@@ -24,15 +33,15 @@ const userReducer=  (state = initState, action) => {
       state = {
         ...state,
         loading: false,
-        done:true
+        done: true
       }
       break;
     case loginConstants.LOGIN_FAILURE:
       state = {
         ...state,
         loading: false,
-        done:false,
-        error:"Username or Password is incorrect",
+        done: false,
+        error: "Username or Password is incorrect",
         failed: true
       }
       break;
@@ -42,7 +51,38 @@ const userReducer=  (state = initState, action) => {
         ifUserExistForForgotPassword: true
       }
       break;
-    default :state={...state}
+    case registerConstants.SEND_MAIL_OTP:
+      state.otp = action.payload.otp
+      break;
+    case registerConstants.SET_OTP_MATCHED:
+      state.ifOTPMatched = true
+      break;
+    case registerConstants.SET_NAME:
+      state.name = action.payload
+      break;
+    case registerConstants.SET_DOB:
+      state.dob = action.payload
+      break;
+    case registerConstants.SET_ROLE:
+      state.role = action.payload
+      break;
+    case registerConstants.SET_PHONE:
+      state.phone = action.payload
+      break;
+    case registerConstants.SET_EMAIL:
+      state.email = action.payload
+      break;
+    case registerConstants.SET_REG_ERROR_EXIST:
+      state.regErrorExist = true
+      break;
+    case registerConstants.SET_REG_ERROR_FAILED:
+      state.regErrorFailed = true
+      break;
+    case registerConstants.SET_REG_SUCCESS:
+      state.regSuccess = true
+      break;
+    default :
+      state = {...state}
   }
 
   return state;

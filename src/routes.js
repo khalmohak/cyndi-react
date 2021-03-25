@@ -139,9 +139,9 @@ let route = (/*isAuthenticated*/) => {
           {
             path: 'register',
             children:[
-              {path: '/', element: <RegisterPhone/>},
+              {path: '/phone', element: <RegisterPhone/>},
               {path: '/email', element: <RegisterEmail/>},
-              {path: '/register', element: <Register/>},
+              {path: '/', element: <Register/>},
             ]
           },
           {
@@ -184,11 +184,20 @@ let route = (/*isAuthenticated*/) => {
         element: <MainLayout/>,
         children: [
           {path: 'login', element: <LoginView/>},
-          {path: 'register', element: <Register/>},
+          // {path: 'register', element: <Register/>},
           {path: '/', element: <Navigate to="/login"/>},
           {path: '*', element: <Navigate to="/login"/>}
         ]
-      }
+      },
+      {
+        path: 'register',
+        element: <MainLayout/>,
+        children:[
+          {path: '/phone', element: <RegisterPhone/>},
+          {path: '/email', element: <RegisterEmail/>},
+          {path: '/', element: <Register/>},
+        ]
+      },
     ])
   }
 };

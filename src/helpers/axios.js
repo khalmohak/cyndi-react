@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "../store";
-const api = "http://cyndi-backend.ap-south-1.elasticbeanstalk.com:4000";
+//const api = "http://cyndi-backend.ap-south-1.elasticbeanstalk.com:4000";  //Production mode
+const api = "http://localhost:4000"; //Development mode
 
 const token = window.localStorage.getItem('token');
 
