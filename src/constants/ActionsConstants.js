@@ -25,5 +25,7 @@ export const registerConstants = {
 };
 
 export const miscConstants = {
-  ADD_TOKEN:"ADD_TOKEN"
+  ADD_TOKEN:"ADD_TOKEN",
+  CHECK_PASSWORD:"CHECK_PASSWORD",
+  PASSWORD_VALIDATE:"PASSWORD_VALIDATE"
 };

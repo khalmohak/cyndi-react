@@ -1,7 +1,9 @@
 import {miscConstants} from "../constants/ActionsConstants";
 
 const initState = {
-  token:""
+  token:"",
+  checkPassword:false,
+  passwordValidated:false
 }
 
 const miscReducer=  (state = initState, action) => {
@@ -12,10 +14,15 @@ const miscReducer=  (state = initState, action) => {
         ...state,
         token: action.payload.token
       }
-
+      break;
+    case miscConstants.CHECK_PASSWORD:
+      state.checkPassword = true;
+      break;
+    case miscConstants.PASSWORD_VALIDATE:
+      state.passwordValidated = true;
       break;
     
-      break;
+
     default :state={...state}
   }
 

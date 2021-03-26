@@ -15,6 +15,7 @@ import {
   TextField
 } from '@material-ui/core';
 import {apiEndPoint} from "../../../constants";
+import ChangePassword from "./ChangePassword";
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -27,6 +28,7 @@ const ProfileDetails = ({className, ...rest}) => {
   const classes = useStyles();
 
   let date = sessionStorage.getItem('dob');
+  console.log(date)
   let dd = date.slice(0, 2);
   let dm = date.slice(3, 5);
   let dy = date.slice(6, 10);
@@ -40,7 +42,7 @@ const ProfileDetails = ({className, ...rest}) => {
     university: sessionStorage.getItem('universityName'),
     college: sessionStorage.getItem('collegeName'),
     rank: sessionStorage.getItem('teacher_rank'),
-    dob: dy + '-' + dm + '-' + dd
+    dob: date /*dy + '-' + dm + '-' + dd*/
 
   });
 
@@ -102,13 +104,14 @@ const ProfileDetails = ({className, ...rest}) => {
       headers: header
     }).then(response => {
       if (response.status === 200) {
-        alert("Info Updated")
+        alert("Info Updated");
       }
     })
       .catch(err => console.log(err))
   }
 
   return (
+    <>
     <form
       autoComplete="off"
       noValidate
@@ -292,9 +295,7 @@ const ProfileDetails = ({className, ...rest}) => {
                 {/*  </option>*/}
                 {/*))}*/}
               </TextField>
-
             </Grid>
-
           </Grid>
         </CardContent>
         <CardActions>
@@ -302,9 +303,10 @@ const ProfileDetails = ({className, ...rest}) => {
             onClick={onClick}
           >Save</Button>
         </CardActions>
-
       </Card>
     </form>
+    <ChangePassword/>
+    </>
   );
 };
 

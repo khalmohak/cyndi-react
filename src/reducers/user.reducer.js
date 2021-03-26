@@ -16,7 +16,7 @@ const initState = {
   email: null,
   regErrorExist: null,
   regErrorFailed: null,
-  regSuccess:false
+  regSuccess:false,
 }
 
 const userReducer = (state = initState, action) => {

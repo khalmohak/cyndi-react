@@ -30,6 +30,7 @@ const loginUserAction = (user)=>{
     const res = await axios.post('/login',{
       ...user
     })
+    console.log(res)
 
     if(res.status ===200){
       if(res.data.auth){

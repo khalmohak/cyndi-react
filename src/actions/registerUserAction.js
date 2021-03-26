@@ -16,9 +16,6 @@ const registerUserAction = (info)=>{
         type:registerConstants.SEND_MAIL_OTP,
         payload:res.data
       })
-
-
-
     }else{
       console.log(res)
     }
